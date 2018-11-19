@@ -1,0 +1,12 @@
+.OptionCard {
+    >.OptionList {
+        position: relative;
+        overflow-x: hidden;
+         :last-child {
+            border-bottom: none;
+        }
+    }
+    .debug {
+        display: none;
+    }
+}
