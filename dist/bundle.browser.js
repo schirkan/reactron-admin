@@ -215,7 +215,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                             path = path.replace(':' + key, params[key]);
                         });
                     }
-                    return fetch('/api/modules/reactron-admin' + path, {
+                    return fetch('/api/modules/reactron' + path, {
                         method: method,
                         body: data && JSON.stringify(data),
                         headers: {
@@ -338,10 +338,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
               }
             }
 
-            var css = "section.Loading_Loading__2Xsdf {\n  text-align: center; }\n  section.Loading_Loading__2Xsdf.Loading_center__2ERAz {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translateX(-50%) translateY(-50%); }\n  section.Loading_Loading__2Xsdf .Loading_text__1EmJ4 {\n    margin-top: 10px; }\n";
+            var css = "section.Loading {\r\n  text-align: center; }\r\n  section.Loading.center {\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translateX(-50%) translateY(-50%); }\r\n  section.Loading .text {\r\n    margin-top: 10px; }\r\n";
             styleInject(css);
 
-            var Loading$1 = /** @class */ (function (_super) {
+            var Loading = /** @class */ (function (_super) {
                 __extends(Loading, _super);
                 function Loading() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -357,10 +357,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return Loading;
             }(Component));
 
-            var css$1 = ".UiFlowLayout_UiFlowLayout__3-QLk {\n  padding: 10px;\n  column-count: 4;\n  column-gap: 0; }\n  .UiFlowLayout_UiFlowLayout__3-QLk > * {\n    width: calc(100% - 20px);\n    padding: 10px;\n    break-inside: avoid; }\n  .UiFlowLayout_UiFlowLayout__3-QLk + .UiFlowLayout_UiFlowLayout__3-QLk {\n    padding-top: 0px;\n    margin-top: -10px; }\n\n@media screen and (max-width: 1200px) {\n  .UiFlowLayout_UiFlowLayout__3-QLk {\n    column-count: 3; } }\n\n@media screen and (max-width: 900px) {\n  .UiFlowLayout_UiFlowLayout__3-QLk {\n    column-count: 2; } }\n\n@media screen and (max-width: 600px) {\n  .UiFlowLayout_UiFlowLayout__3-QLk {\n    column-count: 1; } }\n";
+            var css$1 = ".UiFlowLayout {\r\n  padding: 10px;\r\n  column-count: 4;\r\n  column-gap: 0; }\r\n  .UiFlowLayout > * {\r\n    width: calc(100% - 20px);\r\n    padding: 10px;\r\n    break-inside: avoid; }\r\n  .UiFlowLayout + .UiFlowLayout {\r\n    padding-top: 0px;\r\n    margin-top: -10px; }\r\n\r\n@media screen and (max-width: 1200px) {\r\n  .UiFlowLayout {\r\n    column-count: 3; } }\r\n\r\n@media screen and (max-width: 900px) {\r\n  .UiFlowLayout {\r\n    column-count: 2; } }\r\n\r\n@media screen and (max-width: 600px) {\r\n  .UiFlowLayout {\r\n    column-count: 1; } }\r\n";
             styleInject(css$1);
 
-            var UiFlowLayout$1 = /** @class */ (function (_super) {
+            var UiFlowLayout = /** @class */ (function (_super) {
                 __extends(UiFlowLayout, _super);
                 function UiFlowLayout() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -379,10 +379,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiFlowLayout;
             }(Component));
 
-            var css$2 = ".UiCard_UiCard__1Wi8r {\n  overflow: auto;\n  width: 100%;\n  border: 1px solid #ddd;\n  border-radius: 2px;\n  background: white;\n  color: #222;\n  box-sizing: border-box;\n  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; }\n  .UiCard_UiCard__1Wi8r a {\n    color: #555; }\n";
+            var css$2 = ".UiCard {\r\n  overflow: auto;\r\n  width: 100%;\r\n  border: 1px solid #ddd;\r\n  border-radius: 2px;\r\n  background: white;\r\n  color: #222;\r\n  box-sizing: border-box;\r\n  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; }\r\n  .UiCard a {\r\n    color: #555; }\r\n";
             styleInject(css$2);
 
-            var UiCard$1 = /** @class */ (function (_super) {
+            var UiCard = /** @class */ (function (_super) {
                 __extends(UiCard, _super);
                 function UiCard() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -393,10 +393,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiCard;
             }(Component));
 
-            var css$3 = ".UiCardContent_UiCardContent__3y8BW {\n  padding: 6px; }\n  .UiCardContent_UiCardContent__3y8BW + * {\n    border-top: 1px solid #ddd; }\n";
+            var css$3 = ".UiCardContent {\r\n  padding: 6px; }\r\n  .UiCardContent + * {\r\n    border-top: 1px solid #ddd; }\r\n";
             styleInject(css$3);
 
-            var UiCardContent$1 = /** @class */ (function (_super) {
+            var UiCardContent = /** @class */ (function (_super) {
                 __extends(UiCardContent, _super);
                 function UiCardContent() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -407,10 +407,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiCardContent;
             }(Component));
 
-            var css$4 = ".UiCardTitle_UiCardTitle__3bjjb {\n  padding: 6px;\n  padding-left: 10px;\n  font-size: 16px;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  background: white;\n  border-bottom: 1px solid #ddd; }\n";
+            var css$4 = ".UiCardTitle {\r\n  padding: 6px;\r\n  padding-left: 10px;\r\n  font-size: 16px;\r\n  white-space: nowrap;\r\n  text-overflow: ellipsis;\r\n  overflow: hidden;\r\n  background: white;\r\n  border-bottom: 1px solid #ddd; }\r\n";
             styleInject(css$4);
 
-            var UiCardTitle$1 = /** @class */ (function (_super) {
+            var UiCardTitle = /** @class */ (function (_super) {
                 __extends(UiCardTitle, _super);
                 function UiCardTitle() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -424,16 +424,16 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             var css$5 = "";
             styleInject(css$5);
 
-            var UiLoadingCard$1 = /** @class */ (function (_super) {
+            var UiLoadingCard = /** @class */ (function (_super) {
                 __extends(UiLoadingCard, _super);
                 function UiLoadingCard() {
                     return _super !== null && _super.apply(this, arguments) || this;
                 }
                 UiLoadingCard.prototype.render = function () {
-                    return (createElement(UiCard$1, { className: "UiLoadingCard" },
-                        createElement(UiCardTitle$1, null, "Loading..."),
-                        createElement(UiCardContent$1, null,
-                            createElement(Loading$1, null))));
+                    return (createElement(UiCard, { className: "UiLoadingCard" },
+                        createElement(UiCardTitle, null, "Loading..."),
+                        createElement(UiCardContent, null,
+                            createElement(Loading, null))));
                 };
                 return UiLoadingCard;
             }(Component));
@@ -463,10 +463,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             }());
             var overlayManager = new OverlayManager();
 
-            var css$6 = ".UiOverlay_UiOverlay__2STQm {\n  position: fixed;\n  z-index: 1;\n  background: rgba(99, 99, 99, 0.47);\n  left: 0;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  margin: 0;\n  padding: 0; }\n  .UiOverlay_UiOverlay__2STQm > .UiOverlay_Loading__2FG6D {\n    color: white; }\n  .UiOverlay_UiOverlay__2STQm > .UiOverlay_UiCard__15Zhm {\n    position: absolute;\n    margin: 20px;\n    top: 118px;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    width: auto;\n    max-height: fit-content; }\n    .UiOverlay_UiOverlay__2STQm > .UiOverlay_UiCard__15Zhm .UiOverlay_UiCardTitle__2NerK {\n      position: sticky;\n      top: 0;\n      z-index: 1; }\n    .UiOverlay_UiOverlay__2STQm > .UiOverlay_UiCard__15Zhm .UiOverlay_UiCardButtonRow__36lJ5 {\n      position: sticky;\n      bottom: 0; }\n\n@media screen and (min-width: 601px) {\n  .UiOverlay_UiOverlay__2STQm > .UiOverlay_UiCard__15Zhm {\n    position: absolute;\n    margin: 20px 0;\n    top: 118px;\n    bottom: 0;\n    left: 50%;\n    right: auto;\n    width: 560px;\n    transform: translateX(-50%); } }\n";
+            var css$6 = ".UiOverlay {\r\n  position: fixed;\r\n  z-index: 1;\r\n  background: rgba(99, 99, 99, 0.47);\r\n  left: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  right: 0;\r\n  margin: 0;\r\n  padding: 0; }\r\n  .UiOverlay > .Loading {\r\n    color: white; }\r\n  .UiOverlay > .UiCard {\r\n    position: absolute;\r\n    margin: 20px;\r\n    top: 118px;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n    width: auto;\r\n    max-height: fit-content; }\r\n    .UiOverlay > .UiCard .UiCardTitle {\r\n      position: sticky;\r\n      top: 0;\r\n      z-index: 1; }\r\n    .UiOverlay > .UiCard .UiCardButtonRow {\r\n      position: sticky;\r\n      bottom: 0; }\r\n\r\n@media screen and (min-width: 601px) {\r\n  .UiOverlay > .UiCard {\r\n    position: absolute;\r\n    margin: 20px 0;\r\n    top: 118px;\r\n    bottom: 0;\r\n    left: 50%;\r\n    right: auto;\r\n    width: 560px;\r\n    transform: translateX(-50%); } }\r\n";
             styleInject(css$6);
 
-            var UiOverlay$1 = /** @class */ (function (_super) {
+            var UiOverlay = /** @class */ (function (_super) {
                 __extends(UiOverlay, _super);
                 function UiOverlay(props) {
                     var _this = _super.call(this, props) || this;
@@ -493,10 +493,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiOverlay;
             }(Component));
 
-            var css$7 = ".UiButton_UiButton__35f1- {\n  padding: 6px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n";
+            var css$7 = ".UiButton {\r\n  padding: 6px;\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n  text-overflow: ellipsis; }\r\n";
             styleInject(css$7);
 
-            var UiButton$1 = /** @class */ (function (_super) {
+            var UiButton = /** @class */ (function (_super) {
                 __extends(UiButton, _super);
                 function UiButton(props) {
                     var _this = _super.call(this, props) || this;
@@ -533,10 +533,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiButton;
             }(Component));
 
-            var css$8 = "section.AddModuleCard_AddModuleCard__1DPUq {\n  display: inline-flex; }\n  section.AddModuleCard_AddModuleCard__1DPUq input {\n    padding-left: 6px;\n    border: none;\n    width: 100%; }\n  section.AddModuleCard_AddModuleCard__1DPUq .AddModuleCard_addButton__2tS3B {\n    border-left: 1px solid #ddd;\n    overflow: visible; }\n";
+            var css$8 = "section.AddModuleCard {\r\n  display: inline-flex; }\r\n  section.AddModuleCard input {\r\n    padding-left: 6px;\r\n    border: none;\r\n    width: 100%; }\r\n  section.AddModuleCard .addButton {\r\n    border-left: 1px solid #ddd;\r\n    overflow: visible; }\r\n";
             styleInject(css$8);
 
-            var AddModuleCard$1 = /** @class */ (function (_super) {
+            var AddModuleCard = /** @class */ (function (_super) {
                 __extends(AddModuleCard, _super);
                 function AddModuleCard() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -545,19 +545,19 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     var _this = this;
                     var input;
                     var onAdd = function () { return _this.props.onAdd(input && input.value); };
-                    return (createElement(UiCard$1, { className: "AddModuleCard" },
+                    return (createElement(UiCard, { className: "AddModuleCard" },
                         createElement("input", { ref: function (el) { return input = el; }, placeholder: "GitHub Repository URL" }),
-                        createElement(UiButton$1, { className: "addButton", onClick: onAdd },
+                        createElement(UiButton, { className: "addButton", onClick: onAdd },
                             createElement(FontAwesomeIcon, { icon: faPlus }),
                             " Add")));
                 };
                 return AddModuleCard;
             }(Component));
 
-            var css$9 = "section.CommandResult_CommandResult__2cOtJ .CommandResult_title__1GGmr {\n  padding: 6px;\n  padding-left: 10px;\n  border-bottom: 1px solid #ddd;\n  font-size: 16px; }\n\nsection.CommandResult_CommandResult__2cOtJ .CommandResult_close__2C3di {\n  position: absolute;\n  right: 0;\n  top: 0;\n  padding: 6px;\n  width: 18px;\n  min-width: 18px;\n  text-align: center; }\n\nsection.CommandResult_CommandResult__2cOtJ .CommandResult_results__3KbCH {\n  overflow: auto;\n  position: absolute;\n  top: 37px;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  margin: 0;\n  word-wrap: break-word; }\n  section.CommandResult_CommandResult__2cOtJ .CommandResult_results__3KbCH .CommandResult_result__AWNPW {\n    padding: 6px;\n    border-bottom: 1px solid #ddd; }\n";
+            var css$9 = "section.CommandResult .title {\r\n  padding: 6px;\r\n  padding-left: 10px;\r\n  border-bottom: 1px solid #ddd;\r\n  font-size: 16px; }\r\n\r\nsection.CommandResult .close {\r\n  position: absolute;\r\n  right: 0;\r\n  top: 0;\r\n  padding: 6px;\r\n  width: 18px;\r\n  min-width: 18px;\r\n  text-align: center; }\r\n\r\nsection.CommandResult .results {\r\n  overflow: auto;\r\n  position: absolute;\r\n  top: 37px;\r\n  bottom: 0;\r\n  left: 0;\r\n  right: 0;\r\n  margin: 0;\r\n  word-wrap: break-word; }\r\n  section.CommandResult .results .result {\r\n    padding: 6px;\r\n    border-bottom: 1px solid #ddd; }\r\n";
             styleInject(css$9);
 
-            var CommandResult$1 = /** @class */ (function (_super) {
+            var CommandResult = /** @class */ (function (_super) {
                 __extends(CommandResult, _super);
                 function CommandResult(props) {
                     return _super.call(this, props) || this;
@@ -590,7 +590,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 CommandResult.prototype.render = function () {
                     var _this = this;
-                    return (createElement(UiCard$1, { className: "CommandResult" },
+                    return (createElement(UiCard, { className: "CommandResult" },
                         createElement("div", { className: "title" }, "Result"),
                         createElement("div", { className: "close clickable", onClick: this.props.onClose },
                             createElement(FontAwesomeIcon, { icon: faTimes })),
@@ -599,10 +599,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return CommandResult;
             }(Component));
 
-            var css$a = ".UiCardButtonRow_UiCardButtonRow__2j1dc {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));\n  width: 100%;\n  background: #fafafa;\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n  .UiCardButtonRow_UiCardButtonRow__2j1dc + * {\n    border-top: 1px solid #ddd; }\n  .UiCardButtonRow_UiCardButtonRow__2j1dc > * {\n    text-align: center;\n    padding: 6px;\n    position: relative; }\n  .UiCardButtonRow_UiCardButtonRow__2j1dc.UiCardButtonRow_UiCardButtonRowDividerFull__3EJOL > *:not(:first-child) {\n    border-left: 1px solid #ddd; }\n  .UiCardButtonRow_UiCardButtonRow__2j1dc.UiCardButtonRow_UiCardButtonRowDividerHalf__37Ahl > *:not(:first-child)::before {\n    border-left: 1px solid #ddd;\n    content: \" \";\n    position: absolute;\n    top: 6px;\n    bottom: 6px;\n    left: 0; }\n";
+            var css$a = ".UiCardButtonRow {\r\n  display: grid;\r\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));\r\n  width: 100%;\r\n  background: #fafafa;\r\n  box-sizing: border-box;\r\n  padding: 0;\r\n  margin: 0; }\r\n  .UiCardButtonRow + * {\r\n    border-top: 1px solid #ddd; }\r\n  .UiCardButtonRow > * {\r\n    text-align: center;\r\n    padding: 6px;\r\n    position: relative; }\r\n  .UiCardButtonRow.UiCardButtonRowDividerFull > *:not(:first-child) {\r\n    border-left: 1px solid #ddd; }\r\n  .UiCardButtonRow.UiCardButtonRowDividerHalf > *:not(:first-child)::before {\r\n    border-left: 1px solid #ddd;\r\n    content: \" \";\r\n    position: absolute;\r\n    top: 6px;\r\n    bottom: 6px;\r\n    left: 0; }\r\n";
             styleInject(css$a);
 
-            var UiCardButtonRow$1 = /** @class */ (function (_super) {
+            var UiCardButtonRow = /** @class */ (function (_super) {
                 __extends(UiCardButtonRow, _super);
                 function UiCardButtonRow() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -617,10 +617,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiCardButtonRow;
             }(Component));
 
-            var css$b = ".ModuleCard_ModuleCard__336mb {\n  overflow: hidden; }\n  .ModuleCard_ModuleCard__336mb .ModuleCard_UiCardTitle__1v4ks .ModuleCard_hasUpdate__3t4s7 {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard_ModuleCard__336mb .ModuleCard_UiCardButtonRow__22s6P {\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard_ModuleCard__336mb .ModuleCard_UiCardButtonRow__22s6P.ModuleCard_default__vu_ye.ModuleCard_hide__2Eowy {\n      margin-left: -100%; }\n    .ModuleCard_ModuleCard__336mb .ModuleCard_UiCardButtonRow__22s6P.ModuleCard_actions__32mHj {\n      margin-top: -34px; }\n      .ModuleCard_ModuleCard__336mb .ModuleCard_UiCardButtonRow__22s6P.ModuleCard_actions__32mHj.ModuleCard_hide__2Eowy {\n        margin-left: 100%; }\n    .ModuleCard_ModuleCard__336mb .ModuleCard_UiCardButtonRow__22s6P a {\n      color: #222;\n      text-decoration: none; }\n";
+            var css$b = ".ModuleCard {\r\n  overflow: hidden; }\r\n  .ModuleCard .UiCardTitle .hasUpdate {\r\n    margin-left: 6px;\r\n    font-size: 10px;\r\n    color: #59aaff;\r\n    vertical-align: text-top; }\r\n  .ModuleCard .UiCardButtonRow {\r\n    transition: 0.5s ease-in-out;\r\n    margin: 0; }\r\n    .ModuleCard .UiCardButtonRow.default.hide {\r\n      margin-left: -100%; }\r\n    .ModuleCard .UiCardButtonRow.actions {\r\n      margin-top: -34px; }\r\n      .ModuleCard .UiCardButtonRow.actions.hide {\r\n        margin-left: 100%; }\r\n    .ModuleCard .UiCardButtonRow a {\r\n      color: #222;\r\n      text-decoration: none; }\r\n";
             styleInject(css$b);
 
-            var ModuleCard$1 = /** @class */ (function (_super) {
+            var ModuleCard = /** @class */ (function (_super) {
                 __extends(ModuleCard, _super);
                 function ModuleCard(props) {
                     var _this = _super.call(this, props) || this;
@@ -658,14 +658,14 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         updateIcon = createElement("span", { className: "hasUpdate" },
                             createElement(FontAwesomeIcon, { icon: faStarOfLife }));
                     }
-                    return (createElement(UiCardTitle$1, null,
+                    return (createElement(UiCardTitle, null,
                         createElement(FontAwesomeIcon, { icon: faCube }),
                         " ",
                         this.props.module.name,
                         updateIcon));
                 };
                 ModuleCard.prototype.renderDescription = function () {
-                    return (createElement(UiCardContent$1, { className: "description" }, this.props.module.description || 'no description'));
+                    return (createElement(UiCardContent, { className: "description" }, this.props.module.description || 'no description'));
                 };
                 ModuleCard.prototype.renderAuthor = function () {
                     var authorName = 'unknown';
@@ -678,7 +678,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         authorMail = this.props.module.author.email;
                     }
                     var author = (authorMail) ? (createElement("a", { href: 'mailto://' + authorMail }, authorName)) : authorName;
-                    return (createElement(UiCardContent$1, { className: "author" },
+                    return (createElement(UiCardContent, { className: "author" },
                         "by ",
                         author));
                 };
@@ -690,24 +690,24 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                             " GitHub"));
                     }
                     var className = classnames('footer', 'default', { 'hide': this.state.showActions });
-                    return (createElement(UiCardButtonRow$1, { className: className, divider: "half" },
+                    return (createElement(UiCardButtonRow, { className: className, divider: "half" },
                         createElement("div", { className: "version" }, this.props.module.version),
                         repoLink,
-                        createElement(UiButton$1, { onClick: this.showActions },
+                        createElement(UiButton, { onClick: this.showActions },
                             createElement(FontAwesomeIcon, { icon: faCog }),
                             " Modify")));
                 };
                 ModuleCard.prototype.renderActions = function () {
                     var className = classnames('footer', 'actions', { 'hide': !this.state.showActions });
-                    return (createElement(UiCardButtonRow$1, { className: className, divider: "full" },
-                        createElement(UiButton$1, { disabled: !this.props.module.hasUpdate, onClick: this.onUpdate }, "Update"),
-                        createElement(UiButton$1, { disabled: !this.props.module.canBuild, onClick: this.onRebuild }, "Rebuild"),
-                        createElement(UiButton$1, { disabled: !this.props.module.canRemove, onClick: this.onRemove }, "Remove"),
-                        createElement(UiButton$1, { onClick: this.hideActions },
+                    return (createElement(UiCardButtonRow, { className: className, divider: "full" },
+                        createElement(UiButton, { disabled: !this.props.module.hasUpdate, onClick: this.onUpdate }, "Update"),
+                        createElement(UiButton, { disabled: !this.props.module.canBuild, onClick: this.onRebuild }, "Rebuild"),
+                        createElement(UiButton, { disabled: !this.props.module.canRemove, onClick: this.onRemove }, "Remove"),
+                        createElement(UiButton, { onClick: this.hideActions },
                             createElement(FontAwesomeIcon, { icon: faTimes }))));
                 };
                 ModuleCard.prototype.render = function () {
-                    return (createElement(UiCard$1, { className: "ModuleCard" },
+                    return (createElement(UiCard, { className: "ModuleCard" },
                         this.renderTitle(),
                         this.renderDescription(),
                         this.renderAuthor(),
@@ -717,10 +717,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return ModuleCard;
             }(Component));
 
-            var css$c = "section.UpdateModulesCard_UpdateModulesCard__3rOUP .UpdateModulesCard_UiCardButtonRow__3711h {\n  background: transparent; }\n";
+            var css$c = "section.UpdateModulesCard .UiCardButtonRow {\r\n  background: transparent; }\r\n";
             styleInject(css$c);
 
-            var UpdateModulesCard$1 = /** @class */ (function (_super) {
+            var UpdateModulesCard = /** @class */ (function (_super) {
                 __extends(UpdateModulesCard, _super);
                 function UpdateModulesCard() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -729,15 +729,15 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     var modulesWithUpdates = this.props.modules.filter(function (x) { return x.hasUpdate; });
                     var isChecked = this.props.modules.some(function (x) { return x.hasUpdate !== undefined; });
                     var updatesTitle = isChecked ? modulesWithUpdates.length : '-';
-                    return (createElement(UiCard$1, { className: "UpdateModulesCard" },
-                        createElement(UiCardButtonRow$1, { divider: "full" },
+                    return (createElement(UiCard, { className: "UpdateModulesCard" },
+                        createElement(UiCardButtonRow, { divider: "full" },
                             createElement("div", null,
                                 "Updates: ",
                                 updatesTitle),
-                            createElement(UiButton$1, { className: "checkUpdatesButton", onClick: this.props.onCheckUpdates, disabled: this.props.checkingUpdates },
+                            createElement(UiButton, { className: "checkUpdatesButton", onClick: this.props.onCheckUpdates, disabled: this.props.checkingUpdates },
                                 createElement(FontAwesomeIcon, { icon: faSyncAlt, spin: this.props.checkingUpdates }),
                                 " Check"),
-                            createElement(UiButton$1, { className: "updateAllButton", onClick: this.props.onUpdateAll, disabled: !modulesWithUpdates.length },
+                            createElement(UiButton, { className: "updateAllButton", onClick: this.props.onUpdateAll, disabled: !modulesWithUpdates.length },
                                 createElement(FontAwesomeIcon, { icon: faDownload }),
                                 " Update All"))));
                 };
@@ -747,7 +747,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             var css$d = "";
             styleInject(css$d);
 
-            var ModuleManagerPage$1 = /** @class */ (function (_super) {
+            var ModuleManagerPage = /** @class */ (function (_super) {
                 __extends(ModuleManagerPage, _super);
                 function ModuleManagerPage(props) {
                     var _this = _super.call(this, props) || this;
@@ -983,26 +983,26 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 ModuleManagerPage.prototype.render = function () {
                     var _this = this;
                     return (createElement("section", { className: "ModuleManagerPage" },
-                        this.state.loading && (createElement(UiOverlay$1, null,
-                            createElement(Loading$1, { center: true }))),
-                        this.state.showResult && (createElement(UiOverlay$1, null,
-                            createElement(CommandResult$1, { results: this.state.results, onClose: this.hideResult }))),
-                        createElement(UiFlowLayout$1, null,
-                            createElement(AddModuleCard$1, { onAdd: this.addModule }),
-                            createElement(UpdateModulesCard$1, { checkingUpdates: this.state.checkingUpdates, modules: this.state.modules, onCheckUpdates: this.checkUpdates, onUpdateAll: this.updateAll, onUpdateModule: this.updateModule })),
-                        !this.state.modules.length && (createElement(UiFlowLayout$1, null,
-                            createElement(UiLoadingCard$1, null))),
-                        createElement(UiFlowLayout$1, null, this.state.modules.map(function (item) {
-                            return createElement(ModuleCard$1, { key: item.name, module: item, onRemove: _this.removeModule, onRebuild: _this.rebuildModule, onUpdate: _this.updateModule });
+                        this.state.loading && (createElement(UiOverlay, null,
+                            createElement(Loading, { center: true }))),
+                        this.state.showResult && (createElement(UiOverlay, null,
+                            createElement(CommandResult, { results: this.state.results, onClose: this.hideResult }))),
+                        createElement(UiFlowLayout, null,
+                            createElement(AddModuleCard, { onAdd: this.addModule }),
+                            createElement(UpdateModulesCard, { checkingUpdates: this.state.checkingUpdates, modules: this.state.modules, onCheckUpdates: this.checkUpdates, onUpdateAll: this.updateAll, onUpdateModule: this.updateModule })),
+                        !this.state.modules.length && (createElement(UiFlowLayout, null,
+                            createElement(UiLoadingCard, null))),
+                        createElement(UiFlowLayout, null, this.state.modules.map(function (item) {
+                            return createElement(ModuleCard, { key: item.name, module: item, onRemove: _this.removeModule, onRebuild: _this.rebuildModule, onUpdate: _this.updateModule });
                         }))));
                 };
                 return ModuleManagerPage;
             }(Component));
 
-            var css$e = "section.Navigation_Navigation__ZdiHl {\n  background: #456;\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\n  section.Navigation_Navigation__ZdiHl a {\n    padding-bottom: 8px;\n    padding-top: 11px;\n    color: #ddd;\n    text-decoration: none;\n    border-bottom: 3px solid transparent;\n    text-align: center;\n    transition: 0.5s; }\n    section.Navigation_Navigation__ZdiHl a:hover, section.Navigation_Navigation__ZdiHl a:active, section.Navigation_Navigation__ZdiHl a.Navigation_active__20m3T {\n      background: transparent;\n      color: white; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(1).Navigation_active__20m3T {\n      background: #4a8599; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(1).Navigation_active__20m3T, section.Navigation_Navigation__ZdiHl a:nth-child(1):hover {\n      border-bottom: 3px solid #42e1f7; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(2).Navigation_active__20m3T {\n      background: #69006f; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(2).Navigation_active__20m3T, section.Navigation_Navigation__ZdiHl a:nth-child(2):hover {\n      border-bottom: 3px solid #f000ff; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(3).Navigation_active__20m3T {\n      background: #5f5600; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(3).Navigation_active__20m3T, section.Navigation_Navigation__ZdiHl a:nth-child(3):hover {\n      border-bottom: 3px solid #ffe700; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(4).Navigation_active__20m3T {\n      background: #2f6108; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(4).Navigation_active__20m3T, section.Navigation_Navigation__ZdiHl a:nth-child(4):hover {\n      border-bottom: 3px solid #74ee15; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(5).Navigation_active__20m3T {\n      background: #001086; }\n    section.Navigation_Navigation__ZdiHl a:nth-child(5).Navigation_active__20m3T, section.Navigation_Navigation__ZdiHl a:nth-child(5):hover {\n      border-bottom: 3px solid #001eff; }\n";
+            var css$e = "section.Navigation {\r\n  background: #456;\r\n  width: 100%;\r\n  display: grid;\r\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\r\n  section.Navigation a {\r\n    padding-bottom: 8px;\r\n    padding-top: 11px;\r\n    color: #ddd;\r\n    text-decoration: none;\r\n    border-bottom: 3px solid transparent;\r\n    text-align: center;\r\n    transition: 0.5s; }\r\n    section.Navigation a:hover, section.Navigation a:active, section.Navigation a.active {\r\n      background: transparent;\r\n      color: white; }\r\n    section.Navigation a:nth-child(1).active {\r\n      background: #4a8599; }\r\n    section.Navigation a:nth-child(1).active, section.Navigation a:nth-child(1):hover {\r\n      border-bottom: 3px solid #42e1f7; }\r\n    section.Navigation a:nth-child(2).active {\r\n      background: #69006f; }\r\n    section.Navigation a:nth-child(2).active, section.Navigation a:nth-child(2):hover {\r\n      border-bottom: 3px solid #f000ff; }\r\n    section.Navigation a:nth-child(3).active {\r\n      background: #5f5600; }\r\n    section.Navigation a:nth-child(3).active, section.Navigation a:nth-child(3):hover {\r\n      border-bottom: 3px solid #ffe700; }\r\n    section.Navigation a:nth-child(4).active {\r\n      background: #2f6108; }\r\n    section.Navigation a:nth-child(4).active, section.Navigation a:nth-child(4):hover {\r\n      border-bottom: 3px solid #74ee15; }\r\n    section.Navigation a:nth-child(5).active {\r\n      background: #001086; }\r\n    section.Navigation a:nth-child(5).active, section.Navigation a:nth-child(5):hover {\r\n      border-bottom: 3px solid #001eff; }\r\n";
             styleInject(css$e);
 
-            var Navigation$1 = /** @class */ (function (_super) {
+            var Navigation = /** @class */ (function (_super) {
                 __extends(Navigation, _super);
                 function Navigation() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -1118,10 +1118,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             unwrapExports(guid);
             var guid_1 = guid.Guid;
 
-            var css$f = ".ArrayForm_ArrayForm__rbwFU .ArrayForm_OptionItem__1HK5p[data-detailsvisible='false'] + .ArrayForm_add-array-item__3PM9f {\n  border-top: 1px solid #eee; }\n";
+            var css$f = ".ArrayForm .OptionItem[data-detailsvisible='false'] + .add-array-item {\r\n  border-top: 1px solid #eee; }\r\n";
             styleInject(css$f);
 
-            var ArrayForm$1 = /** @class */ (function (_super) {
+            var ArrayForm = /** @class */ (function (_super) {
                 __extends(ArrayForm, _super);
                 function ArrayForm(props) {
                     var _this = _super.call(this, props) || this;
@@ -1184,12 +1184,12 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         key = this.arrayKeys[index] = guid_1.raw();
                     }
                     return (createElement(Fragment, { key: key },
-                        createElement(OptionItem$1, { definition: arrayItemDefinition, value: value, valueChange: this.arrayItemChange.bind(this, index) },
-                            createElement(UiButton$1, { onClick: this.arrayItemRemove.bind(this, index) },
+                        createElement(OptionItem, { definition: arrayItemDefinition, value: value, valueChange: this.arrayItemChange.bind(this, index) },
+                            createElement(UiButton, { onClick: this.arrayItemRemove.bind(this, index) },
                                 createElement(FontAwesomeIcon, { icon: faTrashAlt })),
-                            createElement(UiButton$1, { onClick: this.arrayItemMoveUp.bind(this, index) },
+                            createElement(UiButton, { onClick: this.arrayItemMoveUp.bind(this, index) },
                                 createElement(FontAwesomeIcon, { icon: faArrowAltCircleUp })),
-                            createElement(UiButton$1, { onClick: this.arrayItemMoveDown.bind(this, index) },
+                            createElement(UiButton, { onClick: this.arrayItemMoveDown.bind(this, index) },
                                 createElement(FontAwesomeIcon, { icon: faArrowAltCircleDown })))));
                 };
                 ArrayForm.prototype.render = function () {
@@ -1197,14 +1197,14 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     var array = this.props.value || [];
                     return (createElement(Fragment, null,
                         array.map(function (value, index) { return _this.renderArrayItem(value, index); }),
-                        createElement(UiButton$1, { className: "add-array-item", onClick: this.arrayItemAdd },
+                        createElement(UiButton, { className: "add-array-item", onClick: this.arrayItemAdd },
                             createElement(FontAwesomeIcon, { icon: faPlus }),
                             " Add item")));
                 };
                 return ArrayForm;
             }(Component));
 
-            var css$g = ".StyleForm_StyleForm__3_O5x .StyleForm_newPropertyRow__3q0_P {\n  display: flex; }\n  .StyleForm_StyleForm__3_O5x .StyleForm_newPropertyRow__3q0_P select {\n    width: 100%; }\n  .StyleForm_StyleForm__3_O5x .StyleForm_newPropertyRow__3q0_P .StyleForm_UiButton__3RecN {\n    overflow: initial; }\n";
+            var css$g = ".StyleForm .newPropertyRow {\r\n  display: flex; }\r\n  .StyleForm .newPropertyRow select {\r\n    width: 100%; }\r\n  .StyleForm .newPropertyRow .UiButton {\r\n    overflow: initial; }\r\n";
             styleInject(css$g);
 
             var styleProperties = ['background', 'backgroundAttachment', 'backgroundColor', 'backgroundImage',
@@ -1225,7 +1225,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 'strokeDasharray', 'strokeDashoffset', 'strokeWidth', 'textAlign',
                 'textDecoration', 'textIndent', 'textTransform', 'top',
                 'verticalAlign', 'visibility', 'width', 'zIndex'];
-            var StyleForm$1 = /** @class */ (function (_super) {
+            var StyleForm = /** @class */ (function (_super) {
                 __extends(StyleForm, _super);
                 function StyleForm(props) {
                     var _this = _super.call(this, props) || this;
@@ -1282,13 +1282,13 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return (createElement("div", { className: "StyleForm" },
                         this.state.fields.map(function (field) {
                             var value = _this.props.value && _this.props.value[field.name];
-                            return (createElement(OptionItem$1, { key: field.name, definition: field, value: value, valueChange: _this.valueChange },
-                                createElement(UiButton$1, { onClick: _this.removeField.bind(_this, field.name) },
+                            return (createElement(OptionItem, { key: field.name, definition: field, value: value, valueChange: _this.valueChange },
+                                createElement(UiButton, { onClick: _this.removeField.bind(_this, field.name) },
                                     createElement(FontAwesomeIcon, { icon: faTrashAlt }))));
                         }),
                         createElement("div", { className: "newPropertyRow" },
                             createElement("select", { ref: function (el) { return _this.newPropertySelect = el; } }, styleProperties.map(function (property) { return createElement("option", { key: property, value: property }, property); })),
-                            createElement(UiButton$1, { onClick: this.addField },
+                            createElement(UiButton, { onClick: this.addField },
                                 createElement(FontAwesomeIcon, { icon: faPlus }),
                                 " Add"))));
                 };
@@ -1440,10 +1440,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             }());
             var OptionCardContext = createContext(new OptionsCardContextData());
 
-            var css$h = ".WebComponentForm_WebComponentForm__K3RN6 .WebComponentForm_componentTitle__1yxPt {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm_WebComponentForm__K3RN6 .WebComponentForm_componentSelect__3NTa9 {\n  width: 100%; }\n\n.WebComponentForm_WebComponentForm__K3RN6 :last-child {\n  border-bottom: none; }\n";
+            var css$h = ".WebComponentForm .componentTitle {\r\n  display: grid;\r\n  grid-template-columns: 33px auto 33px;\r\n  border-bottom: 1px solid #eee; }\r\n\r\n.WebComponentForm .componentSelect {\r\n  width: 100%; }\r\n\r\n.WebComponentForm :last-child {\r\n  border-bottom: none; }\r\n";
             styleInject(css$h);
 
-            var WebComponentForm$1 = /** @class */ (function (_super) {
+            var WebComponentForm = /** @class */ (function (_super) {
                 __extends(WebComponentForm, _super);
                 function WebComponentForm(props) {
                     var _this = _super.call(this, props) || this;
@@ -1570,14 +1570,14 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     var selectedComponentKey = this.state.selectedComponentDefinition && this.state.selectedComponentDefinition.key || '';
                     if (this.state.selectedComponentDefinition) {
                         return (createElement("div", { className: "componentTitle" },
-                            createElement(UiButton$1, null,
+                            createElement(UiButton, null,
                                 createElement(FontAwesomeIcon, { icon: faCube })),
                             createElement("label", null,
                                 this.state.selectedComponentDefinition.definition.displayName,
                                 " (",
                                 this.state.selectedComponentDefinition.moduleName,
                                 ")"),
-                            createElement(UiButton$1, { onClick: this.removeWebComponent },
+                            createElement(UiButton, { onClick: this.removeWebComponent },
                                 createElement(FontAwesomeIcon, { icon: faTrashAlt }))));
                     }
                     return (createElement("select", { className: "componentSelect", value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
@@ -1593,20 +1593,20 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 WebComponentForm.prototype.render = function () {
                     var _this = this;
                     return (createElement("div", { className: "WebComponentForm" },
-                        createElement(AdminPageContext.Consumer, null, function (value) { return _this.adminPageContext = value; }),
+                        createElement(AdminPageContext.Consumer, null, function (value) { return (_this.adminPageContext = value) && null; }),
                         this.renderComponentSelection(),
                         this.state.selectedWebComponentOptions &&
-                            this.state.selectedComponentDefinition && (createElement(OptionList$1, { value: this.state.selectedWebComponentOptions.options, fields: this.state.selectedComponentDefinition.definition.fields, valueChange: this.onOptionsChange }))));
+                            this.state.selectedComponentDefinition && (createElement(OptionList, { value: this.state.selectedWebComponentOptions.options, fields: this.state.selectedComponentDefinition.definition.fields, valueChange: this.onOptionsChange }))));
                 };
                 WebComponentForm.contextType = OptionCardContext;
                 return WebComponentForm;
             }(Component));
 
-            var css$i = ".OptionItem_OptionItem__2ZbM2 {\n  margin-left: 6px;\n  line-height: 32px;\n  border-top: 1px solid transparent; }\n  .OptionItem_OptionItem__2ZbM2 + .OptionItem_OptionItem__2ZbM2 {\n    border-color: #eee; }\n  .OptionItem_OptionItem__2ZbM2[data-hasdetails='false'] {\n    display: grid;\n    grid-template-columns: 50% 50%; }\n  .OptionItem_OptionItem__2ZbM2[data-detailsvisible='false'] + .OptionItem_add-array-item__1td_s {\n    border-top: 1px solid #eee; }\n  .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] {\n    padding-left: 3px;\n    margin-left: 0px;\n    border-left-width: 3px;\n    border-top-width: 1px;\n    border-bottom-width: 1px;\n    border-bottom-color: #eee;\n    border-right-width: 0;\n    border-style: solid;\n    border-left-color: #68a; }\n    .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] [data-detailsvisible='true'] {\n      border-left-color: #964; }\n      .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n        border-left-color: #6a9; }\n        .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n          border-left-color: #649; }\n          .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n            border-left-color: #496; }\n            .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n              border-left-color: #946; }\n              .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                border-left-color: #649; }\n                .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                  border-left-color: #68a; }\n    .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] > .OptionItem_item-header__3rYXF {\n      border-bottom: 1px solid #eee; }\n    .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] + [data-detailsvisible='true'] {\n      margin-top: 6px; }\n    .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] + [data-detailsvisible='false'] {\n      border-top-width: 0; }\n    .OptionItem_OptionItem__2ZbM2[data-detailsvisible='true'] :last-child {\n      border-bottom-width: 0; }\n  .OptionItem_OptionItem__2ZbM2 label,\n  .OptionItem_OptionItem__2ZbM2 .OptionItem_header-text__aGCDg,\n  .OptionItem_OptionItem__2ZbM2 .OptionItem_sub-header-text__1Vz_s {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .OptionItem_OptionItem__2ZbM2 label {\n    display: flex; }\n    .OptionItem_OptionItem__2ZbM2 label :first-child.OptionItem_header-text__aGCDg {\n      padding-left: 4px; }\n  .OptionItem_OptionItem__2ZbM2 input,\n  .OptionItem_OptionItem__2ZbM2 select {\n    height: 32px;\n    border: none;\n    padding-left: 6px;\n    background: white;\n    box-sizing: border-box;\n    margin: 0; }\n    .OptionItem_OptionItem__2ZbM2 input[type='range'],\n    .OptionItem_OptionItem__2ZbM2 select[type='range'] {\n      padding-left: 0; }\n  .OptionItem_OptionItem__2ZbM2 textarea {\n    border: none;\n    width: 100%;\n    padding: 6px;\n    display: flex;\n    box-sizing: border-box; }\n  .OptionItem_OptionItem__2ZbM2 .OptionItem_item-header__3rYXF {\n    display: grid;\n    grid-template-columns: 50% auto 33px;\n    padding: 0 !important; }\n  .OptionItem_OptionItem__2ZbM2 .OptionItem_UiButton__2eeYR {\n    padding-top: 0;\n    padding-bottom: 0; }\n";
+            var css$i = ".OptionItem {\r\n  margin-left: 6px;\r\n  line-height: 32px;\r\n  border-top: 1px solid transparent; }\r\n  .OptionItem + .OptionItem {\r\n    border-color: #eee; }\r\n  .OptionItem[data-hasdetails='false'] {\r\n    display: grid;\r\n    grid-template-columns: 50% 50%; }\r\n  .OptionItem[data-detailsvisible='false'] + .add-array-item {\r\n    border-top: 1px solid #eee; }\r\n  .OptionItem[data-detailsvisible='true'] {\r\n    padding-left: 3px;\r\n    margin-left: 0px;\r\n    border-left-width: 3px;\r\n    border-top-width: 1px;\r\n    border-bottom-width: 1px;\r\n    border-bottom-color: #eee;\r\n    border-right-width: 0;\r\n    border-style: solid;\r\n    border-left-color: #68a; }\r\n    .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] {\r\n      border-left-color: #964; }\r\n      .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\r\n        border-left-color: #6a9; }\r\n        .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\r\n          border-left-color: #649; }\r\n          .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\r\n            border-left-color: #496; }\r\n            .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\r\n              border-left-color: #946; }\r\n              .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\r\n                border-left-color: #649; }\r\n                .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\r\n                  border-left-color: #68a; }\r\n    .OptionItem[data-detailsvisible='true'] > .item-header {\r\n      border-bottom: 1px solid #eee; }\r\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='true'] {\r\n      margin-top: 6px; }\r\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='false'] {\r\n      border-top-width: 0; }\r\n    .OptionItem[data-detailsvisible='true'] :last-child {\r\n      border-bottom-width: 0; }\r\n  .OptionItem label,\r\n  .OptionItem .header-text,\r\n  .OptionItem .sub-header-text {\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis; }\r\n  .OptionItem label {\r\n    display: flex; }\r\n    .OptionItem label :first-child.header-text {\r\n      padding-left: 4px; }\r\n  .OptionItem input,\r\n  .OptionItem select {\r\n    height: 32px;\r\n    border: none;\r\n    padding-left: 6px;\r\n    background: white;\r\n    box-sizing: border-box;\r\n    margin: 0; }\r\n    .OptionItem input[type='range'],\r\n    .OptionItem select[type='range'] {\r\n      padding-left: 0; }\r\n  .OptionItem textarea {\r\n    border: none;\r\n    width: 100%;\r\n    padding: 6px;\r\n    display: flex;\r\n    box-sizing: border-box; }\r\n  .OptionItem .item-header {\r\n    display: grid;\r\n    grid-template-columns: 50% auto 33px;\r\n    padding: 0 !important; }\r\n  .OptionItem .UiButton {\r\n    padding-top: 0;\r\n    padding-bottom: 0; }\r\n";
             styleInject(css$i);
 
             var counter = 0;
-            var OptionItem$1 = /** @class */ (function (_super) {
+            var OptionItem = /** @class */ (function (_super) {
                 __extends(OptionItem, _super);
                 function OptionItem(props) {
                     var _this = _super.call(this, props) || this;
@@ -1634,10 +1634,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     this.props.valueChange(this.props.definition, newValue);
                 };
                 OptionItem.prototype.renderArray = function () {
-                    return (createElement(ArrayForm$1, __assign({}, this.props)));
+                    return (createElement(ArrayForm, __assign({}, this.props)));
                 };
                 OptionItem.prototype.renderObject = function () {
-                    return (createElement(OptionList$1, { fields: this.props.definition.fields, value: this.props.value, valueChange: this.triggerValueChange }));
+                    return (createElement(OptionList, { fields: this.props.definition.fields, value: this.props.value, valueChange: this.triggerValueChange }));
                 };
                 OptionItem.prototype.onTextareaChange = function (e) {
                     this.triggerValueChange(e.currentTarget.value);
@@ -1676,10 +1676,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return (createElement("input", { type: "checkbox", id: this.state.uniqueId, value: this.props.value, onChange: this.onCheckboxChange }));
                 };
                 OptionItem.prototype.renderStyleInput = function () {
-                    return (createElement(StyleForm$1, __assign({}, this.props)));
+                    return (createElement(StyleForm, __assign({}, this.props)));
                 };
                 OptionItem.prototype.renderWebComponentInput = function () {
-                    return (createElement(WebComponentForm$1, __assign({}, this.props)));
+                    return (createElement(WebComponentForm, __assign({}, this.props)));
                 };
                 OptionItem.prototype.toggleItemDetails = function () {
                     this.setState(function (state) { return ({ detailsVisible: !state.detailsVisible }); });
@@ -1706,14 +1706,14 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         subHeaderText = this.props.value || 'Component';
                         icon = faFile;
                     }
-                    return (createElement(UiButton$1, { className: "item-header", onClick: this.toggleItemDetails },
+                    return (createElement(UiButton, { className: "item-header", onClick: this.toggleItemDetails },
                         createElement("label", null,
                             this.props.children,
-                            icon && (createElement(UiButton$1, null,
+                            icon && (createElement(UiButton, null,
                                 createElement(FontAwesomeIcon, { icon: icon }))),
                             createElement("span", { className: "header-text" }, this.props.definition.displayName)),
                         createElement("span", { className: "sub-header-text" }, subHeaderText),
-                        createElement(UiButton$1, null,
+                        createElement(UiButton, null,
                             createElement(FontAwesomeIcon, { icon: this.state.detailsVisible ? faCaretDown : faCaretRight }))));
                 };
                 OptionItem.prototype.renderLabel = function () {
@@ -1761,10 +1761,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return OptionItem;
             }(Component));
 
-            var css$j = ".OptionList_OptionList__1frIf {\n  background: white; }\n";
+            var css$j = ".OptionList {\r\n  background: white; }\r\n";
             styleInject(css$j);
 
-            var OptionList$1 = /** @class */ (function (_super) {
+            var OptionList = /** @class */ (function (_super) {
                 __extends(OptionList, _super);
                 function OptionList(props) {
                     var _this = _super.call(this, props) || this;
@@ -1784,16 +1784,16 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     }
                     return (createElement("div", { className: "OptionList" }, this.props.fields.map(function (field) {
                         var value = _this.props.value && _this.props.value[field.name];
-                        return createElement(OptionItem$1, { key: field.name, definition: field, value: value, valueChange: _this.valueChange });
+                        return createElement(OptionItem, { key: field.name, definition: field, value: value, valueChange: _this.valueChange });
                     })));
                 };
                 return OptionList;
             }(Component));
 
-            var css$k = ".OptionCard_OptionCard__1ajIS > .OptionCard_OptionList__3bdDf {\n  position: relative;\n  overflow-x: hidden; }\n  .OptionCard_OptionCard__1ajIS > .OptionCard_OptionList__3bdDf :last-child {\n    border-bottom: none; }\n\n.OptionCard_OptionCard__1ajIS .OptionCard_debug__tX_fc {\n  display: none; }\n";
+            var css$k = ".OptionCard > .OptionList {\r\n  position: relative;\r\n  overflow-x: hidden; }\r\n  .OptionCard > .OptionList :last-child {\r\n    border-bottom: none; }\r\n\r\n.OptionCard .debug {\r\n  display: none; }\r\n";
             styleInject(css$k);
 
-            var OptionCard$1 = /** @class */ (function (_super) {
+            var OptionCard = /** @class */ (function (_super) {
                 __extends(OptionCard, _super);
                 function OptionCard(props) {
                     var _this = _super.call(this, props) || this;
@@ -1844,33 +1844,33 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     this.setState({ newOptions: newValue });
                 };
                 OptionCard.prototype.renderTitle = function () {
-                    return (createElement(UiCardTitle$1, null,
+                    return (createElement(UiCardTitle, null,
                         createElement(FontAwesomeIcon, { icon: this.props.icon }),
                         " ",
                         this.props.title));
                 };
                 OptionCard.prototype.renderContent = function () {
                     return (createElement(OptionCardContext.Provider, { value: this.state.formContext },
-                        createElement(OptionList$1, { fields: this.props.fields, value: this.state.newOptions, valueChange: this.optionsChange })));
+                        createElement(OptionList, { fields: this.props.fields, value: this.state.newOptions, valueChange: this.optionsChange })));
                 };
                 OptionCard.prototype.renderFooter = function () {
-                    return (createElement(UiCardButtonRow$1, { divider: "half" },
-                        this.props.onCancel && (createElement(UiButton$1, { onClick: this.cancel },
+                    return (createElement(UiCardButtonRow, { divider: "half" },
+                        this.props.onCancel && (createElement(UiButton, { onClick: this.cancel },
                             createElement(FontAwesomeIcon, { icon: faTimes }),
                             " Cancel")),
-                        this.props.showReset && (createElement(UiButton$1, { onClick: this.reset },
+                        this.props.showReset && (createElement(UiButton, { onClick: this.reset },
                             createElement(FontAwesomeIcon, { icon: faUndo }),
                             " Reset")),
-                        createElement(UiButton$1, { onClick: this.save },
+                        createElement(UiButton, { onClick: this.save },
                             createElement(FontAwesomeIcon, { icon: faSave }),
                             " Save")));
                 };
                 OptionCard.prototype.render = function () {
                     var className = 'OptionCard ' + this.props.className;
-                    return (createElement(UiCard$1, { className: className },
+                    return (createElement(UiCard, { className: className },
                         this.renderTitle(),
                         this.renderContent(),
-                        createElement(UiCardContent$1, { className: "debug", style: { whiteSpace: 'pre' } }, JSON.stringify(this.state.newOptions, undefined, 2)),
+                        createElement(UiCardContent, { className: "debug", style: { whiteSpace: 'pre' } }, JSON.stringify(this.state.newOptions, undefined, 2)),
                         this.renderFooter()));
                 };
                 return OptionCard;
@@ -1879,7 +1879,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             var css$l = "";
             styleInject(css$l);
 
-            var PageCard$1 = /** @class */ (function (_super) {
+            var PageCard = /** @class */ (function (_super) {
                 __extends(PageCard, _super);
                 function PageCard(props) {
                     var _this = _super.call(this, props) || this;
@@ -1894,7 +1894,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return this.props.onDelete(this.props.page);
                 };
                 PageCard.prototype.renderTitle = function () {
-                    return (createElement(UiCardTitle$1, null,
+                    return (createElement(UiCardTitle, null,
                         createElement(FontAwesomeIcon, { icon: faFile }),
                         " ",
                         this.props.page.title,
@@ -1903,19 +1903,19 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         ")"));
                 };
                 PageCard.prototype.renderPath = function () {
-                    return (createElement(UiCardContent$1, { className: "path" }, this.props.page.path));
+                    return (createElement(UiCardContent, { className: "path" }, this.props.page.path));
                 };
                 PageCard.prototype.renderFooter = function () {
-                    return (createElement(UiCardButtonRow$1, { divider: "half" },
-                        createElement(UiButton$1, { onClick: this.onEdit },
+                    return (createElement(UiCardButtonRow, { divider: "half" },
+                        createElement(UiButton, { onClick: this.onEdit },
                             createElement(FontAwesomeIcon, { icon: faEdit }),
                             " Edit"),
-                        createElement(UiButton$1, { onClick: this.onDelete },
+                        createElement(UiButton, { onClick: this.onDelete },
                             createElement(FontAwesomeIcon, { icon: faTrashAlt }),
                             " Delete")));
                 };
                 PageCard.prototype.render = function () {
-                    return (createElement(UiCard$1, { className: "PageCard" },
+                    return (createElement(UiCard, { className: "PageCard" },
                         this.renderTitle(),
                         this.renderFooter()));
                 };
@@ -1949,7 +1949,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             var css$m = "";
             styleInject(css$m);
 
-            var PageManagerPage$1 = /** @class */ (function (_super) {
+            var PageManagerPage = /** @class */ (function (_super) {
                 __extends(PageManagerPage, _super);
                 function PageManagerPage(props) {
                     var _this = _super.call(this, props) || this;
@@ -2003,17 +2003,17 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 PageManagerPage.prototype.renderPageCards = function () {
                     var _this = this;
                     if (this.state.loading) {
-                        return createElement(UiFlowLayout$1, null,
-                            createElement(UiLoadingCard$1, null));
+                        return createElement(UiFlowLayout, null,
+                            createElement(UiLoadingCard, null));
                     }
-                    return (createElement(UiFlowLayout$1, null, this.state.pages.map(function (item, index) {
-                        return createElement(PageCard$1, { key: index, page: item, onEdit: _this.showPageDetailsDialog, onDelete: _this.confirmPageDeletion });
+                    return (createElement(UiFlowLayout, null, this.state.pages.map(function (item, index) {
+                        return createElement(PageCard, { key: index, page: item, onEdit: _this.showPageDetailsDialog, onDelete: _this.confirmPageDeletion });
                     })));
                 };
                 PageManagerPage.prototype.renderPageAddCard = function () {
-                    return (createElement(UiFlowLayout$1, null,
-                        createElement(UiCard$1, { className: "AddPageCard" },
-                            createElement(UiButton$1, { className: "addButton", onClick: this.showPageDetailsDialog },
+                    return (createElement(UiFlowLayout, null,
+                        createElement(UiCard, { className: "AddPageCard" },
+                            createElement(UiButton, { className: "addButton", onClick: this.showPageDetailsDialog },
                                 createElement(FontAwesomeIcon, { icon: faPlus }),
                                 " Add Page"))));
                 };
@@ -2023,8 +2023,8 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     }
                     var page = this.state.selectedPage;
                     var title = page ? 'Edit Page' : 'Add Page';
-                    return (createElement(UiOverlay$1, null,
-                        createElement(OptionCard$1, { icon: faFile, title: title, fields: pageOptionsFields, onSave: this.savePage, onCancel: this.hidePageDetailsDialog, options: page || {} })));
+                    return (createElement(UiOverlay, null,
+                        createElement(OptionCard, { icon: faFile, title: title, fields: pageOptionsFields, onSave: this.savePage, onCancel: this.hidePageDetailsDialog, options: page || {} })));
                 };
                 PageManagerPage.prototype.render = function () {
                     return (createElement("section", { className: "PageManagerPage" },
@@ -2035,10 +2035,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return PageManagerPage;
             }(Component));
 
-            var css$n = "a.RoundButton_RoundButton__1H_9g {\n  position: absolute;\n  right: 20px;\n  top: 20px;\n  color: white;\n  border: 3px solid white;\n  border-radius: 18px;\n  padding: 8px;\n  text-decoration: none;\n  font-weight: bold;\n  min-width: 80px;\n  text-align: center; }\n  a.RoundButton_RoundButton__1H_9g:hover {\n    background: rgba(255, 255, 255, 0.178); }\n  a.RoundButton_RoundButton__1H_9g + a.RoundButton_RoundButton__1H_9g {\n    transform: translateX(-100%);\n    margin-right: 10px; }\n  a.RoundButton_RoundButton__1H_9g svg {\n    margin-right: 6px; }\n";
+            var css$n = "a.RoundButton {\r\n  position: absolute;\r\n  right: 20px;\r\n  top: 20px;\r\n  color: white;\r\n  border: 3px solid white;\r\n  border-radius: 18px;\r\n  padding: 8px;\r\n  text-decoration: none;\r\n  font-weight: bold;\r\n  min-width: 80px;\r\n  text-align: center; }\r\n  a.RoundButton:hover {\r\n    background: rgba(255, 255, 255, 0.178); }\r\n  a.RoundButton + a.RoundButton {\r\n    transform: translateX(-100%);\r\n    margin-right: 10px; }\r\n  a.RoundButton svg {\r\n    margin-right: 6px; }\r\n";
             styleInject(css$n);
 
-            var RoundButton$1 = /** @class */ (function (_super) {
+            var RoundButton = /** @class */ (function (_super) {
                 __extends(RoundButton, _super);
                 function RoundButton() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -2052,7 +2052,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             var css$o = "";
             styleInject(css$o);
 
-            var ServiceCard$1 = /** @class */ (function (_super) {
+            var ServiceCard = /** @class */ (function (_super) {
                 __extends(ServiceCard, _super);
                 function ServiceCard(props) {
                     var _this = _super.call(this, props) || this;
@@ -2067,25 +2067,25 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return this.props.onShowLog(this.props.service);
                 };
                 ServiceCard.prototype.renderTitle = function () {
-                    return (createElement(UiCardTitle$1, null,
+                    return (createElement(UiCardTitle, null,
                         createElement(FontAwesomeIcon, { icon: faCogs }),
                         " ",
                         this.props.service.name));
                 };
                 ServiceCard.prototype.renderDescription = function () {
-                    return (createElement(UiCardContent$1, { className: "description" }, this.props.service.description || 'no description'));
+                    return (createElement(UiCardContent, { className: "description" }, this.props.service.description || 'no description'));
                 };
                 ServiceCard.prototype.renderFooter = function () {
-                    return (createElement(UiCardButtonRow$1, { divider: "half" },
-                        createElement(UiButton$1, { onClick: this.showLog },
+                    return (createElement(UiCardButtonRow, { divider: "half" },
+                        createElement(UiButton, { onClick: this.showLog },
                             createElement(FontAwesomeIcon, { icon: faFile }),
                             " Log"),
-                        createElement(UiButton$1, { onClick: this.showOptions },
+                        createElement(UiButton, { onClick: this.showOptions },
                             createElement(FontAwesomeIcon, { icon: faCog }),
                             " Options")));
                 };
                 ServiceCard.prototype.render = function () {
-                    return (createElement(UiCard$1, { className: "ServiceCard" },
+                    return (createElement(UiCard, { className: "ServiceCard" },
                         this.renderTitle(),
                         this.renderDescription(),
                         this.renderFooter()));
@@ -2093,10 +2093,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return ServiceCard;
             }(Component));
 
-            var css$p = ".ServiceGroup_ServiceGroup__3kpTJ .ServiceGroup_group-header__2YF1i {\n  margin-top: 10px;\n  padding-left: 20px !important;\n  padding-right: 36px !important;\n  font-size: 16px;\n  line-height: 20px; }\n  .ServiceGroup_ServiceGroup__3kpTJ .ServiceGroup_group-header__2YF1i > :last-child {\n    position: absolute;\n    right: 20px; }\n";
+            var css$p = ".ServiceGroup .group-header {\r\n  margin-top: 10px;\r\n  padding-left: 20px !important;\r\n  padding-right: 36px !important;\r\n  font-size: 16px;\r\n  line-height: 20px; }\r\n  .ServiceGroup .group-header > :last-child {\r\n    position: absolute;\r\n    right: 20px; }\r\n";
             styleInject(css$p);
 
-            var ServiceGroup$1 = /** @class */ (function (_super) {
+            var ServiceGroup = /** @class */ (function (_super) {
                 __extends(ServiceGroup, _super);
                 function ServiceGroup(props) {
                     var _this = _super.call(this, props) || this;
@@ -2112,7 +2112,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 ServiceGroup.prototype.render = function () {
                     var _this = this;
                     return (createElement("section", { className: "ServiceGroup" },
-                        createElement(UiButton$1, { className: "group-header", onClick: this.toggleGroup },
+                        createElement(UiButton, { className: "group-header", onClick: this.toggleGroup },
                             createElement(FontAwesomeIcon, { icon: faCube }),
                             " ",
                             this.props.moduleName,
@@ -2120,17 +2120,17 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                             this.props.services.length,
                             ")",
                             createElement(FontAwesomeIcon, { icon: this.state.groupOpen ? faArrowDown : faArrowRight })),
-                        this.state.groupOpen && (createElement(UiFlowLayout$1, null, this.props.services.map(function (item) {
-                            return createElement(ServiceCard$1, { key: item.name, service: item, onShowLog: _this.props.onShowServiceLog, onShowOptions: _this.props.onShowServiceOptions });
+                        this.state.groupOpen && (createElement(UiFlowLayout, null, this.props.services.map(function (item) {
+                            return createElement(ServiceCard, { key: item.name, service: item, onShowLog: _this.props.onShowServiceLog, onShowOptions: _this.props.onShowServiceOptions });
                         })))));
                 };
                 return ServiceGroup;
             }(Component));
 
-            var css$q = ".ServiceManagerPage_ServiceManagerPage__23HTy {\n  min-height: 100px; }\n";
+            var css$q = ".ServiceManagerPage {\r\n  min-height: 100px; }\r\n";
             styleInject(css$q);
 
-            var ServiceManagerPage$1 = /** @class */ (function (_super) {
+            var ServiceManagerPage = /** @class */ (function (_super) {
                 __extends(ServiceManagerPage, _super);
                 function ServiceManagerPage(props) {
                     var _this = _super.call(this, props) || this;
@@ -2209,39 +2209,39 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         return null;
                     }
                     if (this.state.loadingServiceOptions) {
-                        return createElement(UiOverlay$1, null,
-                            createElement(UiLoadingCard$1, null));
+                        return createElement(UiOverlay, null,
+                            createElement(UiLoadingCard, null));
                     }
                     var title = 'Options for ' + this.state.selectedService.displayName;
-                    return (createElement(UiOverlay$1, null,
-                        createElement(OptionCard$1, { icon: faCogs, showReset: true, title: title, fields: this.state.selectedService.fields || [], options: this.state.selectedServiceOptions, onSave: this.saveOptions, onCancel: this.closeOptions })));
+                    return (createElement(UiOverlay, null,
+                        createElement(OptionCard, { icon: faCogs, showReset: true, title: title, fields: this.state.selectedService.fields || [], options: this.state.selectedServiceOptions, onSave: this.saveOptions, onCancel: this.closeOptions })));
                 };
                 ServiceManagerPage.prototype.renderServiceLogDialog = function () {
                     if (!this.state.showLog || !this.state.selectedService) {
                         return null;
                     }
-                    return (createElement(UiOverlay$1, null,
-                        createElement(UiCard$1, { className: "ServiceLogCard" },
-                            createElement(UiCardTitle$1, null,
+                    return (createElement(UiOverlay, null,
+                        createElement(UiCard, { className: "ServiceLogCard" },
+                            createElement(UiCardTitle, null,
                                 createElement(FontAwesomeIcon, { icon: faFile }),
                                 " Log for ",
                                 this.state.selectedService.displayName),
-                            createElement(UiCardContent$1, null,
+                            createElement(UiCardContent, null,
                                 createElement("ul", null, this.state.selectedService.log.map(function (item) { return (createElement("li", null, item)); }))),
-                            createElement(UiCardButtonRow$1, { divider: "full" },
-                                createElement(UiButton$1, { onClick: this.closeLog },
+                            createElement(UiCardButtonRow, { divider: "full" },
+                                createElement(UiButton, { onClick: this.closeLog },
                                     createElement(FontAwesomeIcon, { icon: faTimes }),
                                     " Close")))));
                 };
                 ServiceManagerPage.prototype.renderServiceGroups = function () {
                     var _this = this;
                     if (this.state.loadingServices) {
-                        return createElement(Loading$1, { center: true });
+                        return createElement(Loading, { center: true });
                     }
                     var groups = this.state.services.map(function (x) { return x.moduleName; }).filter(onlyUnique);
                     return groups.map(function (moduleName) {
                         var services = _this.state.services.filter(function (x) { return x.moduleName === moduleName; }); // TODO: .sort((a, b) => a.displayName > b.displayName)
-                        return (createElement(ServiceGroup$1, { key: moduleName, moduleName: moduleName, services: services, onShowServiceLog: _this.showLog, onShowServiceOptions: _this.showOptions }));
+                        return (createElement(ServiceGroup, { key: moduleName, moduleName: moduleName, services: services, onShowServiceLog: _this.showLog, onShowServiceOptions: _this.showOptions }));
                     });
                 };
                 ServiceManagerPage.prototype.render = function () {
@@ -2292,7 +2292,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             var css$r = "";
             styleInject(css$r);
 
-            var SettingsManagerPage$1 = /** @class */ (function (_super) {
+            var SettingsManagerPage = /** @class */ (function (_super) {
                 __extends(SettingsManagerPage, _super);
                 function SettingsManagerPage(props) {
                     var _this = _super.call(this, props) || this;
@@ -2317,18 +2317,18 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 SettingsManagerPage.prototype.render = function () {
                     return (createElement("section", { className: "SettingsManagerPage" },
-                        this.state.loading && (createElement(UiFlowLayout$1, null,
-                            createElement(UiLoadingCard$1, null))),
-                        this.state.settings && (createElement(UiFlowLayout$1, null,
-                            createElement(OptionCard$1, { options: this.state.settings, onSave: this.saveSettings, fields: systemSettingsFields, icon: faCogs, title: "Settings", showReset: true })))));
+                        this.state.loading && (createElement(UiFlowLayout, null,
+                            createElement(UiLoadingCard, null))),
+                        this.state.settings && (createElement(UiFlowLayout, null,
+                            createElement(OptionCard, { options: this.state.settings, onSave: this.saveSettings, fields: systemSettingsFields, icon: faCogs, title: "Settings", showReset: true })))));
                 };
                 return SettingsManagerPage;
             }(Component));
 
-            var css$s = "section.SystemPage_SystemPage__2NCPZ .SystemPage_danger__2SSWj {\n  border: 1px solid red; }\n  section.SystemPage_SystemPage__2NCPZ .SystemPage_danger__2SSWj .SystemPage_UiCardTitle__FUC8D {\n    color: red; }\n\nsection.SystemPage_SystemPage__2NCPZ .SystemPage_information__tiKLA {\n  height: 156px; }\n  section.SystemPage_SystemPage__2NCPZ .SystemPage_information__tiKLA section.SystemPage_Loading__198y_ {\n    margin-top: 20px; }\n  section.SystemPage_SystemPage__2NCPZ .SystemPage_information__tiKLA ul {\n    list-style: none;\n    margin: 0;\n    padding: 0; }\n    section.SystemPage_SystemPage__2NCPZ .SystemPage_information__tiKLA ul span:first-child {\n      width: 100px;\n      display: inline-block; }\n";
+            var css$s = "section.SystemPage .danger {\r\n  border: 1px solid red; }\r\n  section.SystemPage .danger .UiCardTitle {\r\n    color: red; }\r\n\r\nsection.SystemPage .information {\r\n  height: 156px; }\r\n  section.SystemPage .information section.Loading {\r\n    margin-top: 20px; }\r\n  section.SystemPage .information ul {\r\n    list-style: none;\r\n    margin: 0;\r\n    padding: 0; }\r\n    section.SystemPage .information ul span:first-child {\r\n      width: 100px;\r\n      display: inline-block; }\r\n";
             styleInject(css$s);
 
-            var SystemPage$1 = /** @class */ (function (_super) {
+            var SystemPage = /** @class */ (function (_super) {
                 __extends(SystemPage, _super);
                 function SystemPage(props) {
                     var _this = _super.call(this, props) || this;
@@ -2363,7 +2363,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 SystemPage.prototype.renderInformationCard = function () {
                     var content;
                     if (!this.state.info) {
-                        content = createElement(Loading$1, null);
+                        content = createElement(Loading, null);
                     }
                     else {
                         var free = Math.round(this.state.info.memory.free / 1024 / 1024);
@@ -2393,43 +2393,43 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                                 createElement("span", null, "Hostname"),
                                 createElement("span", null, this.state.info.hostname))));
                     }
-                    return (createElement(UiCard$1, { className: "information" },
-                        createElement(UiCardTitle$1, null, "Information"),
-                        createElement(UiCardContent$1, null, content)));
+                    return (createElement(UiCard, { className: "information" },
+                        createElement(UiCardTitle, null, "Information"),
+                        createElement(UiCardContent, null, content)));
                 };
                 SystemPage.prototype.renderApplicationCard = function () {
-                    return (createElement(UiCard$1, null,
-                        createElement(UiCardTitle$1, null, "Application"),
-                        createElement(UiCardButtonRow$1, { divider: "half" },
-                            createElement(UiButton$1, { onClick: this.exitApplication },
+                    return (createElement(UiCard, null,
+                        createElement(UiCardTitle, null, "Application"),
+                        createElement(UiCardButtonRow, { divider: "half" },
+                            createElement(UiButton, { onClick: this.exitApplication },
                                 createElement(FontAwesomeIcon, { icon: faSignOutAlt }),
                                 " Exit"),
-                            createElement(UiButton$1, { onClick: this.restartApplication },
+                            createElement(UiButton, { onClick: this.restartApplication },
                                 createElement(FontAwesomeIcon, { icon: faRedo }),
                                 " Restart"))));
                 };
                 SystemPage.prototype.renderSystemCard = function () {
-                    return (createElement(UiCard$1, null,
-                        createElement(UiCardTitle$1, null, "System"),
-                        createElement(UiCardButtonRow$1, { divider: "half" },
-                            createElement(UiButton$1, { onClick: this.shutdownSystem },
+                    return (createElement(UiCard, null,
+                        createElement(UiCardTitle, null, "System"),
+                        createElement(UiCardButtonRow, { divider: "half" },
+                            createElement(UiButton, { onClick: this.shutdownSystem },
                                 createElement(FontAwesomeIcon, { icon: faPowerOff }),
                                 " Shutdown"),
-                            createElement(UiButton$1, { onClick: this.rebootSystem },
+                            createElement(UiButton, { onClick: this.rebootSystem },
                                 createElement(FontAwesomeIcon, { icon: faRedo }),
                                 " Reboot"))));
                 };
                 SystemPage.prototype.renderDangerCard = function () {
-                    return (createElement(UiCard$1, { className: "danger" },
-                        createElement(UiCardTitle$1, null, "Danger Zone"),
-                        createElement(UiCardButtonRow$1, null,
-                            createElement(UiButton$1, { onClick: this.resetApplication },
+                    return (createElement(UiCard, { className: "danger" },
+                        createElement(UiCardTitle, null, "Danger Zone"),
+                        createElement(UiCardButtonRow, null,
+                            createElement(UiButton, { onClick: this.resetApplication },
                                 createElement(FontAwesomeIcon, { icon: faExclamationTriangle }),
                                 " Reset Application"))));
                 };
                 SystemPage.prototype.render = function () {
                     return (createElement("section", { className: "SystemPage" },
-                        createElement(UiFlowLayout$1, null,
+                        createElement(UiFlowLayout, null,
                             this.renderInformationCard(),
                             this.renderApplicationCard(),
                             this.renderSystemCard(),
@@ -2438,10 +2438,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return SystemPage;
             }(Component));
 
-            var css$t = "section.Admin_Admin__8SGAi {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin_Admin__8SGAi > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin_Admin__8SGAi > header .Admin_title__30n78 {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin_Admin__8SGAi > .Admin_content__3CeON {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin_Admin__8SGAi section.Admin_Navigation__1hJVG {\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin_Admin__8SGAi a,\n  section.Admin_Admin__8SGAi label,\n  section.Admin_Admin__8SGAi .Admin_clickable__2130o {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    user-select: none;\n    white-space: nowrap; }\n    section.Admin_Admin__8SGAi a svg,\n    section.Admin_Admin__8SGAi label svg,\n    section.Admin_Admin__8SGAi .Admin_clickable__2130o svg {\n      margin-right: 3px; }\n  section.Admin_Admin__8SGAi label {\n    cursor: unset; }\n  section.Admin_Admin__8SGAi .Admin_clickable__2130o {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin_Admin__8SGAi .Admin_clickable__2130o.Admin_disabled__3XhaD {\n      cursor: default;\n      background: #eee;\n      color: #bbb; }\n    section.Admin_Admin__8SGAi .Admin_clickable__2130o:not(.Admin_disabled__3XhaD) {\n      cursor: pointer; }\n      section.Admin_Admin__8SGAi .Admin_clickable__2130o:not(.Admin_disabled__3XhaD):active {\n        background: #ddd; }\n  section.Admin_Admin__8SGAi select,\n  section.Admin_Admin__8SGAi textarea,\n  section.Admin_Admin__8SGAi input {\n    font-size: 16px;\n    background: white; }\n  section.Admin_Admin__8SGAi svg {\n    backface-visibility: hidden; }\n";
+            var css$t = "section.Admin {\r\n  height: 100%;\r\n  overflow: auto;\r\n  background: #fdfdfd; }\r\n  section.Admin > header {\r\n    background-color: #456;\r\n    color: white;\r\n    position: relative;\r\n    z-index: 2; }\r\n    section.Admin > header .title {\r\n      display: inline-block;\r\n      font-size: 1.5em;\r\n      margin: 25px;\r\n      text-align: center; }\r\n  section.Admin > .content {\r\n    position: relative;\r\n    font-size: 14px;\r\n    line-height: 1.5; }\r\n  section.Admin section.Navigation {\r\n    position: sticky;\r\n    top: 0;\r\n    z-index: 2;\r\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\r\n  section.Admin a,\r\n  section.Admin label,\r\n  section.Admin .clickable {\r\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\r\n    user-select: none;\r\n    white-space: nowrap; }\r\n    section.Admin a svg,\r\n    section.Admin label svg,\r\n    section.Admin .clickable svg {\r\n      margin-right: 3px; }\r\n  section.Admin label {\r\n    cursor: unset; }\r\n  section.Admin .clickable {\r\n    padding-left: 8px;\r\n    padding-right: 8px; }\r\n    section.Admin .clickable.disabled {\r\n      cursor: default;\r\n      background: #eee;\r\n      color: #bbb; }\r\n    section.Admin .clickable:not(.disabled) {\r\n      cursor: pointer; }\r\n      section.Admin .clickable:not(.disabled):active {\r\n        background: #ddd; }\r\n  section.Admin select,\r\n  section.Admin textarea,\r\n  section.Admin input {\r\n    font-size: 16px;\r\n    background: white; }\r\n  section.Admin svg {\r\n    backface-visibility: hidden; }\r\n";
             styleInject(css$t);
 
-            var Admin$1 = /** @class */ (function (_super) {
+            var Admin = /** @class */ (function (_super) {
                 __extends(Admin, _super);
                 function Admin() {
                     return _super !== null && _super.apply(this, arguments) || this;
@@ -2450,25 +2450,25 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return (createElement(AdminPageContext.Provider, { value: this.context },
                         createElement("section", { className: "Admin" },
                             createElement("header", null,
-                                createElement(RoundButton$1, { to: "/" },
+                                createElement(RoundButton, { to: "/" },
                                     createElement(FontAwesomeIcon, { icon: faHome }),
                                     " Home"),
                                 createElement("div", { className: "title" }, "Reactron Admin")),
-                            createElement(Navigation$1, null),
+                            createElement(Navigation, null),
                             createElement("div", { className: "content" },
                                 createElement(Switch, null,
-                                    createElement(Route, { path: "/admin/ModuleManager", component: ModuleManagerPage$1 }),
-                                    createElement(Route, { path: "/admin/ServiceManager", component: ServiceManagerPage$1 }),
-                                    createElement(Route, { path: "/admin/Pages", component: PageManagerPage$1 }),
-                                    createElement(Route, { path: "/admin/Settings", component: SettingsManagerPage$1 }),
-                                    createElement(Route, { path: "/admin/System", component: SystemPage$1 }),
+                                    createElement(Route, { path: "/admin/ModuleManager", component: ModuleManagerPage }),
+                                    createElement(Route, { path: "/admin/ServiceManager", component: ServiceManagerPage }),
+                                    createElement(Route, { path: "/admin/Pages", component: PageManagerPage }),
+                                    createElement(Route, { path: "/admin/Settings", component: SettingsManagerPage }),
+                                    createElement(Route, { path: "/admin/System", component: SystemPage }),
                                     createElement(Redirect, { to: "/admin/ModuleManager" }))))));
                 };
                 return Admin;
             }(Component));
 
             var components = exports('components', [{
-                    component: Admin$1,
+                    component: Admin,
                     description: 'Admin Front End',
                     displayName: 'Reactron Admin',
                     name: 'Admin',

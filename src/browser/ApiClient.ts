@@ -62,7 +62,7 @@ const apiCall = <TParams, TBody, TResponse>(
                 path = path.replace(':' + key, params[key]);
             });
         }
-        return fetch('/api/modules/reactron-admin' + path, { // inernalModuleContext.moduleApiPath
+        return fetch('/api/modules/reactron' + path, { // inernalModuleContext.moduleApiPath
             method,
             body: data && JSON.stringify(data),
             headers: {

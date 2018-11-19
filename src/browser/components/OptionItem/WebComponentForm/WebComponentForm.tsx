@@ -200,9 +200,9 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
   public render() {
     return (
       <div className="WebComponentForm">
-      <AdminPageContext.Consumer>
-        {value => this.adminPageContext = value}
-      </AdminPageContext.Consumer>
+        <AdminPageContext.Consumer>
+          {value => (this.adminPageContext = value) && null}
+        </AdminPageContext.Consumer>
         {this.renderComponentSelection()}
         {this.state.selectedWebComponentOptions &&
           this.state.selectedComponentDefinition && (

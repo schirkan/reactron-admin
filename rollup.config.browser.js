@@ -18,7 +18,7 @@ export default {
             typescript: ts
         }),
         postcss({
-            modules: true
+            // modules: true
         }),
         babel({
             exclude: 'node_modules/**'
