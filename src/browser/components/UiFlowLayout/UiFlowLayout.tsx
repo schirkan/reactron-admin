@@ -2,7 +2,7 @@ import classname from 'classnames';
 import * as React from 'react';
 import { IUiComponentProps } from '../IUiComponentProps';
 
-import './UiFlowLayout.css';
+import './UiFlowLayout.scss';
 
 export default class UiFlowLayout extends React.Component<IUiComponentProps> {
   private renderChildren() {

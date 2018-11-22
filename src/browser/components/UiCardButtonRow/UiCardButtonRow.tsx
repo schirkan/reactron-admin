@@ -2,7 +2,7 @@ import classname from 'classnames';
 import * as React from 'react';
 import { IUiComponentProps } from '../IUiComponentProps';
 
-import './UiCardButtonRow.css';
+import './UiCardButtonRow.scss';
 
 export interface IUiCardButtonRowProps extends IUiComponentProps {
   divider?: 'full' | 'half';

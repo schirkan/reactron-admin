@@ -10,7 +10,7 @@ import CommandResult from './CommandResult/CommandResult';
 import ModuleCard from './ModuleCard/ModuleCard';
 import UpdateModulesCard from './UpdateModulesCard/UpdateModulesCard';
 
-import './ModuleManagerPage.css';
+import './ModuleManagerPage.scss';
 
 export interface IModuleManagerPageState {
   loading: boolean;

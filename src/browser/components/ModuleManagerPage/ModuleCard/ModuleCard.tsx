@@ -10,7 +10,7 @@ import UiCardButtonRow from '../../UiCardButtonRow/UiCardButtonRow';
 import UiCardContent from '../../UiCardContent/UiCardContent';
 import UiCardTitle from '../../UiCardTitle/UiCardTitle';
 
-import './ModuleCard.css';
+import './ModuleCard.scss';
 
 export interface IModuleCardProps {
   module: IModuleRepositoryItem;

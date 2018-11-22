@@ -2,7 +2,7 @@ import classname from 'classnames';
 import * as React from 'react';
 import { IUiComponentProps } from '../IUiComponentProps';
 
-import './UiCard.css';
+import './UiCard.scss';
 
 export default class UiCard extends React.Component<IUiComponentProps> {
   public render() {

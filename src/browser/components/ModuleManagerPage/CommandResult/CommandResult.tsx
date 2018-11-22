@@ -2,9 +2,12 @@ import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ICommandResult } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
+import UiButton from '../../UiButton/UiButton';
 import UiCard from '../../UiCard/UiCard';
+import UiCardContent from '../../UiCardContent/UiCardContent';
+import UiCardTitle from '../../UiCardTitle/UiCardTitle';
 
-import './CommandResult.css';
+import './CommandResult.scss';
 
 export interface ICommandResultProps {
   results: ICommandResult[];
@@ -52,13 +55,15 @@ export default class CommandResult extends React.Component<ICommandResultProps> 
   public render() {
     return (
       <UiCard className="CommandResult">
-        <div className="title">Result</div>
-        <div className="close clickable" onClick={this.props.onClose}>
-          <FontAwesomeIcon icon={SolidIcons.faTimes} />
-        </div>
-        <div className="results">
+        <UiCardTitle>
+          Result
+          <UiButton onClick={this.props.onClose}>
+            <FontAwesomeIcon icon={SolidIcons.faTimes} />
+          </UiButton>
+        </UiCardTitle>
+        <UiCardContent>
           {this.props.results.map((item, index) => this.renderCommandResult(item, index.toString()))}
-        </div>
+        </UiCardContent>
       </UiCard>
     );
   }

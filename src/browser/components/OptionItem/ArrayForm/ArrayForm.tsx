@@ -8,7 +8,7 @@ import { getDefaultFieldValue } from 'src/common/optionsHelper';
 import UiButton from '../../UiButton/UiButton';
 import OptionItem from '../OptionItem';
 
-import './ArrayForm.css';
+import './ArrayForm.scss';
 
 export default class ArrayForm extends React.Component<IInputComponentProps> {
   private arrayKeys: string[] = [];

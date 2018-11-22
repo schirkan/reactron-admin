@@ -2,7 +2,7 @@ import { IFieldDefinition } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
 import OptionItem from '../OptionItem/OptionItem';
 
-import './OptionList.css';
+import './OptionList.scss';
 
 interface IOptionListProps {
   fields?: IFieldDefinition[];

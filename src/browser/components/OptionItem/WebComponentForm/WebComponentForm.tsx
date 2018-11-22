@@ -11,7 +11,7 @@ import { OptionCardContext, OptionsCardContextData } from '../../OptionCard/Opti
 import OptionList from '../../OptionList/OptionList';
 import UiButton from '../../UiButton/UiButton';
 
-import './WebComponentForm.css';
+import './WebComponentForm.scss';
 
 interface IReactronComponentDefinitionItem {
   key: string;

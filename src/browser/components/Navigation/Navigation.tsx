@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import './Navigation.css';
+import './Navigation.scss';
 
 export default class Navigation extends React.Component {
   public render() {

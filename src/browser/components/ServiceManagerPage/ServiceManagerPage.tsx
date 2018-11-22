@@ -15,7 +15,7 @@ import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
 import UiOverlay from '../UiOverlay/UiOverlay';
 import ServiceGroup from './ServiceGroup/ServiceGroup';
 
-import './ServiceManagerPage.css';
+import './ServiceManagerPage.scss';
 
 export interface IModuleManagerPageState {
   loadingServices: boolean;

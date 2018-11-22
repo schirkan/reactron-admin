@@ -6,7 +6,7 @@ import UiButton from '../../UiButton/UiButton';
 import UiFlowLayout from '../../UiFlowLayout/UiFlowLayout';
 import ServiceCard from '../ServiceCard/ServiceCard';
 
-import './ServiceGroup.css';
+import './ServiceGroup.scss';
 
 export interface IModuleManagerPageProps {
   services: IServiceRepositoryItem[];

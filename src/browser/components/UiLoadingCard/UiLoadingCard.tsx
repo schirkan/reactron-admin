@@ -4,7 +4,7 @@ import UiCard from '../UiCard/UiCard';
 import UiCardContent from '../UiCardContent/UiCardContent';
 import UiCardTitle from '../UiCardTitle/UiCardTitle';
 
-import './UiLoadingCard.css';
+import './UiLoadingCard.scss';
 
 // tslint:disable-next-line:no-empty-interface
 export interface IUiLoadingCardProps {

@@ -9,7 +9,7 @@ import UiCardButtonRow from '../../UiCardButtonRow/UiCardButtonRow';
 import UiCardContent from '../../UiCardContent/UiCardContent';
 import UiCardTitle from '../../UiCardTitle/UiCardTitle';
 
-import './ServiceCard.css';
+import './ServiceCard.scss';
 
 export interface IServiceCardProps {
   service: IServiceRepositoryItem;

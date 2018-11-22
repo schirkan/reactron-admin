@@ -10,7 +10,7 @@ import ArrayForm from './ArrayForm/ArrayForm';
 import StyleForm from './StyleForm/StyleForm';
 import WebComponentForm from './WebComponentForm/WebComponentForm';
 
-import './OptionItem.css';
+import './OptionItem.scss';
 
 let counter = 0;
 

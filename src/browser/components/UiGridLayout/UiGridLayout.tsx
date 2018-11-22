@@ -2,7 +2,7 @@ import classname from 'classnames';
 import * as React from 'react';
 import { IUiComponentProps } from '../IUiComponentProps';
 
-import './UiGridLayout.css';
+import './UiGridLayout.scss';
 
 export default class UiGridLayout extends React.Component<IUiComponentProps> {
   public render() {

@@ -13,7 +13,7 @@ import UiOverlay from '../UiOverlay/UiOverlay';
 import PageCard from './PageCard/PageCard';
 import { pageOptionsFields } from './pageOptionsFields';
 
-import './PageManagerPage.css';
+import './PageManagerPage.scss';
 
 export interface IModuleManagerPageState {
   loading: boolean;

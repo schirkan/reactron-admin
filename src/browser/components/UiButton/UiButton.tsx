@@ -2,7 +2,7 @@ import classname from 'classnames';
 import * as React from 'react';
 import { IUiComponentProps } from "../IUiComponentProps";
 
-import './UiButton.css';
+import './UiButton.scss';
 
 export interface IUiButtonProps extends IUiComponentProps {
   disabled?: boolean;

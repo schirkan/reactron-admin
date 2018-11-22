@@ -8,7 +8,7 @@ import UiCardButtonRow from '../../UiCardButtonRow/UiCardButtonRow';
 import UiCardContent from '../../UiCardContent/UiCardContent';
 import UiCardTitle from '../../UiCardTitle/UiCardTitle';
 
-import './PageCard.css';
+import './PageCard.scss';
 
 export interface IPageCardProps {
   page: IWebPageOptions;

@@ -12,7 +12,7 @@ import UiCardContent from '../UiCardContent/UiCardContent';
 import UiCardTitle from '../UiCardTitle/UiCardTitle';
 import { OptionCardContext, OptionsCardContextData } from './OptionCardContext';
 
-import './OptionCard.css';
+import './OptionCard.scss';
 
 export interface IOptionCardProps {
   className?: string;

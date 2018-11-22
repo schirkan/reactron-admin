@@ -4,7 +4,7 @@ import * as React from 'react';
 import UiButton from '../../UiButton/UiButton';
 import UiCard from '../../UiCard/UiCard';
 
-import './AddModuleCard.css';
+import './AddModuleCard.scss';
 
 export interface IAddModuleCardProps {
   onAdd: (repository: string | null) => void;

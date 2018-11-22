@@ -12,7 +12,7 @@ import ServiceManagerPage from '../ServiceManagerPage/ServiceManagerPage';
 import SettingsManagerPage from '../SettingsManagerPage/SettingsManagerPage';
 import SystemPage from '../SystemPage/SystemPage';
 
-import './Admin.css';
+import './Admin.scss';
 
 export default class Admin extends React.Component {
   public context: IReactronComponentContext;

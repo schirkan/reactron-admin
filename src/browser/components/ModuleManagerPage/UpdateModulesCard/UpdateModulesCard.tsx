@@ -6,7 +6,7 @@ import UiButton from '../../UiButton/UiButton';
 import UiCard from '../../UiCard/UiCard';
 import UiCardButtonRow from '../../UiCardButtonRow/UiCardButtonRow';
 
-import './UpdateModulesCard.css';
+import './UpdateModulesCard.scss';
 
 export interface IUpdateModulesCardProps {
   checkingUpdates: boolean;

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { IUiComponentProps } from '../IUiComponentProps';
 import { overlayManager } from './OverlayManager';
 
-import './UiOverlay.css';
+import './UiOverlay.scss';
 
 interface IUiComponentState {
   visible: boolean;

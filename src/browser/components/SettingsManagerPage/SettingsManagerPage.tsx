@@ -7,7 +7,7 @@ import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
 import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
 import { systemSettingsFields } from './systemSettingsFields';
 
-import './SettingsManagerPage.css';
+import './SettingsManagerPage.scss';
 
 export interface IModuleManagerPageState {
   loading: boolean;

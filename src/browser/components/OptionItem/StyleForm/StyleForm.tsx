@@ -6,7 +6,7 @@ import * as React from 'react';
 import UiButton from '../../UiButton/UiButton';
 import OptionItem from '../OptionItem';
 
-import './StyleForm.css';
+import './StyleForm.scss';
 
 const styleProperties = ['background', 'backgroundAttachment', 'backgroundColor', 'backgroundImage',
   'backgroundPosition', 'backgroundRepeat', 'border', 'borderBottom',

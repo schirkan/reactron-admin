@@ -11,7 +11,7 @@ import UiCardContent from '../UiCardContent/UiCardContent';
 import UiCardTitle from '../UiCardTitle/UiCardTitle';
 import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
 
-import './SystemPage.css';
+import './SystemPage.scss';
 
 interface ISystemPageState {
   info?: IServerInfo;
