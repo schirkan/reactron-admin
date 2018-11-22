@@ -5,19 +5,48 @@ section.SystemPage {
             color: red;
         }
     }
-    .information {
-        height: 156px;
-        section.Loading {
-            margin-top: 20px;
+    .infoRow {
+        display: grid;
+        grid-template-columns: 100px auto;
+    }
+    .loadingDots {
+        position: absolute;
+        transform: translateY(-54%);
+        &:after {
+            font-size: 3em;
+            font-family: Impact;
+            content: ' .';
+            animation: dots 1.5s steps(10, end) infinite;
         }
-        ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            span:first-child {
-                width: 100px;
-                display: inline-block;
-            }
+    }
+    @keyframes dots {
+        0%,
+        10%,
+        90%,
+        100% {
+            color: rgba(0, 0, 0, 0);
+            text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 rgba(0, 0, 0, 0);
+        }
+        20% {
+            color: #888;
+            text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 rgba(0, 0, 0, 0);
+        }
+        30% {
+            color: #888;
+            text-shadow: .25em 0 0 #888, .5em 0 0 rgba(0, 0, 0, 0);
+        }
+        40%,
+        60% {
+            color: #888;
+            text-shadow: .25em 0 0 #888, .5em 0 0 #888;
+        }
+        70% {
+            color: rgba(0, 0, 0, 0);
+            text-shadow: .25em 0 0 #888, .5em 0 0 #888;
+        }
+        80% {
+            color: rgba(0, 0, 0, 0);
+            text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 #888;
         }
     }
 }

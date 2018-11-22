@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IWebPageOptions } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
 import { apiClient } from '../../ApiClient';
+import { confirm } from '../confirmDialog';
 import OptionCard from '../OptionCard/OptionCard';
 import UiButton from '../UiButton/UiButton';
 import UiCard from '../UiCard/UiCard';
@@ -36,7 +37,6 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
     this.savePage = this.savePage.bind(this);
     this.hidePageDetailsDialog = this.hidePageDetailsDialog.bind(this);
     this.showPageDetailsDialog = this.showPageDetailsDialog.bind(this);
-    this.confirmPageDeletion = this.confirmPageDeletion.bind(this);
   }
 
   public componentDidMount() {
@@ -75,12 +75,6 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
     this.setState({ showPageDetailsDialog: false, selectedPage: undefined });
   }
 
-  private confirmPageDeletion(page: IWebPageOptions) {
-    if (window.confirm("Delete?")) {
-      this.deletePage(page);
-    }
-  }
-
   private renderPageCards() {
     if (this.state.loading) {
       return <UiFlowLayout><UiLoadingCard /></UiFlowLayout>;
@@ -90,7 +84,7 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
       <UiFlowLayout>
         {this.state.pages.map((item, index) =>
           <PageCard key={index} page={item} onEdit={this.showPageDetailsDialog}
-            onDelete={this.confirmPageDeletion} />
+            onDelete={confirm(this.deletePage, 'Delete?')} />
         )}
       </UiFlowLayout>
     );

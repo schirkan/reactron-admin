@@ -3,7 +3,7 @@ import * as FontAwesome from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { IServerInfo } from 'src/common/interfaces/IServerInfo';
 import { apiClient } from '../../ApiClient';
-import Loading from '../Loading/Loading';
+import { confirm } from '../confirmDialog';
 import UiButton from '../UiButton/UiButton';
 import UiCard from '../UiCard/UiCard';
 import UiCardButtonRow from '../UiCardButtonRow/UiCardButtonRow';
@@ -35,71 +35,40 @@ export default class SystemPage extends React.Component<any, ISystemPageState> {
 
   // TODO: confirm dialog
 
-  public exitApplication() {
+  private exitApplication() {
     return apiClient.exitApplication();
   }
 
-  public restartApplication() {
+  private restartApplication() {
     return apiClient.restartApplication();
   }
 
-  public shutdownSystem() {
+  private shutdownSystem() {
     return apiClient.shutdownSystem();
   }
 
-  public rebootSystem() {
+  private rebootSystem() {
     return apiClient.rebootSystem();
   }
 
-  public resetApplication() {
+  private resetApplication() {
     return apiClient.resetApplication();
   }
 
-  public renderInformationCard() {
-    let content;
-    if (!this.state.info) {
-      content = <Loading />;
-    } else {
-      const free = Math.round(this.state.info.memory.free / 1024 / 1024);
-      const total = Math.round(this.state.info.memory.total / 1024 / 1024);
-      content = (
-        <ul>
-          <li>
-            <span>Version</span>
-            <span>{this.state.info.version}</span>
-          </li>
-          <li>
-            <span>CPU</span>
-            <span>{this.state.info.cpu.count} x {this.state.info.cpu.speed} MHz</span>
-          </li>
-          <li>
-            <span>Memory</span>
-            <span>{free} MB / {total} MB</span>
-          </li>
-          <li>
-            <span>IP</span>
-            <span>{this.state.info.ip}</span>
-          </li>
-          <li>
-            <span>Hostname</span>
-            <span>{this.state.info.hostname}</span>
-          </li>
-        </ul>
-      );
-    }
-
-    return (
-      <UiCard className="information">
-        <UiCardTitle>Information</UiCardTitle>
-        <UiCardContent>{content}</UiCardContent>
-      </UiCard>
-    );
+  private renderLoadingDots() {
+    return <span className="loadingDots" />;
   }
 
-  public renderApplicationCard() {
+  private renderApplicationCard() {
     return (
       <UiCard>
         <UiCardTitle>Application</UiCardTitle>
+        <UiCardContent>
+          <div className="infoRow">
+              <span>Version</span>
+              <span>{this.state.info ? this.state.info.version : this.renderLoadingDots()}</span>
+          </div>
+        </UiCardContent>
         <UiCardButtonRow divider="half">
           <UiButton onClick={this.exitApplication}>
             <FontAwesome.FontAwesomeIcon icon={SvgIcons.faSignOutAlt} /> Exit
@@ -112,10 +81,33 @@ export default class SystemPage extends React.Component<any, ISystemPageState> {
     );
   }
 
-  public renderSystemCard() {
+  private renderSystemCard() {
+    const free = this.state.info ? Math.round(this.state.info.memory.free / 1024 / 1024) : 0;
+    const total = this.state.info ? Math.round(this.state.info.memory.total / 1024 / 1024) : 0;
+    const memInfo = this.state.info ? (free + 'MB / ' + total + 'MB') : '';
+    const cpuInfo = this.state.info ? (this.state.info.cpu.count + 'x' + this.state.info.cpu.speed + 'MHz') : '';
+
     return (
       <UiCard>
         <UiCardTitle>System</UiCardTitle>
+        <UiCardContent>
+          <div className="infoRow">
+            <span>CPU</span>
+            <span>{this.state.info ? cpuInfo : this.renderLoadingDots()}</span>
+          </div>
+          <div className="infoRow">
+            <span>Memory</span>
+            <span>{this.state.info ? memInfo : this.renderLoadingDots()}</span>
+          </div>
+          <div className="infoRow">
+            <span>IP</span>
+            <span>{this.state.info ? this.state.info.ip : this.renderLoadingDots()}</span>
+          </div>
+          <div className="infoRow">
+            <span>Hostname</span>
+            <span>{this.state.info ? this.state.info.hostname : this.renderLoadingDots()}</span>
+          </div>
+        </UiCardContent>
         <UiCardButtonRow divider="half">
           <UiButton onClick={this.shutdownSystem}>
             <FontAwesome.FontAwesomeIcon icon={SvgIcons.faPowerOff} /> Shutdown
@@ -128,12 +120,12 @@ export default class SystemPage extends React.Component<any, ISystemPageState> {
     );
   }
 
-  public renderDangerCard() {
+  private renderDangerCard() {
     return (
       <UiCard className="danger">
         <UiCardTitle>Danger Zone</UiCardTitle>
         <UiCardButtonRow>
-          <UiButton onClick={this.resetApplication}>
+          <UiButton onClick={confirm(this.resetApplication, 'Reset?')}>
             <FontAwesome.FontAwesomeIcon icon={SvgIcons.faExclamationTriangle} /> Reset Application
           </UiButton>
         </UiCardButtonRow>
@@ -145,7 +137,6 @@ export default class SystemPage extends React.Component<any, ISystemPageState> {
     return (
       <section className="SystemPage">
         <UiFlowLayout>
-          {this.renderInformationCard()}
           {this.renderApplicationCard()}
           {this.renderSystemCard()}
           {this.renderDangerCard()}

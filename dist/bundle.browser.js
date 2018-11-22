@@ -650,8 +650,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     this.props.onRebuild(this.props.module);
                 };
                 ModuleCard.prototype.onRemove = function () {
-                    this.hideActions();
-                    this.props.onRemove(this.props.module);
+                    if (window.confirm('Remove?')) {
+                        this.hideActions();
+                        this.props.onRemove(this.props.module);
+                    }
                 };
                 ModuleCard.prototype.renderTitle = function () {
                     var updateIcon;
@@ -702,7 +704,6 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     var className = classnames('footer', 'actions', { 'hide': !this.state.showActions });
                     return (createElement(UiCardButtonRow, { className: className, divider: "full" },
                         createElement(UiButton, { disabled: !this.props.module.hasUpdate, onClick: this.onUpdate }, "Update"),
-                        createElement(UiButton, { disabled: !this.props.module.canBuild, onClick: this.onRebuild }, "Rebuild"),
                         createElement(UiButton, { disabled: !this.props.module.canRemove, onClick: this.onRemove }, "Remove"),
                         createElement(UiButton, { onClick: this.hideActions },
                             createElement(FontAwesomeIcon, { icon: faTimes }))));
@@ -1018,6 +1019,14 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 return Navigation;
             }(Component));
+
+            var confirm = function (callback, text) {
+                return function (args) {
+                    if (window.confirm(text)) {
+                        return callback(args);
+                    }
+                };
+            };
 
             var getDefaultFieldValue = function (field) {
                 var defaultValue = field.defaultValue;
@@ -1963,7 +1972,6 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     _this.savePage = _this.savePage.bind(_this);
                     _this.hidePageDetailsDialog = _this.hidePageDetailsDialog.bind(_this);
                     _this.showPageDetailsDialog = _this.showPageDetailsDialog.bind(_this);
-                    _this.confirmPageDeletion = _this.confirmPageDeletion.bind(_this);
                     return _this;
                 }
                 PageManagerPage.prototype.componentDidMount = function () {
@@ -1996,11 +2004,6 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 PageManagerPage.prototype.hidePageDetailsDialog = function () {
                     this.setState({ showPageDetailsDialog: false, selectedPage: undefined });
                 };
-                PageManagerPage.prototype.confirmPageDeletion = function (page) {
-                    if (window.confirm("Delete?")) {
-                        this.deletePage(page);
-                    }
-                };
                 PageManagerPage.prototype.renderPageCards = function () {
                     var _this = this;
                     if (this.state.loading) {
@@ -2008,7 +2011,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                             createElement(UiLoadingCard, null));
                     }
                     return (createElement(UiFlowLayout, null, this.state.pages.map(function (item, index) {
-                        return createElement(PageCard, { key: index, page: item, onEdit: _this.showPageDetailsDialog, onDelete: _this.confirmPageDeletion });
+                        return createElement(PageCard, { key: index, page: item, onEdit: _this.showPageDetailsDialog, onDelete: confirm(_this.deletePage, 'Delete?') });
                     })));
                 };
                 PageManagerPage.prototype.renderPageAddCard = function () {
@@ -2326,7 +2329,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return SettingsManagerPage;
             }(Component));
 
-            var css$s = "section.SystemPage .danger {\n  border: 1px solid red; }\n  section.SystemPage .danger .UiCardTitle {\n    color: red; }\n\nsection.SystemPage .information {\n  height: 156px; }\n  section.SystemPage .information section.Loading {\n    margin-top: 20px; }\n  section.SystemPage .information ul {\n    list-style: none;\n    margin: 0;\n    padding: 0; }\n    section.SystemPage .information ul span:first-child {\n      width: 100px;\n      display: inline-block; }\n";
+            var css$s = "section.SystemPage .danger {\n  border: 1px solid red; }\n  section.SystemPage .danger .UiCardTitle {\n    color: red; }\n\nsection.SystemPage .infoRow {\n  display: grid;\n  grid-template-columns: 100px auto; }\n\nsection.SystemPage .loadingDots {\n  position: absolute;\n  transform: translateY(-54%); }\n  section.SystemPage .loadingDots:after {\n    font-size: 3em;\n    font-family: Impact;\n    content: ' .';\n    animation: dots 1.5s steps(10, end) infinite; }\n\n@keyframes dots {\n  0%,\n  10%,\n  90%,\n  100% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0); }\n  20% {\n    color: #888;\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0); }\n  30% {\n    color: #888;\n    text-shadow: 0.25em 0 0 #888, 0.5em 0 0 rgba(0, 0, 0, 0); }\n  40%,\n  60% {\n    color: #888;\n    text-shadow: .25em 0 0 #888, .5em 0 0 #888; }\n  70% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: .25em 0 0 #888, .5em 0 0 #888; }\n  80% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 #888; } }\n";
             styleInject(css$s);
 
             var SystemPage = /** @class */ (function (_super) {
@@ -2361,46 +2364,16 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 SystemPage.prototype.resetApplication = function () {
                     return apiClient.resetApplication();
                 };
-                SystemPage.prototype.renderInformationCard = function () {
-                    var content;
-                    if (!this.state.info) {
-                        content = createElement(Loading, null);
-                    }
-                    else {
-                        var free = Math.round(this.state.info.memory.free / 1024 / 1024);
-                        var total = Math.round(this.state.info.memory.total / 1024 / 1024);
-                        content = (createElement("ul", null,
-                            createElement("li", null,
-                                createElement("span", null, "Version"),
-                                createElement("span", null, this.state.info.version)),
-                            createElement("li", null,
-                                createElement("span", null, "CPU"),
-                                createElement("span", null,
-                                    this.state.info.cpu.count,
-                                    " x ",
-                                    this.state.info.cpu.speed,
-                                    " MHz")),
-                            createElement("li", null,
-                                createElement("span", null, "Memory"),
-                                createElement("span", null,
-                                    free,
-                                    " MB / ",
-                                    total,
-                                    " MB")),
-                            createElement("li", null,
-                                createElement("span", null, "IP"),
-                                createElement("span", null, this.state.info.ip)),
-                            createElement("li", null,
-                                createElement("span", null, "Hostname"),
-                                createElement("span", null, this.state.info.hostname))));
-                    }
-                    return (createElement(UiCard, { className: "information" },
-                        createElement(UiCardTitle, null, "Information"),
-                        createElement(UiCardContent, null, content)));
+                SystemPage.prototype.renderLoadingDots = function () {
+                    return createElement("span", { className: "loadingDots" });
                 };
                 SystemPage.prototype.renderApplicationCard = function () {
                     return (createElement(UiCard, null,
                         createElement(UiCardTitle, null, "Application"),
+                        createElement(UiCardContent, null,
+                            createElement("div", { className: "infoRow" },
+                                createElement("span", null, "Version"),
+                                createElement("span", null, this.state.info ? this.state.info.version : this.renderLoadingDots()))),
                         createElement(UiCardButtonRow, { divider: "half" },
                             createElement(UiButton, { onClick: this.exitApplication },
                                 createElement(FontAwesomeIcon, { icon: faSignOutAlt }),
@@ -2410,8 +2383,25 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                                 " Restart"))));
                 };
                 SystemPage.prototype.renderSystemCard = function () {
+                    var free = this.state.info ? Math.round(this.state.info.memory.free / 1024 / 1024) : 0;
+                    var total = this.state.info ? Math.round(this.state.info.memory.total / 1024 / 1024) : 0;
+                    var memInfo = this.state.info ? (free + 'MB / ' + total + 'MB') : '';
+                    var cpuInfo = this.state.info ? (this.state.info.cpu.count + 'x' + this.state.info.cpu.speed + 'MHz') : '';
                     return (createElement(UiCard, null,
                         createElement(UiCardTitle, null, "System"),
+                        createElement(UiCardContent, null,
+                            createElement("div", { className: "infoRow" },
+                                createElement("span", null, "CPU"),
+                                createElement("span", null, this.state.info ? cpuInfo : this.renderLoadingDots())),
+                            createElement("div", { className: "infoRow" },
+                                createElement("span", null, "Memory"),
+                                createElement("span", null, this.state.info ? memInfo : this.renderLoadingDots())),
+                            createElement("div", { className: "infoRow" },
+                                createElement("span", null, "IP"),
+                                createElement("span", null, this.state.info ? this.state.info.ip : this.renderLoadingDots())),
+                            createElement("div", { className: "infoRow" },
+                                createElement("span", null, "Hostname"),
+                                createElement("span", null, this.state.info ? this.state.info.hostname : this.renderLoadingDots()))),
                         createElement(UiCardButtonRow, { divider: "half" },
                             createElement(UiButton, { onClick: this.shutdownSystem },
                                 createElement(FontAwesomeIcon, { icon: faPowerOff }),
@@ -2424,14 +2414,13 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return (createElement(UiCard, { className: "danger" },
                         createElement(UiCardTitle, null, "Danger Zone"),
                         createElement(UiCardButtonRow, null,
-                            createElement(UiButton, { onClick: this.resetApplication },
+                            createElement(UiButton, { onClick: confirm(this.resetApplication, 'Reset?') },
                                 createElement(FontAwesomeIcon, { icon: faExclamationTriangle }),
                                 " Reset Application"))));
                 };
                 SystemPage.prototype.render = function () {
                     return (createElement("section", { className: "SystemPage" },
                         createElement(UiFlowLayout, null,
-                            this.renderInformationCard(),
                             this.renderApplicationCard(),
                             this.renderSystemCard(),
                             this.renderDangerCard())));

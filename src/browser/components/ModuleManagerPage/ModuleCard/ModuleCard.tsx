@@ -57,8 +57,10 @@ export default class ModuleCard extends React.Component<IModuleCardProps, IModul
   }
 
   private onRemove() {
-    this.hideActions();
-    this.props.onRemove(this.props.module);
+    if (window.confirm('Remove?')) {
+      this.hideActions();
+      this.props.onRemove(this.props.module);
+    }
   }
 
   public renderTitle() {
@@ -126,7 +128,7 @@ export default class ModuleCard extends React.Component<IModuleCardProps, IModul
     return (
       <UiCardButtonRow className={className} divider="full">
         <UiButton disabled={!this.props.module.hasUpdate} onClick={this.onUpdate}>Update</UiButton>
-        <UiButton disabled={!this.props.module.canBuild} onClick={this.onRebuild}>Rebuild</UiButton>
+        {/* <UiButton disabled={!this.props.module.canBuild} onClick={this.onRebuild}>Rebuild</UiButton> */}
         <UiButton disabled={!this.props.module.canRemove} onClick={this.onRemove}>Remove</UiButton>
         <UiButton onClick={this.hideActions}><FontAwesomeIcon icon={SolidIcons.faTimes} /></UiButton>
       </UiCardButtonRow>
