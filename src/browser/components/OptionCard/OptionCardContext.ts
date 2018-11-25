@@ -39,6 +39,9 @@ export class OptionsCardContextData {
         this.removedWebComponents = [];
         this.changedWebComponents = [];
         this.createdWebComponents = [];
+
+        // clear cache
+        apiClient.getWebComponentOptions.clearCache();
     }
 
     public webComponentRemoved(item: IWebComponentOptions) {

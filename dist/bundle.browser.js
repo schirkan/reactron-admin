@@ -1406,6 +1406,8 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                                     this.removedWebComponents = [];
                                     this.changedWebComponents = [];
                                     this.createdWebComponents = [];
+                                    // clear cache
+                                    apiClient.getWebComponentOptions.clearCache();
                                     return [2 /*return*/];
                             }
                         });
