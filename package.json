@@ -40,6 +40,7 @@
         "@types/react-dom": "^16.0.10",
         "@types/react-fontawesome": "^1.6.4",
         "@types/react-router-dom": "^4.3.1",
+        "autoprefixer": "^9.3.1",
         "classnames": "^2.2.6",
         "css-loader": "^1.0.1",
         "guid-typescript": "^1.0.9",
@@ -60,5 +61,11 @@
         "style-loader": "^0.23.1",
         "typescript": "^3.1.6",
         "url-loader": "^1.1.2"
-    }
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
 }
