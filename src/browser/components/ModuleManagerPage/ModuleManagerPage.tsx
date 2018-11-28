@@ -5,6 +5,8 @@ import Loading from '../Loading/Loading';
 import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
 import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
 import UiOverlay from '../UiOverlay/UiOverlay';
+import UiTab from '../UiTabs/UiTab';
+import UiTabs from '../UiTabs/UiTabs';
 import AddModuleCard from './AddModuleCard/AddModuleCard';
 import CommandResult from './CommandResult/CommandResult';
 import ModuleCard from './ModuleCard/ModuleCard';
@@ -170,15 +172,27 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
             <CommandResult results={this.state.results} onClose={this.hideResult} />
           </UiOverlay>
         )}
-        <UiFlowLayout>
-          <AddModuleCard onAdd={this.addModule} />
-          <UpdateModulesCard
-            checkingUpdates={this.state.checkingUpdates}
-            modules={this.state.modules}
-            onCheckUpdates={this.checkUpdates}
-            onUpdateAll={this.updateAll}
-            onUpdateModule={this.updateModule} />
-        </UiFlowLayout>
+
+        <UiTabs>
+          <UiTab title="Installed">
+            <UiFlowLayout>
+              <UpdateModulesCard
+                checkingUpdates={this.state.checkingUpdates}
+                modules={this.state.modules}
+                onCheckUpdates={this.checkUpdates}
+                onUpdateAll={this.updateAll}
+                onUpdateModule={this.updateModule} />
+            </UiFlowLayout>
+
+          </UiTab>
+          <UiTab title="Add New">
+            <UiFlowLayout>
+              <AddModuleCard onAdd={this.addModule} />
+            </UiFlowLayout>
+
+          </UiTab>
+        </UiTabs>
+
         {!this.state.modules.length && (
           <UiFlowLayout>
             <UiLoadingCard />
