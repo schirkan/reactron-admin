@@ -13,6 +13,7 @@ import ModuleCard from './ModuleCard/ModuleCard';
 import UpdateModulesCard from './UpdateModulesCard/UpdateModulesCard';
 
 import './ModuleManagerPage.scss';
+import ModuleCatalog from './ModuleCatalog/ModuleCatalog';
 
 export interface IModuleManagerPageState {
   loading: boolean;
@@ -200,8 +201,8 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
           <UiTab title="Add New">
             <UiFlowLayout>
               <AddModuleCard onAdd={this.addModule} />
+              <ModuleCatalog onAdd={this.addModule} modules={this.state.modules} />
             </UiFlowLayout>
-
           </UiTab>
         </UiTabs>
 

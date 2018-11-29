@@ -1,6 +1,7 @@
 import classname from 'classnames';
 import * as React from 'react';
 import { IUiComponentProps } from '../IUiComponentProps';
+import UiButton from '../UiButton/UiButton';
 import UiTab from './UiTab';
 
 import './UiTabs.scss';
@@ -23,11 +24,11 @@ export default class UiTabs extends React.Component<IUiComponentProps, IUiTabsSt
       return null;
     }
     const toggleSelectedTab = () => this.setState({ selectedTabIndex: index });
-    const className = 'UiTabHeader' +  (this.state.selectedTabIndex === index ? ' selected' : '');
+    const className = classname('UiTabHeader', { 'selected': this.state.selectedTabIndex === index });
     return (
-      <div key={index} className={className} onClick={toggleSelectedTab}>
+      <UiButton key={index} className={className} onClick={toggleSelectedTab}>
         {tab.props.title}
-      </div>
+      </UiButton>
     );
   }
 

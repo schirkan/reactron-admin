@@ -1,27 +1,18 @@
 .UiTabs {
-    // overflow: auto;
-    // width: 100%;
-    // border: 1px solid #ddd;
-    // border-radius: 2px;
-    // background: white;
-    // color: #222;
-    // box-sizing: border-box;
-    // box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-    // a {
-    //     color: #555;
-    // }
     header {
-        // display: flex;
+        margin-left: 20px;
+        margin-right: 20px;
         .UiTabHeader {
             display: inline-block;
             margin: 8px;
-            margin-bottom: 8px;
-            padding-left: 8px;
-            padding-right: 8px;
+            margin-bottom: 0;
             border-bottom: 1px solid #ddd;
             &.selected {
                 border-bottom-color: #888;
             }
         }
+    }
+    .UiTab .UiFlowLayout {
+        padding-top: 0;
     }
 }

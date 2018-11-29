@@ -1,0 +1,15 @@
+.ModuleCatalog {
+    .ModuleCatalogItem {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        margin-left: 8px;
+        a {
+            padding: 6px;
+            color: #222;
+            text-decoration: none;
+        }
+        &~.ModuleCatalogItem {
+            border-top: 1px solid #ddd;
+        }
+    }
+}
