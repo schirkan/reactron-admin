@@ -183,7 +183,19 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
                 onUpdateAll={this.updateAll}
                 onUpdateModule={this.updateModule} />
             </UiFlowLayout>
-
+            {!this.state.modules.length && (
+              <UiFlowLayout>
+                <UiLoadingCard />
+              </UiFlowLayout>
+            )}
+            <UiFlowLayout>
+              {this.state.modules.map(item =>
+                <ModuleCard key={item.name}
+                  module={item}
+                  onRemove={this.removeModule}
+                  onRebuild={this.rebuildModule}
+                  onUpdate={this.updateModule} />)}
+            </UiFlowLayout>
           </UiTab>
           <UiTab title="Add New">
             <UiFlowLayout>
@@ -193,19 +205,6 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
           </UiTab>
         </UiTabs>
 
-        {!this.state.modules.length && (
-          <UiFlowLayout>
-            <UiLoadingCard />
-          </UiFlowLayout>
-        )}
-        <UiFlowLayout>
-          {this.state.modules.map(item =>
-            <ModuleCard key={item.name}
-              module={item}
-              onRemove={this.removeModule}
-              onRebuild={this.rebuildModule}
-              onUpdate={this.updateModule} />)}
-        </UiFlowLayout>
       </section>
     );
   }

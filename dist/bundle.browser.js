@@ -504,10 +504,9 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiTab;
             }(Component));
 
-            var css$7 = "";
+            var css$7 = ".UiTabs header .UiTabHeader {\n  display: inline-block;\n  margin: 8px;\n  margin-bottom: 8px;\n  padding-left: 8px;\n  padding-right: 8px;\n  border-bottom: 1px solid #ddd; }\n  .UiTabs header .UiTabHeader.selected {\n    border-bottom-color: #888; }\n";
             styleInject(css$7);
 
-            var tabContext = createContext({ selectedTabIndex: 0 });
             var UiTabs = /** @class */ (function (_super) {
                 __extends(UiTabs, _super);
                 function UiTabs(props) {
@@ -523,36 +522,22 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         return null;
                     }
                     var toggleSelectedTab = function () { return _this.setState({ selectedTabIndex: index }); };
-                    return (createElement("div", { key: tab.props.title, onClick: toggleSelectedTab }, tab.props.title));
+                    var className = 'UiTabHeader' + (this.state.selectedTabIndex === index ? ' selected' : '');
+                    return (createElement("div", { key: index, className: className, onClick: toggleSelectedTab }, tab.props.title));
                 };
                 UiTabs.prototype.renderTabHeaders = function () {
                     var _this = this;
                     if (!this.props.children) {
                         return null;
                     }
-                    return (createElement("header", null, this.props.children.map(function (tab, index) { return _this.renderTabHeader(tab, index); })));
+                    var tabs = this.props.children;
+                    return (createElement("header", null, tabs.map(function (tab, index) { return _this.renderTabHeader(tab, index); })));
                 };
-                // private renderTabContent(tab: UiTab, index: number) {
-                //   if (!tab || !tab.props || !tab.props.title) {
-                //     return null;
-                //   }
-                //   return (
-                //     <div key={tab.props.title}>
-                //       {tab.props.children}
-                //     </div>
-                //   );
-                //   // hidden={!this.props.selected}
-                // }
                 UiTabs.prototype.renderTabContents = function () {
                     if (!this.props.children) {
                         return null;
                     }
                     return this.props.children[this.state.selectedTabIndex];
-                    // return (
-                    //   <section>
-                    //     {this.props.children.map((tab, index) => this.renderTabContent(tab, index))}
-                    //   </section>
-                    // );
                 };
                 UiTabs.prototype.render = function () {
                     return (createElement("section", { className: classnames('UiTabs', this.props.className), style: this.props.style },
@@ -561,19 +546,6 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 return UiTabs;
             }(Component));
-            // interface IUiTabProps extends IUiComponentProps {
-            //   title: string;
-            //   selected?: boolean;
-            // }
-            // class UiTab extends React.Component<IUiTabProps> {
-            //   public render() {
-            //     return (
-            //       <div className={classname('UiTab', this.props.className)} style={this.props.style} hidden={!this.props.selected}>
-            //         {this.props.children}
-            //       </div>
-            //     );
-            //   }
-            // }
 
             var css$8 = ".UiButton {\n  padding: 6px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n";
             styleInject(css$8);
@@ -1074,15 +1046,15 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         createElement(UiTabs, null,
                             createElement(UiTab, { title: "Installed" },
                                 createElement(UiFlowLayout, null,
-                                    createElement(UpdateModulesCard, { checkingUpdates: this.state.checkingUpdates, modules: this.state.modules, onCheckUpdates: this.checkUpdates, onUpdateAll: this.updateAll, onUpdateModule: this.updateModule }))),
+                                    createElement(UpdateModulesCard, { checkingUpdates: this.state.checkingUpdates, modules: this.state.modules, onCheckUpdates: this.checkUpdates, onUpdateAll: this.updateAll, onUpdateModule: this.updateModule })),
+                                !this.state.modules.length && (createElement(UiFlowLayout, null,
+                                    createElement(UiLoadingCard, null))),
+                                createElement(UiFlowLayout, null, this.state.modules.map(function (item) {
+                                    return createElement(ModuleCard, { key: item.name, module: item, onRemove: _this.removeModule, onRebuild: _this.rebuildModule, onUpdate: _this.updateModule });
+                                }))),
                             createElement(UiTab, { title: "Add New" },
                                 createElement(UiFlowLayout, null,
-                                    createElement(AddModuleCard, { onAdd: this.addModule })))),
-                        !this.state.modules.length && (createElement(UiFlowLayout, null,
-                            createElement(UiLoadingCard, null))),
-                        createElement(UiFlowLayout, null, this.state.modules.map(function (item) {
-                            return createElement(ModuleCard, { key: item.name, module: item, onRemove: _this.removeModule, onRebuild: _this.rebuildModule, onUpdate: _this.updateModule });
-                        }))));
+                                    createElement(AddModuleCard, { onAdd: this.addModule }))))));
                 };
                 return ModuleManagerPage;
             }(Component));

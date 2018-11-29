@@ -5,19 +5,12 @@ import UiTab from './UiTab';
 
 import './UiTabs.scss';
 
-
-interface IUiTabsProps extends IUiComponentProps {
-  children: UiTab[];
-}
-
 interface IUiTabsState {
   selectedTabIndex: number;
 }
 
-const tabContext = React.createContext<IUiTabsState>({ selectedTabIndex: 0 });
-
-export default class UiTabs extends React.Component<IUiTabsProps, IUiTabsState> {
-  constructor(props: IUiTabsProps) {
+export default class UiTabs extends React.Component<IUiComponentProps, IUiTabsState> {
+  constructor(props: IUiComponentProps) {
     super(props);
 
     this.state = {
@@ -29,9 +22,10 @@ export default class UiTabs extends React.Component<IUiTabsProps, IUiTabsState> 
     if (!tab || !tab.props || !tab.props.title) {
       return null;
     }
-    const toggleSelectedTab = () => this.setState({ selectedTabIndex:index });
+    const toggleSelectedTab = () => this.setState({ selectedTabIndex: index });
+    const className = 'UiTabHeader' +  (this.state.selectedTabIndex === index ? ' selected' : '');
     return (
-      <div key={tab.props.title} onClick={toggleSelectedTab}>
+      <div key={index} className={className} onClick={toggleSelectedTab}>
         {tab.props.title}
       </div>
     );
@@ -41,40 +35,19 @@ export default class UiTabs extends React.Component<IUiTabsProps, IUiTabsState> 
     if (!this.props.children) {
       return null;
     }
-
+    const tabs = this.props.children as UiTab[];
     return (
       <header>
-        {this.props.children.map((tab, index) => this.renderTabHeader(tab, index))}
+        {tabs.map((tab, index) => this.renderTabHeader(tab, index))}
       </header>
     );
   }
-
-  // private renderTabContent(tab: UiTab, index: number) {
-  //   if (!tab || !tab.props || !tab.props.title) {
-  //     return null;
-  //   }
-    
-  //   return (
-  //     <div key={tab.props.title}>
-  //       {tab.props.children}
-  //     </div>
-  //   );
-
-  //   // hidden={!this.props.selected}
-  // }
 
   private renderTabContents() {
     if (!this.props.children) {
       return null;
     }
-
     return this.props.children[this.state.selectedTabIndex];
-
-    // return (
-    //   <section>
-    //     {this.props.children.map((tab, index) => this.renderTabContent(tab, index))}
-    //   </section>
-    // );
   }
 
   public render() {
@@ -86,19 +59,3 @@ export default class UiTabs extends React.Component<IUiTabsProps, IUiTabsState> 
     );
   }
 }
-
-
-// interface IUiTabProps extends IUiComponentProps {
-//   title: string;
-//   selected?: boolean;
-// }
-
-// class UiTab extends React.Component<IUiTabProps> {
-//   public render() {
-//     return (
-//       <div className={classname('UiTab', this.props.className)} style={this.props.style} hidden={!this.props.selected}>
-//         {this.props.children}
-//       </div>
-//     );
-//   }
-// }
