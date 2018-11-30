@@ -1,6 +1,6 @@
 System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@fortawesome/free-regular-svg-icons', '@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react'], function (exports, module) {
     'use strict';
-    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faEdit, faTrashAlt, faArrowAltCircleUp, faArrowAltCircleDown, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faSyncAlt, faDownload, faUndo, faSave, faArrowDown, faArrowRight, faList, faCaretDown, faCaretRight, FontAwesomeIcon, createElement, Component, createContext, Fragment;
+    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, faCaretDown, faCaretRight, FontAwesomeIcon, createElement, Component, createContext, Fragment;
     return {
         setters: [function (module) {
             faGithub = module.faGithub;
@@ -14,7 +14,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
         }, function (module) {
             faFile = module.faFile;
             faEdit = module.faEdit;
-            faTrashAlt = module.faTrashAlt;
+            faTrashAlt$1 = module.faTrashAlt;
             faArrowAltCircleUp = module.faArrowAltCircleUp;
             faArrowAltCircleDown = module.faArrowAltCircleDown;
         }, function (module) {
@@ -32,8 +32,9 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             faStarOfLife = module.faStarOfLife;
             faCube = module.faCube;
             faCog = module.faCog;
-            faSyncAlt = module.faSyncAlt;
             faDownload = module.faDownload;
+            faTrashAlt = module.faTrashAlt;
+            faSyncAlt = module.faSyncAlt;
             faUndo = module.faUndo;
             faSave = module.faSave;
             faArrowDown = module.faArrowDown;
@@ -544,7 +545,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiButton;
             }(Component));
 
-            var css$8 = ".UiTabs header {\n  margin-left: 20px;\n  margin-right: 20px; }\n  .UiTabs header .UiTabHeader {\n    display: inline-block;\n    margin: 8px;\n    margin-bottom: 0;\n    border-bottom: 1px solid #ddd; }\n    .UiTabs header .UiTabHeader.selected {\n      border-bottom-color: #888; }\n\n.UiTabs .UiTab .UiFlowLayout {\n  padding-top: 0; }\n";
+            var css$8 = ".UiTabs header {\n  margin-left: 20px;\n  margin-right: 20px; }\n  .UiTabs header .UiTabHeader {\n    display: inline-block;\n    margin: 8px;\n    margin-bottom: 0;\n    border-bottom: 1px solid #ddd;\n    -webkit-transition: 0.5s;\n    transition: 0.5s; }\n    .UiTabs header .UiTabHeader.selected {\n      border-bottom-color: #888; }\n";
             styleInject(css$8);
 
             var UiTabs = /** @class */ (function (_super) {
@@ -672,7 +673,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiCardButtonRow;
             }(Component));
 
-            var css$c = ".ModuleCard {\n  overflow: hidden; }\n  .ModuleCard .UiCardTitle .hasUpdate {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard .UiCardButtonRow {\n    -webkit-transition: 0.5s ease-in-out;\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard .UiCardButtonRow.default.hide {\n      margin-left: -100%; }\n    .ModuleCard .UiCardButtonRow.actions {\n      margin-top: -34px; }\n      .ModuleCard .UiCardButtonRow.actions.hide {\n        margin-left: 100%; }\n    .ModuleCard .UiCardButtonRow a {\n      color: #222;\n      text-decoration: none; }\n";
+            var css$c = ".ModuleCard {\n  overflow: hidden; }\n  .ModuleCard .UiCardTitle .hasUpdate {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard .UiCardButtonRow {\n    -webkit-transition: 0.5s ease-in-out;\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard .UiCardButtonRow.default.hide {\n      margin-left: -100%; }\n    .ModuleCard .UiCardButtonRow.actions {\n      margin-top: -34px; }\n      .ModuleCard .UiCardButtonRow.actions.hide {\n        margin-left: 100%; }\n    .ModuleCard .UiCardButtonRow a {\n      text-decoration: none; }\n";
             styleInject(css$c);
 
             var ModuleCard = /** @class */ (function (_super) {
@@ -757,10 +758,15 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 ModuleCard.prototype.renderActions = function () {
                     var className = classnames('footer', 'actions', { 'hide': !this.state.showActions });
                     return (createElement(UiCardButtonRow, { className: className, divider: "full" },
-                        createElement(UiButton, { disabled: !this.props.module.hasUpdate, onClick: this.onUpdate }, "Update"),
-                        createElement(UiButton, { disabled: !this.props.module.canRemove, onClick: this.onRemove }, "Remove"),
+                        createElement(UiButton, { disabled: !this.props.module.hasUpdate, onClick: this.onUpdate },
+                            createElement(FontAwesomeIcon, { icon: faDownload }),
+                            " Update"),
+                        createElement(UiButton, { disabled: !this.props.module.canRemove, onClick: this.onRemove },
+                            createElement(FontAwesomeIcon, { icon: faTrashAlt }),
+                            " Remove"),
                         createElement(UiButton, { onClick: this.hideActions },
-                            createElement(FontAwesomeIcon, { icon: faTimes }))));
+                            createElement(FontAwesomeIcon, { icon: faTimes }),
+                            " Close")));
                 };
                 ModuleCard.prototype.render = function () {
                     return (createElement(UiCard, { className: "ModuleCard" },
@@ -803,7 +809,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             var css$e = "";
             styleInject(css$e);
 
-            var css$f = ".ModuleCatalog .ModuleCatalogItem {\n  display: grid;\n  grid-template-columns: 1fr auto;\n  margin-left: 8px; }\n  .ModuleCatalog .ModuleCatalogItem a {\n    padding: 6px;\n    color: #222;\n    text-decoration: none; }\n  .ModuleCatalog .ModuleCatalogItem ~ .ModuleCatalogItem {\n    border-top: 1px solid #ddd; }\n";
+            var css$f = ".ModuleCatalog .ModuleCatalogItem {\n  display: grid;\n  grid-template-columns: 1fr auto;\n  margin-left: 8px; }\n  .ModuleCatalog .ModuleCatalogItem a {\n    padding: 6px;\n    text-decoration: none; }\n  .ModuleCatalog .ModuleCatalogItem ~ .ModuleCatalogItem {\n    border-top: 1px solid #ddd; }\n";
             styleInject(css$f);
 
             // TODO load from url
@@ -830,7 +836,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                                 " ",
                                 item.name),
                             createElement(UiButton, { disabled: installed, onClick: install },
-                                createElement(FontAwesomeIcon, { icon: faPlus }),
+                                createElement(FontAwesomeIcon, { icon: faDownload }),
                                 " Add")));
                     });
                     return items;
@@ -1094,7 +1100,8 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                                 }))),
                             createElement(UiTab, { title: "Add New" },
                                 createElement(UiFlowLayout, null,
-                                    createElement(AddModuleCard, { onAdd: this.addModule }),
+                                    createElement(AddModuleCard, { onAdd: this.addModule })),
+                                createElement(UiFlowLayout, null,
                                     createElement(ModuleCatalog, { onAdd: this.addModule, modules: this.state.modules }))))));
                 };
                 return ModuleManagerPage;
@@ -1295,7 +1302,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return (createElement(Fragment, { key: key },
                         createElement(OptionItem, { definition: arrayItemDefinition, value: value, valueChange: this.arrayItemChange.bind(this, index) },
                             createElement(UiButton, { onClick: this.arrayItemRemove.bind(this, index) },
-                                createElement(FontAwesomeIcon, { icon: faTrashAlt })),
+                                createElement(FontAwesomeIcon, { icon: faTrashAlt$1 })),
                             createElement(UiButton, { onClick: this.arrayItemMoveUp.bind(this, index) },
                                 createElement(FontAwesomeIcon, { icon: faArrowAltCircleUp })),
                             createElement(UiButton, { onClick: this.arrayItemMoveDown.bind(this, index) },
@@ -1393,7 +1400,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                             var value = _this.props.value && _this.props.value[field.name];
                             return (createElement(OptionItem, { key: field.name, definition: field, value: value, valueChange: _this.valueChange },
                                 createElement(UiButton, { onClick: _this.removeField.bind(_this, field.name) },
-                                    createElement(FontAwesomeIcon, { icon: faTrashAlt }))));
+                                    createElement(FontAwesomeIcon, { icon: faTrashAlt$1 }))));
                         }),
                         createElement("div", { className: "newPropertyRow" },
                             createElement("select", { ref: function (el) { return _this.newPropertySelect = el; } }, styleProperties.map(function (property) { return createElement("option", { key: property, value: property }, property); })),
@@ -1689,7 +1696,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                                 this.state.selectedComponentDefinition.moduleName,
                                 ")"),
                             createElement(UiButton, { onClick: this.removeWebComponent },
-                                createElement(FontAwesomeIcon, { icon: faTrashAlt }))));
+                                createElement(FontAwesomeIcon, { icon: faTrashAlt$1 }))));
                     }
                     return (createElement("select", { className: "componentSelect", value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
                         createElement("option", { key: "_", value: "" }, "Select Component..."),
@@ -2022,7 +2029,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                             createElement(FontAwesomeIcon, { icon: faEdit }),
                             " Edit"),
                         createElement(UiButton, { onClick: this.onDelete },
-                            createElement(FontAwesomeIcon, { icon: faTrashAlt }),
+                            createElement(FontAwesomeIcon, { icon: faTrashAlt$1 }),
                             " Delete")));
                 };
                 PageCard.prototype.render = function () {
@@ -2529,7 +2536,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return SystemPage;
             }(Component));
 
-            var css$v = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      background: #eee;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    font-size: 16px;\n    background: white; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
+            var css$v = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    font-size: 16px;\n    background: white; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
             styleInject(css$v);
 
             var Admin = /** @class */ (function (_super) {

@@ -43,7 +43,7 @@ export default class ModuleCatalog extends React.Component<IModuleCatalogProps> 
             <FontAwesomeIcon icon={BrandIcons.faGithub} /> {item.name}
           </a>
           <UiButton disabled={installed} onClick={install}>
-            <FontAwesomeIcon icon={SolidIcons.faPlus} /> Add
+            <FontAwesomeIcon icon={SolidIcons.faDownload} /> Add
           </UiButton>
         </div>
       );

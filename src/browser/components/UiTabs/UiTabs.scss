@@ -7,12 +7,10 @@
             margin: 8px;
             margin-bottom: 0;
             border-bottom: 1px solid #ddd;
+            transition: 0.5s;
             &.selected {
                 border-bottom-color: #888;
             }
         }
-    }
-    .UiTab .UiFlowLayout {
-        padding-top: 0;
     }
 }

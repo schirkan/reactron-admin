@@ -201,6 +201,8 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
           <UiTab title="Add New">
             <UiFlowLayout>
               <AddModuleCard onAdd={this.addModule} />
+            </UiFlowLayout>
+            <UiFlowLayout>
               <ModuleCatalog onAdd={this.addModule} modules={this.state.modules} />
             </UiFlowLayout>
           </UiTab>

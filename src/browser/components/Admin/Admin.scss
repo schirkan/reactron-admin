@@ -43,14 +43,11 @@ section.Admin {
         padding-right: 8px;
         &.disabled {
             cursor: default;
-            background: #eee;
+            // background: #eee;
             color: #bbb;
         }
         &:not(.disabled) {
             cursor: pointer;
-            &:hover {
-                // background: #fff;
-            }
             &:active {
                 background: #ddd;
             }

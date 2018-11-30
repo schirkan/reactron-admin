@@ -127,10 +127,16 @@ export default class ModuleCard extends React.Component<IModuleCardProps, IModul
 
     return (
       <UiCardButtonRow className={className} divider="full">
-        <UiButton disabled={!this.props.module.hasUpdate} onClick={this.onUpdate}>Update</UiButton>
+        <UiButton disabled={!this.props.module.hasUpdate} onClick={this.onUpdate}>
+          <FontAwesomeIcon icon={SolidIcons.faDownload} /> Update
+        </UiButton>
         {/* <UiButton disabled={!this.props.module.canBuild} onClick={this.onRebuild}>Rebuild</UiButton> */}
-        <UiButton disabled={!this.props.module.canRemove} onClick={this.onRemove}>Remove</UiButton>
-        <UiButton onClick={this.hideActions}><FontAwesomeIcon icon={SolidIcons.faTimes} /></UiButton>
+        <UiButton disabled={!this.props.module.canRemove} onClick={this.onRemove}>
+          <FontAwesomeIcon icon={SolidIcons.faTrashAlt} /> Remove
+        </UiButton>
+        <UiButton onClick={this.hideActions}>
+          <FontAwesomeIcon icon={SolidIcons.faTimes} /> Close
+        </UiButton>
       </UiCardButtonRow>
     );
   }
