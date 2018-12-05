@@ -1,6 +1,6 @@
 System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@fortawesome/free-regular-svg-icons', '@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react'], function (exports, module) {
     'use strict';
-    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, faCaretDown, faCaretRight, FontAwesomeIcon, createElement, Component, createContext, Fragment;
+    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, FontAwesomeIcon, createElement, Component, createContext, Fragment;
     return {
         setters: [function (module) {
             faGithub = module.faGithub;
@@ -40,8 +40,6 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             faArrowDown = module.faArrowDown;
             faArrowRight = module.faArrowRight;
             faList = module.faList;
-            faCaretDown = module.faCaretDown;
-            faCaretRight = module.faCaretRight;
         }, function (module) {
             FontAwesomeIcon = module.FontAwesomeIcon;
         }, function (module) {
@@ -545,7 +543,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiButton;
             }(Component));
 
-            var css$8 = ".UiTabs header {\n  margin-left: 20px;\n  margin-right: 20px; }\n  .UiTabs header .UiTabHeader {\n    display: inline-block;\n    margin: 8px;\n    margin-bottom: 0;\n    border-bottom: 1px solid #ddd;\n    -webkit-transition: 0.5s;\n    transition: 0.5s; }\n    .UiTabs header .UiTabHeader.selected {\n      border-bottom-color: #888; }\n";
+            var css$8 = ".UiTabs header {\n  margin-left: 20px;\n  margin-right: 20px; }\n  .UiTabs header .UiTabHeader {\n    display: inline-block;\n    margin: 8px;\n    margin-bottom: 0;\n    border-bottom: 1px solid #ddd;\n    transition: 0.5s; }\n    .UiTabs header .UiTabHeader.selected {\n      border-bottom-color: #888; }\n";
             styleInject(css$8);
 
             var UiTabs = /** @class */ (function (_super) {
@@ -588,7 +586,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiTabs;
             }(Component));
 
-            var css$9 = "section.AddModuleCard {\n  display: -webkit-inline-box;\n  display: inline-flex; }\n  section.AddModuleCard input {\n    padding-left: 6px;\n    border: none;\n    width: 100%; }\n  section.AddModuleCard .addButton {\n    border-left: 1px solid #ddd;\n    overflow: visible; }\n";
+            var css$9 = "section.AddModuleCard {\n  display: inline-flex; }\n  section.AddModuleCard input {\n    padding-left: 6px;\n    border: none;\n    width: 100%; }\n  section.AddModuleCard .addButton {\n    border-left: 1px solid #ddd;\n    overflow: visible; }\n";
             styleInject(css$9);
 
             var AddModuleCard = /** @class */ (function (_super) {
@@ -673,7 +671,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiCardButtonRow;
             }(Component));
 
-            var css$c = ".ModuleCard {\n  overflow: hidden; }\n  .ModuleCard .UiCardTitle .hasUpdate {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard .UiCardButtonRow {\n    -webkit-transition: 0.5s ease-in-out;\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard .UiCardButtonRow.default.hide {\n      margin-left: -100%; }\n    .ModuleCard .UiCardButtonRow.actions {\n      margin-top: -34px; }\n      .ModuleCard .UiCardButtonRow.actions.hide {\n        margin-left: 100%; }\n    .ModuleCard .UiCardButtonRow a {\n      text-decoration: none; }\n";
+            var css$c = ".ModuleCard {\n  overflow: hidden; }\n  .ModuleCard .UiCardTitle .hasUpdate {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard .UiCardButtonRow {\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard .UiCardButtonRow.default.hide {\n      margin-left: -100%; }\n    .ModuleCard .UiCardButtonRow.actions {\n      margin-top: -34px; }\n      .ModuleCard .UiCardButtonRow.actions.hide {\n        margin-left: 100%; }\n    .ModuleCard .UiCardButtonRow a {\n      text-decoration: none; }\n";
             styleInject(css$c);
 
             var ModuleCard = /** @class */ (function (_super) {
@@ -1107,7 +1105,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return ModuleManagerPage;
             }(Component));
 
-            var css$g = "section.Navigation {\n  background: #456;\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\n  section.Navigation a {\n    padding-bottom: 8px;\n    padding-top: 11px;\n    color: #ddd;\n    text-decoration: none;\n    border-bottom: 3px solid transparent;\n    text-align: center;\n    -webkit-transition: 0.5s;\n    transition: 0.5s; }\n    section.Navigation a:hover, section.Navigation a:active, section.Navigation a.active {\n      background: transparent;\n      color: white; }\n    section.Navigation a:nth-child(1).active {\n      background: #4a8599; }\n    section.Navigation a:nth-child(1).active, section.Navigation a:nth-child(1):hover {\n      border-bottom: 3px solid #42e1f7; }\n    section.Navigation a:nth-child(2).active {\n      background: #69006f; }\n    section.Navigation a:nth-child(2).active, section.Navigation a:nth-child(2):hover {\n      border-bottom: 3px solid #f000ff; }\n    section.Navigation a:nth-child(3).active {\n      background: #5f5600; }\n    section.Navigation a:nth-child(3).active, section.Navigation a:nth-child(3):hover {\n      border-bottom: 3px solid #ffe700; }\n    section.Navigation a:nth-child(4).active {\n      background: #2f6108; }\n    section.Navigation a:nth-child(4).active, section.Navigation a:nth-child(4):hover {\n      border-bottom: 3px solid #74ee15; }\n    section.Navigation a:nth-child(5).active {\n      background: #001086; }\n    section.Navigation a:nth-child(5).active, section.Navigation a:nth-child(5):hover {\n      border-bottom: 3px solid #001eff; }\n";
+            var css$g = "section.Navigation {\n  background: #456;\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\n  section.Navigation a {\n    padding-bottom: 8px;\n    padding-top: 11px;\n    color: #ddd;\n    text-decoration: none;\n    border-bottom: 3px solid transparent;\n    text-align: center;\n    transition: 0.5s; }\n    section.Navigation a:hover, section.Navigation a:active, section.Navigation a.active {\n      background: transparent;\n      color: white; }\n    section.Navigation a:nth-child(1).active {\n      background: #4a8599; }\n    section.Navigation a:nth-child(1).active, section.Navigation a:nth-child(1):hover {\n      border-bottom: 3px solid #42e1f7; }\n    section.Navigation a:nth-child(2).active {\n      background: #69006f; }\n    section.Navigation a:nth-child(2).active, section.Navigation a:nth-child(2):hover {\n      border-bottom: 3px solid #f000ff; }\n    section.Navigation a:nth-child(3).active {\n      background: #5f5600; }\n    section.Navigation a:nth-child(3).active, section.Navigation a:nth-child(3):hover {\n      border-bottom: 3px solid #ffe700; }\n    section.Navigation a:nth-child(4).active {\n      background: #2f6108; }\n    section.Navigation a:nth-child(4).active, section.Navigation a:nth-child(4):hover {\n      border-bottom: 3px solid #74ee15; }\n    section.Navigation a:nth-child(5).active {\n      background: #001086; }\n    section.Navigation a:nth-child(5).active, section.Navigation a:nth-child(5):hover {\n      border-bottom: 3px solid #001eff; }\n";
             styleInject(css$g);
 
             var Navigation = /** @class */ (function (_super) {
@@ -1320,7 +1318,121 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return ArrayForm;
             }(Component));
 
-            var css$i = ".StyleForm .newPropertyRow {\n  display: -webkit-box;\n  display: flex; }\n  .StyleForm .newPropertyRow select {\n    width: 100%; }\n  .StyleForm .newPropertyRow .UiButton {\n    overflow: initial; }\n";
+            var ArrayControlsProvider = /** @class */ (function () {
+                function ArrayControlsProvider() {
+                }
+                ArrayControlsProvider.prototype.match = function (definition) {
+                    return !!definition.isArray;
+                };
+                ArrayControlsProvider.prototype.get = function () {
+                    return {
+                        icon: faList,
+                        detailsControl: ArrayForm,
+                        inputControl: function (props) {
+                            var array = props.value || [];
+                            return '(' + array.length + ' items)';
+                        }
+                    };
+                };
+                return ArrayControlsProvider;
+            }());
+
+            var BooleanControlsProvider = /** @class */ (function () {
+                function BooleanControlsProvider() {
+                }
+                BooleanControlsProvider.prototype.match = function (definition) {
+                    return definition.valueType === 'boolean';
+                };
+                BooleanControlsProvider.prototype.get = function () {
+                    return {
+                        inputControl: BooleanInputControl
+                    };
+                };
+                return BooleanControlsProvider;
+            }());
+            // tslint:disable-next-line:max-classes-per-file
+            var BooleanInputControl = /** @class */ (function (_super) {
+                __extends(BooleanInputControl, _super);
+                function BooleanInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onCheckboxChange = _this.onCheckboxChange.bind(_this);
+                    return _this;
+                }
+                BooleanInputControl.prototype.onCheckboxChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                BooleanInputControl.prototype.render = function () {
+                    return (createElement("input", { type: "checkbox", id: this.props.uniqueId, value: this.props.value, onChange: this.onCheckboxChange }));
+                };
+                return BooleanInputControl;
+            }(Component));
+
+            var NumberControlsProvider = /** @class */ (function () {
+                function NumberControlsProvider() {
+                }
+                NumberControlsProvider.prototype.match = function (definition) {
+                    return definition.valueType === 'string';
+                };
+                NumberControlsProvider.prototype.get = function () {
+                    return {
+                        inputControl: NumberInputControl
+                    };
+                };
+                return NumberControlsProvider;
+            }());
+            // tslint:disable-next-line:max-classes-per-file
+            var NumberInputControl = /** @class */ (function (_super) {
+                __extends(NumberInputControl, _super);
+                function NumberInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onInputChange = _this.onInputChange.bind(_this);
+                    return _this;
+                }
+                NumberInputControl.prototype.onInputChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                NumberInputControl.prototype.render = function () {
+                    var inputType = 'number';
+                    if (this.props.definition.minValue !== undefined &&
+                        this.props.definition.maxValue !== undefined) {
+                        inputType = 'range';
+                    }
+                    return (createElement("input", { type: inputType, id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
+                };
+                return NumberInputControl;
+            }(Component));
+
+            var ObjectControlsProvider = /** @class */ (function () {
+                function ObjectControlsProvider() {
+                }
+                ObjectControlsProvider.prototype.match = function (definition) {
+                    return definition.valueType === 'object';
+                };
+                ObjectControlsProvider.prototype.get = function () {
+                    return {
+                        detailsControl: ObjectInputControl,
+                    };
+                };
+                return ObjectControlsProvider;
+            }());
+            // tslint:disable-next-line:max-classes-per-file
+            var ObjectInputControl = /** @class */ (function (_super) {
+                __extends(ObjectInputControl, _super);
+                function ObjectInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.triggerValueChange = _this.triggerValueChange.bind(_this);
+                    return _this;
+                }
+                ObjectInputControl.prototype.triggerValueChange = function (newValue) {
+                    this.props.valueChange(this.props.definition, newValue);
+                };
+                ObjectInputControl.prototype.render = function () {
+                    return (createElement(OptionList, { fields: this.props.definition.fields, value: this.props.value, valueChange: this.triggerValueChange }));
+                };
+                return ObjectInputControl;
+            }(Component));
+
+            var css$i = ".StyleForm .newPropertyRow {\n  display: flex; }\n  .StyleForm .newPropertyRow select {\n    width: 100%; }\n  .StyleForm .newPropertyRow .UiButton {\n    overflow: initial; }\n";
             styleInject(css$i);
 
             var styleProperties = ['background', 'backgroundAttachment', 'backgroundColor', 'backgroundImage',
@@ -1409,6 +1521,111 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                                 " Add"))));
                 };
                 return StyleForm;
+            }(Component));
+
+            var StyleControlsProvider = /** @class */ (function () {
+                function StyleControlsProvider() {
+                }
+                StyleControlsProvider.prototype.match = function (definition) {
+                    return definition.valueType === 'style';
+                };
+                StyleControlsProvider.prototype.get = function () {
+                    return {
+                        icon: faCss3,
+                        detailsControl: StyleForm,
+                        inputControl: function (props) {
+                            var text = JSON.stringify(props.value) || '';
+                            return text === '{}' ? '' : text;
+                        }
+                    };
+                };
+                return StyleControlsProvider;
+            }());
+
+            var TextControlsProvider = /** @class */ (function () {
+                function TextControlsProvider() {
+                }
+                TextControlsProvider.prototype.match = function (definition) {
+                    return definition.valueType === 'string';
+                };
+                TextControlsProvider.prototype.get = function (definition) {
+                    if (definition.textRows !== undefined && definition.textRows > 1) {
+                        return {
+                            detailsControl: TextAreaInputControl,
+                            inputControl: function (props) { return props.value; }
+                        };
+                    }
+                    return {
+                        inputControl: TextBoxInputControl
+                    };
+                };
+                return TextControlsProvider;
+            }());
+            // tslint:disable-next-line:max-classes-per-file
+            var TextBoxInputControl = /** @class */ (function (_super) {
+                __extends(TextBoxInputControl, _super);
+                function TextBoxInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onInputChange = _this.onInputChange.bind(_this);
+                    return _this;
+                }
+                TextBoxInputControl.prototype.onInputChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                TextBoxInputControl.prototype.render = function () {
+                    return (createElement("input", { type: "text", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange }));
+                };
+                return TextBoxInputControl;
+            }(Component));
+            // tslint:disable-next-line:max-classes-per-file
+            var TextAreaInputControl = /** @class */ (function (_super) {
+                __extends(TextAreaInputControl, _super);
+                function TextAreaInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onTextareaChange = _this.onTextareaChange.bind(_this);
+                    return _this;
+                }
+                TextAreaInputControl.prototype.onTextareaChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                TextAreaInputControl.prototype.render = function () {
+                    return (createElement("textarea", { id: this.props.uniqueId, value: this.props.value, onChange: this.onTextareaChange, rows: this.props.definition.textRows }));
+                };
+                return TextAreaInputControl;
+            }(Component));
+
+            var ValuesControlsProvider = /** @class */ (function () {
+                function ValuesControlsProvider() {
+                }
+                ValuesControlsProvider.prototype.match = function (definition) {
+                    return !!(definition.values && definition.values.length);
+                };
+                ValuesControlsProvider.prototype.get = function () {
+                    return {
+                        inputControl: ValuesInputControl
+                    };
+                };
+                return ValuesControlsProvider;
+            }());
+            // tslint:disable-next-line:max-classes-per-file
+            var ValuesInputControl = /** @class */ (function (_super) {
+                __extends(ValuesInputControl, _super);
+                function ValuesInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onSelectValueChange = function (e) {
+                        _this.props.valueChange(_this.props.definition, e.currentTarget.value);
+                    };
+                    _this.onSelectValueChange = _this.onSelectValueChange.bind(_this);
+                    return _this;
+                }
+                ValuesInputControl.prototype.render = function () {
+                    var values = this.props.definition.values || [];
+                    var options = values.map(function (item, index) {
+                        return createElement("option", { key: index, value: item.value }, item.text);
+                    });
+                    return (createElement("select", { id: this.props.uniqueId, value: this.props.value, onChange: this.onSelectValueChange }, options));
+                };
+                return ValuesInputControl;
             }(Component));
 
             var SimpleEvent = /** @class */ (function () {
@@ -1698,14 +1915,26 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                             createElement(UiButton, { onClick: this.removeWebComponent },
                                 createElement(FontAwesomeIcon, { icon: faTrashAlt$1 }))));
                     }
+                    var types = this.state.componentDefinitions.map(function (x) { return x.definition.type; });
+                    types = types.filter(function (v, i, a) { return a.indexOf(v) === i; });
+                    var optionGroups = {};
+                    this.state.componentDefinitions.forEach(function (item) {
+                        var type = item.definition.type || 'content';
+                        if (!optionGroups[type]) {
+                            optionGroups[type] = [];
+                        }
+                        optionGroups[type].push(item);
+                    });
                     return (createElement("select", { className: "componentSelect", value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
                         createElement("option", { key: "_", value: "" }, "Select Component..."),
-                        this.state.componentDefinitions.map(function (item) {
-                            return createElement("option", { key: item.key, value: item.key },
-                                item.definition.displayName,
-                                " (",
-                                item.moduleName,
-                                ")");
+                        Object.keys(optionGroups).map(function (type) {
+                            return createElement("optgroup", { key: type, label: type }, optionGroups[type].map(function (item) {
+                                return createElement("option", { key: item.key, value: item.key },
+                                    item.definition.displayName,
+                                    " (",
+                                    item.moduleName,
+                                    ")");
+                            }));
                         })));
                 };
                 WebComponentForm.prototype.render = function () {
@@ -1720,7 +1949,47 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return WebComponentForm;
             }(Component));
 
-            var css$k = ".OptionItem {\n  margin-left: 6px;\n  line-height: 32px;\n  border-top: 1px solid transparent; }\n  .OptionItem + .OptionItem {\n    border-color: #eee; }\n  .OptionItem[data-hasdetails='false'] {\n    display: grid;\n    grid-template-columns: 50% 50%; }\n  .OptionItem[data-detailsvisible='false'] + .add-array-item {\n    border-top: 1px solid #eee; }\n  .OptionItem[data-detailsvisible='true'] {\n    padding-left: 3px;\n    margin-left: 0px;\n    border-left-width: 3px;\n    border-top-width: 1px;\n    border-bottom-width: 1px;\n    border-bottom-color: #eee;\n    border-right-width: 0;\n    border-style: solid;\n    border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] {\n      border-left-color: #964; }\n      .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n        border-left-color: #6a9; }\n        .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n          border-left-color: #649; }\n          .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n            border-left-color: #496; }\n            .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n              border-left-color: #946; }\n              .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                border-left-color: #649; }\n                .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                  border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] > .item-header {\n      border-bottom: 1px solid #eee; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='true'] {\n      margin-top: 6px; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='false'] {\n      border-top-width: 0; }\n    .OptionItem[data-detailsvisible='true'] :last-child {\n      border-bottom-width: 0; }\n  .OptionItem label,\n  .OptionItem .header-text,\n  .OptionItem .sub-header-text {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .OptionItem label {\n    display: -webkit-box;\n    display: flex; }\n    .OptionItem label :first-child.header-text {\n      padding-left: 4px; }\n  .OptionItem input,\n  .OptionItem select {\n    height: 32px;\n    border: none;\n    padding-left: 6px;\n    background: white;\n    box-sizing: border-box;\n    margin: 0; }\n    .OptionItem input[type='range'],\n    .OptionItem select[type='range'] {\n      padding-left: 0; }\n  .OptionItem textarea {\n    border: none;\n    width: 100%;\n    padding: 6px;\n    display: -webkit-box;\n    display: flex;\n    box-sizing: border-box; }\n  .OptionItem .item-header {\n    display: grid;\n    grid-template-columns: 50% auto 33px;\n    padding: 0 !important; }\n  .OptionItem .UiButton {\n    padding-top: 0;\n    padding-bottom: 0; }\n";
+            var WebComponentControlsProvider = /** @class */ (function () {
+                function WebComponentControlsProvider() {
+                }
+                WebComponentControlsProvider.prototype.match = function (definition) {
+                    return definition.valueType === 'webComponent';
+                };
+                WebComponentControlsProvider.prototype.get = function () {
+                    return {
+                        icon: faFile,
+                        detailsControl: WebComponentForm,
+                        inputControl: function (props) {
+                            return props && props.value || '';
+                        }
+                    };
+                };
+                return WebComponentControlsProvider;
+            }());
+
+            var providers = [
+                new ArrayControlsProvider(),
+                new ValuesControlsProvider(),
+                new ObjectControlsProvider(),
+                new StyleControlsProvider(),
+                new WebComponentControlsProvider(),
+                new BooleanControlsProvider(),
+                new TextControlsProvider(),
+                new NumberControlsProvider(),
+            ];
+            var getInputControls = function (definition, context) {
+                var provider = providers.find(function (x) { return x.match(definition); });
+                var result = provider && provider.get(definition) || {};
+                if (definition.inputControl) {
+                    result.inputControl = function (props) { return context.renderComponent(__assign({}, definition.inputControl, { options: props })); };
+                }
+                if (definition.inputForm) {
+                    result.detailsControl = function (props) { return context.renderComponent(__assign({}, definition.inputForm, { options: props })); };
+                }
+                return result;
+            };
+
+            var css$k = ".OptionItem {\n  margin-left: 6px;\n  line-height: 32px;\n  border-top: 1px solid transparent; }\n  .OptionItem + .OptionItem {\n    border-color: #eee; }\n  .OptionItem[data-hasdetails='false'] {\n    display: grid;\n    grid-template-columns: 50% 50%; }\n  .OptionItem[data-detailsvisible='false'] + .add-array-item {\n    border-top: 1px solid #eee; }\n  .OptionItem[data-detailsvisible='true'] {\n    padding-left: 3px;\n    margin-left: 0px;\n    border-left-width: 3px;\n    border-top-width: 1px;\n    border-bottom-width: 1px;\n    border-bottom-color: #eee;\n    border-right-width: 0;\n    border-style: solid;\n    border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] {\n      border-left-color: #964; }\n      .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n        border-left-color: #6a9; }\n        .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n          border-left-color: #649; }\n          .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n            border-left-color: #496; }\n            .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n              border-left-color: #946; }\n              .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                border-left-color: #649; }\n                .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                  border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] > .item-header {\n      border-bottom: 1px solid #eee; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='true'] {\n      margin-top: 6px; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='false'] {\n      border-top-width: 0; }\n    .OptionItem[data-detailsvisible='true'] :last-child {\n      border-bottom-width: 0; }\n  .OptionItem label,\n  .OptionItem .header-text,\n  .OptionItem .sub-header-text {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .OptionItem label {\n    display: flex; }\n    .OptionItem label :first-child.header-text {\n      padding-left: 4px; }\n  .OptionItem input,\n  .OptionItem select {\n    height: 32px;\n    border: none;\n    padding-left: 6px;\n    background: white;\n    box-sizing: border-box;\n    margin: 0; }\n    .OptionItem input[type='range'],\n    .OptionItem select[type='range'] {\n      padding-left: 0; }\n  .OptionItem textarea {\n    border: none;\n    width: 100%;\n    padding: 6px;\n    display: flex;\n    box-sizing: border-box; }\n  .OptionItem .item-header {\n    display: grid;\n    grid-template-columns: 50% auto 33px;\n    padding: 0 !important; }\n  .OptionItem .UiButton {\n    padding-top: 0;\n    padding-bottom: 0; }\n";
             styleInject(css$k);
 
             var counter = 0;
@@ -1728,154 +1997,50 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 __extends(OptionItem, _super);
                 function OptionItem(props) {
                     var _this = _super.call(this, props) || this;
-                    var hasDetails = !!props.definition.isArray || (props.definition.textRows !== undefined && props.definition.textRows > 1);
-                    switch (props.definition.valueType) {
-                        case 'object':
-                        case 'style':
-                        case 'webComponent':
-                            hasDetails = true;
-                            break;
-                    }
                     _this.state = {
-                        uniqueId: 'ID' + (counter++),
-                        hasDetails: hasDetails,
+                        uniqueId: 'ID' + (counter++)
                     };
-                    _this.triggerValueChange = _this.triggerValueChange.bind(_this);
-                    _this.onInputChange = _this.onInputChange.bind(_this);
-                    _this.onTextareaChange = _this.onTextareaChange.bind(_this);
-                    _this.onCheckboxChange = _this.onCheckboxChange.bind(_this);
-                    _this.onSelectValueChange = _this.onSelectValueChange.bind(_this);
                     _this.toggleItemDetails = _this.toggleItemDetails.bind(_this);
                     return _this;
                 }
-                OptionItem.prototype.triggerValueChange = function (newValue) {
-                    this.props.valueChange(this.props.definition, newValue);
-                };
-                OptionItem.prototype.renderArray = function () {
-                    return (createElement(ArrayForm, __assign({}, this.props)));
-                };
-                OptionItem.prototype.renderObject = function () {
-                    return (createElement(OptionList, { fields: this.props.definition.fields, value: this.props.value, valueChange: this.triggerValueChange }));
-                };
-                OptionItem.prototype.onTextareaChange = function (e) {
-                    this.triggerValueChange(e.currentTarget.value);
-                };
-                OptionItem.prototype.onInputChange = function (e) {
-                    this.triggerValueChange(e.currentTarget.value);
-                };
-                OptionItem.prototype.onSelectValueChange = function (e) {
-                    this.triggerValueChange(e.currentTarget.value);
-                };
-                OptionItem.prototype.onCheckboxChange = function (e) {
-                    this.triggerValueChange(e.currentTarget.checked);
-                };
-                OptionItem.prototype.renderDropDown = function () {
-                    var values = this.props.definition.values || [];
-                    var options = values.map(function (item, index) {
-                        return createElement("option", { key: index, value: item.value }, item.text);
-                    });
-                    return (createElement("select", { id: this.state.uniqueId, value: this.props.value, onChange: this.onSelectValueChange }, options));
-                };
-                OptionItem.prototype.renderTextInput = function () {
-                    if (this.props.definition.textRows !== undefined && this.props.definition.textRows > 1) {
-                        return (createElement("textarea", { id: this.state.uniqueId, value: this.props.value, onChange: this.onTextareaChange, rows: this.props.definition.textRows }));
-                    }
-                    return (createElement("input", { type: "text", id: this.state.uniqueId, value: this.props.value, onChange: this.onInputChange }));
-                };
-                OptionItem.prototype.renderNumberInput = function () {
-                    var inputType = 'number';
-                    if (this.props.definition.minValue !== undefined &&
-                        this.props.definition.maxValue !== undefined) {
-                        inputType = 'range';
-                    }
-                    return (createElement("input", { type: inputType, id: this.state.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
-                };
-                OptionItem.prototype.renderBooleanInput = function () {
-                    return (createElement("input", { type: "checkbox", id: this.state.uniqueId, value: this.props.value, onChange: this.onCheckboxChange }));
-                };
-                OptionItem.prototype.renderStyleInput = function () {
-                    return (createElement(StyleForm, __assign({}, this.props)));
-                };
-                OptionItem.prototype.renderWebComponentInput = function () {
-                    return (createElement(WebComponentForm, __assign({}, this.props)));
+                OptionItem.prototype.componentDidMount = function () {
+                    var inputControls = getInputControls(this.props.definition, this.context);
+                    this.setState(inputControls);
                 };
                 OptionItem.prototype.toggleItemDetails = function () {
                     this.setState(function (state) { return ({ detailsVisible: !state.detailsVisible }); });
                 };
-                OptionItem.prototype.renderItemHeader = function () {
-                    var subHeaderText = null;
-                    var icon = null;
-                    if (this.props.definition.isArray) {
-                        var array = this.props.value || [];
-                        subHeaderText = '(' + array.length + ' items)';
-                        icon = faList;
-                    }
-                    else if (this.props.definition.valueType === 'string') {
-                        subHeaderText = this.props.value;
-                    }
-                    else if (this.props.definition.valueType === 'style') {
-                        subHeaderText = JSON.stringify(this.props.value);
-                        if (subHeaderText === '{}') {
-                            subHeaderText = '';
-                        }
-                        icon = faCss3;
-                    }
-                    else if (this.props.definition.valueType === 'webComponent') {
-                        subHeaderText = this.props.value || 'Component';
-                        icon = faFile;
-                    }
-                    return (createElement(UiButton, { className: "item-header", onClick: this.toggleItemDetails },
-                        createElement("label", null,
-                            this.props.children,
-                            icon && (createElement(UiButton, null,
-                                createElement(FontAwesomeIcon, { icon: icon }))),
-                            createElement("span", { className: "header-text" }, this.props.definition.displayName)),
-                        createElement("span", { className: "sub-header-text" }, subHeaderText),
-                        createElement(UiButton, null,
-                            createElement(FontAwesomeIcon, { icon: this.state.detailsVisible ? faCaretDown : faCaretRight }))));
-                };
-                OptionItem.prototype.renderLabel = function () {
-                    if (this.state.hasDetails) {
-                        return this.renderItemHeader();
-                    }
-                    return (createElement("label", { htmlFor: this.state.uniqueId },
+                OptionItem.prototype.renderInputRow = function () {
+                    var label = (createElement("label", null,
                         this.props.children,
+                        this.state.icon && (createElement(UiButton, null,
+                            createElement(FontAwesomeIcon, { icon: this.state.icon }))),
                         createElement("span", { className: "header-text" }, this.props.definition.displayName)));
+                    var input = this.state.inputControl && createElement(this.state.inputControl, __assign({}, this.props, { uniqueId: this.state.uniqueId })) || '';
+                    if (this.state.detailsControl) {
+                        return (createElement(UiButton, { className: "item-header", onClick: this.toggleItemDetails },
+                            label,
+                            createElement("div", { className: "sub-header-text" }, input),
+                            createElement(UiButton, null,
+                                createElement(FontAwesomeIcon, { icon: this.state.detailsVisible ? faArrowDown : faArrowRight }))));
+                    }
+                    return (createElement(Fragment, null,
+                        label,
+                        input));
                 };
-                OptionItem.prototype.renderInput = function () {
-                    if (this.state.hasDetails) {
-                        return (createElement("div", { className: "item-details", hidden: !this.state.detailsVisible, "data-isarray": this.props.definition.isArray ? 'true' : 'false' }, this.renderInputControl()));
+                OptionItem.prototype.renderDetailsForm = function () {
+                    if (!this.state.detailsControl) {
+                        return null;
                     }
-                    return this.renderInputControl();
-                };
-                OptionItem.prototype.renderInputControl = function () {
-                    if (this.props.definition.isArray) {
-                        return this.renderArray();
-                    }
-                    if (this.props.definition.values && this.props.definition.values.length) {
-                        return this.renderDropDown();
-                    }
-                    switch (this.props.definition.valueType) {
-                        case 'number':
-                            return this.renderNumberInput();
-                        case 'boolean':
-                            return this.renderBooleanInput();
-                        case 'string':
-                            return this.renderTextInput();
-                        case 'object':
-                            return this.renderObject();
-                        case 'style':
-                            return this.renderStyleInput();
-                        case 'webComponent':
-                            return this.renderWebComponentInput();
-                    }
-                    return null;
+                    return (createElement("div", { className: "item-details", hidden: !this.state.detailsVisible, "data-isarray": this.props.definition.isArray ? 'true' : 'false' },
+                        createElement(this.state.detailsControl, __assign({}, this.props, { uniqueId: this.state.uniqueId }))));
                 };
                 OptionItem.prototype.render = function () {
-                    return (createElement("div", { className: "OptionItem", "data-hasdetails": this.state.hasDetails ? 'true' : 'false', "data-detailsvisible": this.state.detailsVisible ? 'true' : 'false', "data-valuetype": this.props.definition.valueType },
-                        this.renderLabel(),
-                        this.renderInput()));
+                    return (createElement("div", { className: "OptionItem", "data-hasdetails": this.state.detailsControl ? 'true' : 'false', "data-detailsvisible": this.state.detailsVisible ? 'true' : 'false', "data-valuetype": this.props.definition.valueType },
+                        this.renderInputRow(),
+                        this.renderDetailsForm()));
                 };
+                OptionItem.contextType = AdminPageContext;
                 return OptionItem;
             }(Component));
 

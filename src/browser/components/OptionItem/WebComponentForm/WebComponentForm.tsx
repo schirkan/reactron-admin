@@ -187,11 +187,30 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
       );
     }
 
+    let types = this.state.componentDefinitions.map(x => x.definition.type);
+    types = types.filter((v, i, a) => a.indexOf(v) === i);
+
+    const optionGroups: { [type: string]: IReactronComponentDefinitionItem[] } = {};
+    this.state.componentDefinitions.forEach(item => {
+      const type = item.definition.type || 'content';
+      if (!optionGroups[type]) {
+        optionGroups[type] = [];
+      }
+      optionGroups[type].push(item);
+    });
+
     return (
       <select className="componentSelect" value={selectedComponentKey} onChange={this.onSelectedComponentDefinitionChange}>
         <option key="_" value="">Select Component...</option>
-        {this.state.componentDefinitions.map(item =>
+        {/* {this.state.componentDefinitions.map(item =>
           <option key={item.key} value={item.key}>{item.definition.displayName} ({item.moduleName})</option>
+        )} */}
+        {Object.keys(optionGroups).map(type =>
+          <optgroup key={type} label={type}>
+            {optionGroups[type].map(item =>
+              <option key={item.key} value={item.key}>{item.definition.displayName} ({item.moduleName})</option>
+            )}
+          </optgroup>
         )}
       </select>
     );
