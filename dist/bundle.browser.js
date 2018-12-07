@@ -1936,7 +1936,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     var types = this.state.componentDefinitions.map(function (x) { return x.definition.type; });
                     types = types.filter(function (v, i, a) { return a.indexOf(v) === i; });
                     var optionGroups = {};
-                    this.state.componentDefinitions.forEach(function (item) {
+                    this.state.componentDefinitions.filter(function (x) { return x.definition.type !== 'admin-input'; }).forEach(function (item) {
                         var type = item.definition.type || 'content';
                         if (!optionGroups[type]) {
                             optionGroups[type] = [];

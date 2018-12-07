@@ -191,7 +191,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     types = types.filter((v, i, a) => a.indexOf(v) === i);
 
     const optionGroups: { [type: string]: IReactronComponentDefinitionItem[] } = {};
-    this.state.componentDefinitions.forEach(item => {
+    this.state.componentDefinitions.filter(x => x.definition.type !== 'admin-input').forEach(item => {
       const type = item.definition.type || 'content';
       if (!optionGroups[type]) {
         optionGroups[type] = [];
