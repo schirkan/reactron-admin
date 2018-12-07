@@ -406,7 +406,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiCardContent;
             }(Component));
 
-            var css$4 = ".UiCardTitle {\n  padding: 6px;\n  padding-left: 10px;\n  font-size: 16px;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  background: white;\n  border-bottom: 1px solid #ddd; }\n";
+            var css$4 = ".UiCardTitle {\n  padding: 6px;\n  padding-left: 10px;\n  font-size: 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  background: white;\n  border-bottom: 1px solid #ddd; }\n";
             styleInject(css$4);
 
             var UiCardTitle = /** @class */ (function (_super) {
@@ -1371,9 +1371,16 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 function NumberControlsProvider() {
                 }
                 NumberControlsProvider.prototype.match = function (definition) {
-                    return definition.valueType === 'string';
+                    return definition.valueType === 'number';
                 };
-                NumberControlsProvider.prototype.get = function () {
+                NumberControlsProvider.prototype.get = function (definition) {
+                    if (definition.minValue !== undefined &&
+                        definition.maxValue !== undefined) {
+                        return {
+                            inputControl: NumberInputControl,
+                            detailsControl: RangeInputControl
+                        };
+                    }
                     return {
                         inputControl: NumberInputControl
                     };
@@ -1392,14 +1399,25 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     this.props.valueChange(this.props.definition, e.currentTarget.value);
                 };
                 NumberInputControl.prototype.render = function () {
-                    var inputType = 'number';
-                    if (this.props.definition.minValue !== undefined &&
-                        this.props.definition.maxValue !== undefined) {
-                        inputType = 'range';
-                    }
-                    return (createElement("input", { type: inputType, id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
+                    return (createElement("input", { style: { width: '100%' }, type: "number", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
                 };
                 return NumberInputControl;
+            }(Component));
+            // tslint:disable-next-line:max-classes-per-file
+            var RangeInputControl = /** @class */ (function (_super) {
+                __extends(RangeInputControl, _super);
+                function RangeInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onInputChange = _this.onInputChange.bind(_this);
+                    return _this;
+                }
+                RangeInputControl.prototype.onInputChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                RangeInputControl.prototype.render = function () {
+                    return (createElement("input", { style: { width: '100%' }, type: "range", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
+                };
+                return RangeInputControl;
             }(Component));
 
             var ObjectControlsProvider = /** @class */ (function () {
@@ -1980,11 +1998,21 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             var getInputControls = function (definition, context) {
                 var provider = providers.find(function (x) { return x.match(definition); });
                 var result = provider && provider.get(definition) || {};
-                if (definition.inputControl) {
-                    result.inputControl = function (props) { return context.renderComponent(__assign({}, definition.inputControl, { options: props })); };
-                }
-                if (definition.inputForm) {
-                    result.detailsControl = function (props) { return context.renderComponent(__assign({}, definition.inputForm, { options: props })); };
+                if (!definition.isArray) {
+                    if (definition.inputControl) {
+                        result.inputControl = function (props) { return context.renderComponent({
+                            moduleName: definition.inputControl && definition.inputControl.module,
+                            componentName: definition.inputControl && definition.inputControl.component,
+                            options: props
+                        }); };
+                    }
+                    if (definition.inputForm) {
+                        result.detailsControl = function (props) { return context.renderComponent({
+                            moduleName: definition.inputForm && definition.inputForm.module,
+                            componentName: definition.inputForm && definition.inputForm.component,
+                            options: props
+                        }); };
+                    }
                 }
                 return result;
             };
@@ -2011,7 +2039,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     this.setState(function (state) { return ({ detailsVisible: !state.detailsVisible }); });
                 };
                 OptionItem.prototype.renderInputRow = function () {
-                    var label = (createElement("label", null,
+                    var label = (createElement("label", { htmlFor: this.state.uniqueId },
                         this.props.children,
                         this.state.icon && (createElement(UiButton, null,
                             createElement(FontAwesomeIcon, { icon: this.state.icon }))),

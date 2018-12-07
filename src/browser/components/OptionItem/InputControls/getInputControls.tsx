@@ -24,18 +24,22 @@ export const getInputControls = (definition: IFieldDefinition, context: IReactro
   const provider = providers.find(x => x.match(definition));
   const result = provider && provider.get(definition) || {};
 
-  if (definition.inputControl) {
-    result.inputControl = (props: IInputComponentProps) => context.renderComponent({
-      ...definition.inputControl,
-      options: props
-    });
-  }
+  if (!definition.isArray) {
+    if (definition.inputControl) {
+      result.inputControl = (props: IInputComponentProps) => context.renderComponent({
+        moduleName: definition.inputControl && definition.inputControl.module,
+        componentName: definition.inputControl && definition.inputControl.component,
+        options: props
+      });
+    }
 
-  if (definition.inputForm) {
-    result.detailsControl = (props: IInputComponentProps) => context.renderComponent({
-      ...definition.inputForm,
-      options: props
-    });
+    if (definition.inputForm) {
+      result.detailsControl = (props: IInputComponentProps) => context.renderComponent({
+        moduleName: definition.inputForm && definition.inputForm.module,
+        componentName: definition.inputForm && definition.inputForm.component,
+        options: props
+      });
+    }
   }
 
   return result;

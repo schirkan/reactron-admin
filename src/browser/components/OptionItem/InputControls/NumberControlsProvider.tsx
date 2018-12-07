@@ -4,10 +4,18 @@ import { IInputControls, IInputControlsProvider } from './IInputControls';
 
 export class NumberControlsProvider implements IInputControlsProvider {
   public match(definition: IFieldDefinition): boolean {
-    return definition.valueType === 'string';
+    return definition.valueType === 'number';
   }
 
-  public get(): IInputControls {
+  public get(definition: IFieldDefinition): IInputControls {
+    if (definition.minValue !== undefined &&
+      definition.maxValue !== undefined) {
+      return {
+        inputControl: NumberInputControl,
+        detailsControl: RangeInputControl
+      };
+    }
+
     return {
       inputControl: NumberInputControl
     };
@@ -26,15 +34,28 @@ class NumberInputControl extends React.Component<IInputComponentProps>{
   }
 
   public render() {
-    let inputType = 'number';
-
-    if (this.props.definition.minValue !== undefined &&
-      this.props.definition.maxValue !== undefined) {
-      inputType = 'range';
-    }
-
     return (
-      <input type={inputType} id={this.props.uniqueId} value={this.props.value}
+      <input style={{ width: '100%' }} type="number" id={this.props.uniqueId} value={this.props.value}
+        onChange={this.onInputChange} step={this.props.definition.stepSize}
+        min={this.props.definition.minValue} max={this.props.definition.maxValue} />
+    );
+  }
+}
+
+// tslint:disable-next-line:max-classes-per-file
+class RangeInputControl extends React.Component<IInputComponentProps>{
+  constructor(props: IInputComponentProps) {
+    super(props);
+    this.onInputChange = this.onInputChange.bind(this);
+  }
+
+  private onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    this.props.valueChange(this.props.definition, e.currentTarget.value);
+  }
+
+  public render() {
+    return (
+      <input style={{ width: '100%' }} type="range" id={this.props.uniqueId} value={this.props.value}
         onChange={this.onInputChange} step={this.props.definition.stepSize}
         min={this.props.definition.minValue} max={this.props.definition.maxValue} />
     );

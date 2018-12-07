@@ -46,7 +46,7 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
 
   private renderInputRow() {
     const label = (
-      <label>
+      <label htmlFor={this.state.uniqueId}>
         {this.props.children}
         {this.state.icon && (<UiButton><FontAwesomeIcon icon={this.state.icon} /></UiButton>)}
         <span className="header-text">{this.props.definition.displayName}</span>
