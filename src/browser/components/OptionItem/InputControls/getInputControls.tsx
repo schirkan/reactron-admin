@@ -1,6 +1,6 @@
 import { IFieldDefinition, IInputComponentProps, IReactronComponentContext } from '@schirkan/reactron-interfaces';
 import { ArrayControlsProvider } from './ArrayControlsProvider';
-import { BooleanControlsProvider } from './BooleanControlsProvider';
+import { BooleanControlsProvider } from './BooleanInputControl/BooleanControlsProvider';
 import { IInputControls, IInputControlsProvider } from './IInputControls';
 import { NumberControlsProvider } from './NumberControlsProvider';
 import { ObjectControlsProvider } from './ObjectControlsProvider';
