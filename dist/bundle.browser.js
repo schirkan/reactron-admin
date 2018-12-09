@@ -1348,11 +1348,12 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return _this;
                 }
                 BooleanInputControl.prototype.onCheckboxChange = function (e) {
-                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                    this.props.valueChange(this.props.definition, e.currentTarget.checked);
                 };
                 BooleanInputControl.prototype.render = function () {
+                    if (this.props.value) ;
                     return (createElement("label", { className: "BooleanInputControl" },
-                        createElement("input", { type: "checkbox", id: this.props.uniqueId, value: this.props.value, onChange: this.onCheckboxChange }),
+                        createElement("input", { type: "checkbox", id: this.props.uniqueId, checked: this.props.value, onChange: this.onCheckboxChange }),
                         createElement("span", { className: "slider" })));
                 };
                 return BooleanInputControl;
