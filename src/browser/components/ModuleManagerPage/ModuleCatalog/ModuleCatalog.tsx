@@ -21,6 +21,9 @@ const catalog: IModuleCatalogItem[] = [{
 }, {
   name: 'reactron-analog-clock',
   url: 'https://github.com/schirkan/reactron-analog-clock'
+}, {
+  name: 'reactron-scifi-dashboard',
+  url: 'https://github.com/schirkan/reactron-scifi-dashboard'
 }];
 
 export interface IModuleCatalogProps {

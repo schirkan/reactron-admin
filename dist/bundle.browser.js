@@ -817,6 +817,9 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 }, {
                     name: 'reactron-analog-clock',
                     url: 'https://github.com/schirkan/reactron-analog-clock'
+                }, {
+                    name: 'reactron-scifi-dashboard',
+                    url: 'https://github.com/schirkan/reactron-scifi-dashboard'
                 }];
             var ModuleCatalog = /** @class */ (function (_super) {
                 __extends(ModuleCatalog, _super);
