@@ -35,6 +35,7 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
 
     this.loadPages = this.loadPages.bind(this);
     this.savePage = this.savePage.bind(this);
+    this.deletePage = this.deletePage.bind(this);
     this.hidePageDetailsDialog = this.hidePageDetailsDialog.bind(this);
     this.showPageDetailsDialog = this.showPageDetailsDialog.bind(this);
   }

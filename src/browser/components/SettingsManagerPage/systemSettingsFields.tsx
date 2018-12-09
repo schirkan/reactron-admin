@@ -1,4 +1,5 @@
 import { IFieldDefinition } from '@schirkan/reactron-interfaces';
+import { PageInputControl } from './PageInputControl';
 
 export const systemSettingsFields: IFieldDefinition[] = [{
   description: 'Language',
@@ -30,5 +31,6 @@ export const systemSettingsFields: IFieldDefinition[] = [{
   description: 'Path of page to show on startup',
   displayName: 'Startup Path',
   name: 'startupPath',
-  valueType: 'string'
+  valueType: 'string',
+  inputControl: PageInputControl
 }];

@@ -2286,6 +2286,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     };
                     _this.loadPages = _this.loadPages.bind(_this);
                     _this.savePage = _this.savePage.bind(_this);
+                    _this.deletePage = _this.deletePage.bind(_this);
                     _this.hidePageDetailsDialog = _this.hidePageDetailsDialog.bind(_this);
                     _this.showPageDetailsDialog = _this.showPageDetailsDialog.bind(_this);
                     return _this;
@@ -2576,6 +2577,36 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return self.indexOf(value) === index;
             }
 
+            var PageInputControl = /** @class */ (function (_super) {
+                __extends(PageInputControl, _super);
+                function PageInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onSelectValueChange = function (e) {
+                        _this.props.valueChange(_this.props.definition, e.currentTarget.value);
+                    };
+                    _this.state = {
+                        pages: []
+                    };
+                    _this.onSelectValueChange = _this.onSelectValueChange.bind(_this);
+                    return _this;
+                }
+                PageInputControl.prototype.componentDidMount = function () {
+                    var _this = this;
+                    apiClient.getWebPages().then(function (pages) { return _this.setState({ pages: pages }); });
+                };
+                PageInputControl.prototype.render = function () {
+                    var options = this.state.pages.map(function (page) { return createElement("option", { key: page.id, value: page.path },
+                        page.title,
+                        " (",
+                        page.path,
+                        ")"); });
+                    return (createElement("select", { id: this.props.uniqueId, value: this.props.value, onChange: this.onSelectValueChange },
+                        createElement("option", null, "Select page..."),
+                        options));
+                };
+                return PageInputControl;
+            }(Component));
+
             var systemSettingsFields = [{
                     description: 'Language',
                     displayName: 'Language',
@@ -2606,7 +2637,8 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     description: 'Path of page to show on startup',
                     displayName: 'Startup Path',
                     name: 'startupPath',
-                    valueType: 'string'
+                    valueType: 'string',
+                    inputControl: PageInputControl
                 }];
 
             var css$u = "";
