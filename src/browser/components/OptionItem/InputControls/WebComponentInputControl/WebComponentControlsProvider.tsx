@@ -1,7 +1,7 @@
 import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import { IFieldDefinition, IInputComponentProps } from '@schirkan/reactron-interfaces';
-import WebComponentForm from '../WebComponentForm/WebComponentForm';
-import { IInputControls, IInputControlsProvider } from './IInputControls';
+import { IInputControls, IInputControlsProvider } from '../IInputControls';
+import WebComponentForm from './WebComponentForm';
 
 export class WebComponentControlsProvider implements IInputControlsProvider {
   public match(definition: IFieldDefinition): boolean {
@@ -13,7 +13,7 @@ export class WebComponentControlsProvider implements IInputControlsProvider {
       icon: RegularIcons.faFile,
       detailsControl: WebComponentForm,
       inputControl: (props: IInputComponentProps) => {
-        return props && props.value || '';
+        return props && props.value || 'none';
       }
     };
   }

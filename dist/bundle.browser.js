@@ -1618,6 +1618,26 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return TextAreaInputControl;
             }(Component));
 
+            var ValuesInputControl = /** @class */ (function (_super) {
+                __extends(ValuesInputControl, _super);
+                function ValuesInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onSelectValueChange = function (e) {
+                        _this.props.valueChange(_this.props.definition, e.currentTarget.value);
+                    };
+                    _this.onSelectValueChange = _this.onSelectValueChange.bind(_this);
+                    return _this;
+                }
+                ValuesInputControl.prototype.render = function () {
+                    var values = this.props.definition.values || [];
+                    var options = values.map(function (item, index) { return createElement("option", { key: index, value: item.value }, item.text); });
+                    return (createElement("select", { id: this.props.uniqueId, value: this.props.value, onChange: this.onSelectValueChange },
+                        createElement("option", null, "Select item..."),
+                        options));
+                };
+                return ValuesInputControl;
+            }(Component));
+
             var ValuesControlsProvider = /** @class */ (function () {
                 function ValuesControlsProvider() {
                 }
@@ -1631,26 +1651,6 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 return ValuesControlsProvider;
             }());
-            // tslint:disable-next-line:max-classes-per-file
-            var ValuesInputControl = /** @class */ (function (_super) {
-                __extends(ValuesInputControl, _super);
-                function ValuesInputControl(props) {
-                    var _this = _super.call(this, props) || this;
-                    _this.onSelectValueChange = function (e) {
-                        _this.props.valueChange(_this.props.definition, e.currentTarget.value);
-                    };
-                    _this.onSelectValueChange = _this.onSelectValueChange.bind(_this);
-                    return _this;
-                }
-                ValuesInputControl.prototype.render = function () {
-                    var values = this.props.definition.values || [];
-                    var options = values.map(function (item, index) {
-                        return createElement("option", { key: index, value: item.value }, item.text);
-                    });
-                    return (createElement("select", { id: this.props.uniqueId, value: this.props.value, onChange: this.onSelectValueChange }, options));
-                };
-                return ValuesInputControl;
-            }(Component));
 
             var SimpleEvent = /** @class */ (function () {
                 function SimpleEvent() {
@@ -1984,7 +1984,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         icon: faFile,
                         detailsControl: WebComponentForm,
                         inputControl: function (props) {
-                            return props && props.value || '';
+                            return props && props.value || 'none';
                         }
                     };
                 };
@@ -2006,18 +2006,24 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 var result = provider && provider.get(definition) || {};
                 if (!definition.isArray) {
                     if (definition.inputControl) {
-                        result.inputControl = function (props) { return context.renderComponent({
-                            moduleName: definition.inputControl && definition.inputControl.module,
-                            componentName: definition.inputControl && definition.inputControl.component,
-                            options: props
-                        }); };
+                        if (typeof definition.inputControl === 'function') {
+                            result.inputControl = definition.inputControl;
+                        }
+                        else if (definition.inputControl.module && definition.inputControl.component) {
+                            var moduleName_1 = definition.inputControl.module;
+                            var componentName_1 = definition.inputControl.component;
+                            result.inputControl = function (props) { return context.renderComponent({ moduleName: moduleName_1, componentName: componentName_1, options: props }); };
+                        }
                     }
                     if (definition.inputForm) {
-                        result.detailsControl = function (props) { return context.renderComponent({
-                            moduleName: definition.inputForm && definition.inputForm.module,
-                            componentName: definition.inputForm && definition.inputForm.component,
-                            options: props
-                        }); };
+                        if (typeof definition.inputForm === 'function') {
+                            result.detailsControl = definition.inputForm;
+                        }
+                        else if (definition.inputForm.module && definition.inputForm.component) {
+                            var moduleName_2 = definition.inputForm.module;
+                            var componentName_2 = definition.inputForm.component;
+                            result.detailsControl = function (props) { return context.renderComponent({ moduleName: moduleName_2, componentName: componentName_2, options: props }); };
+                        }
                     }
                 }
                 return result;

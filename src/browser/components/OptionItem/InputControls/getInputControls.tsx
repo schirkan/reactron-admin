@@ -1,13 +1,13 @@
 import { IFieldDefinition, IInputComponentProps, IReactronComponentContext } from '@schirkan/reactron-interfaces';
-import { ArrayControlsProvider } from './ArrayControlsProvider';
+import { ArrayControlsProvider } from './ArrayInputControl/ArrayControlsProvider';
 import { BooleanControlsProvider } from './BooleanInputControl/BooleanControlsProvider';
 import { IInputControls, IInputControlsProvider } from './IInputControls';
 import { NumberControlsProvider } from './NumberControlsProvider';
 import { ObjectControlsProvider } from './ObjectControlsProvider';
-import { StyleControlsProvider } from './StyleControlsProvider';
+import { StyleControlsProvider } from './StyleInputControl/StyleControlsProvider';
 import { TextControlsProvider } from './TextControlsProvider';
-import { ValuesControlsProvider } from './ValuesControlsProvider';
-import { WebComponentControlsProvider } from './WebComponentControlsProvider';
+import { ValuesControlsProvider } from './ValuesInputControl/ValuesControlsProvider';
+import { WebComponentControlsProvider } from './WebComponentInputControl/WebComponentControlsProvider';
 
 const providers: IInputControlsProvider[] = [
   new ArrayControlsProvider(),
@@ -26,19 +26,23 @@ export const getInputControls = (definition: IFieldDefinition, context: IReactro
 
   if (!definition.isArray) {
     if (definition.inputControl) {
-      result.inputControl = (props: IInputComponentProps) => context.renderComponent({
-        moduleName: definition.inputControl && definition.inputControl.module,
-        componentName: definition.inputControl && definition.inputControl.component,
-        options: props
-      });
+      if (typeof definition.inputControl === 'function') {
+        result.inputControl = definition.inputControl;
+      } else if (definition.inputControl.module && definition.inputControl.component) {
+        const moduleName = definition.inputControl.module;
+        const componentName = definition.inputControl.component;
+        result.inputControl = (props: IInputComponentProps) => context.renderComponent({ moduleName, componentName, options: props });
+      }
     }
 
     if (definition.inputForm) {
-      result.detailsControl = (props: IInputComponentProps) => context.renderComponent({
-        moduleName: definition.inputForm && definition.inputForm.module,
-        componentName: definition.inputForm && definition.inputForm.component,
-        options: props
-      });
+      if (typeof definition.inputForm === 'function') {
+        result.detailsControl = definition.inputForm;
+      } else if (definition.inputForm.module && definition.inputForm.component) {
+        const moduleName = definition.inputForm.module;
+        const componentName = definition.inputForm.component;
+        result.detailsControl = (props: IInputComponentProps) => context.renderComponent({ moduleName, componentName, options: props });
+      }
     }
   }
 

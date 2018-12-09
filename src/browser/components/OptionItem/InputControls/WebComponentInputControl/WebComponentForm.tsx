@@ -6,10 +6,10 @@ import { Guid } from 'guid-typescript';
 import * as React from 'react';
 import { apiClient } from 'src/browser/ApiClient';
 import { getDefaultObjectValue } from 'src/common/optionsHelper';
-import { AdminPageContext } from '../../AdminPageContext';
-import { OptionCardContext, OptionsCardContextData } from '../../OptionCard/OptionCardContext';
-import OptionList from '../../OptionList/OptionList';
-import UiButton from '../../UiButton/UiButton';
+import { AdminPageContext } from '../../../AdminPageContext';
+import { OptionCardContext, OptionsCardContextData } from '../../../OptionCard/OptionCardContext';
+import OptionList from '../../../OptionList/OptionList';
+import UiButton from '../../../UiButton/UiButton';
 
 import './WebComponentForm.scss';
 

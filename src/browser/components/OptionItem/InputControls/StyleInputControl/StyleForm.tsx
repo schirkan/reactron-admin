@@ -3,8 +3,8 @@ import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IFieldDefinition, IInputComponentProps } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
-import UiButton from '../../UiButton/UiButton';
-import OptionItem from '../OptionItem';
+import UiButton from '../../../UiButton/UiButton';
+import OptionItem from '../../OptionItem';
 
 import './StyleForm.scss';
 

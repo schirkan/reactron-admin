@@ -5,8 +5,8 @@ import { IFieldDefinition, IInputComponentProps } from '@schirkan/reactron-inter
 import { Guid } from 'guid-typescript';
 import * as React from 'react';
 import { getDefaultFieldValue } from 'src/common/optionsHelper';
-import UiButton from '../../UiButton/UiButton';
-import OptionItem from '../OptionItem';
+import UiButton from '../../../UiButton/UiButton';
+import OptionItem from '../../OptionItem';
 
 import './ArrayForm.scss';
 

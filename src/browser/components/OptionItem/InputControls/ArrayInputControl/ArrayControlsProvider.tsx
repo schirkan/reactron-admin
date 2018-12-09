@@ -1,7 +1,7 @@
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { IFieldDefinition, IInputComponentProps } from '@schirkan/reactron-interfaces';
-import ArrayForm from '../ArrayForm/ArrayForm';
-import { IInputControls, IInputControlsProvider } from './IInputControls';
+import { IInputControls, IInputControlsProvider } from '../IInputControls';
+import ArrayForm from './ArrayForm';
 
 export class ArrayControlsProvider implements IInputControlsProvider {
   public match(definition: IFieldDefinition): boolean {

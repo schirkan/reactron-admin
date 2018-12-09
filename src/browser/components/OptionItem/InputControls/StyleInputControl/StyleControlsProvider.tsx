@@ -1,7 +1,7 @@
 import * as BrandIcons from '@fortawesome/free-brands-svg-icons';
 import { IFieldDefinition, IInputComponentProps } from '@schirkan/reactron-interfaces';
-import StyleForm from '../StyleForm/StyleForm';
-import { IInputControls, IInputControlsProvider } from './IInputControls';
+import { IInputControls, IInputControlsProvider } from '../IInputControls';
+import StyleForm from './StyleForm';
 
 export class StyleControlsProvider implements IInputControlsProvider {
   public match(definition: IFieldDefinition): boolean {
