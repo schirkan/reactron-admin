@@ -42,6 +42,8 @@ export default {
         '@fortawesome/free-regular-svg-icons',
         '@fortawesome/free-solid-svg-icons',
         '@fortawesome/react-fontawesome',
-        'electron'
+        'electron',
+        'moment',
+        'moment-timezone',
     ]
 };

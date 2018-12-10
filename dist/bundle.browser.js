@@ -1,6 +1,6 @@
-System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@fortawesome/free-regular-svg-icons', '@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react'], function (exports, module) {
+System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@fortawesome/free-regular-svg-icons', 'moment', 'moment-timezone', '@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react'], function (exports, module) {
     'use strict';
-    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, FontAwesomeIcon, createElement, Component, createContext, Fragment;
+    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, moment, momentTimezone, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, FontAwesomeIcon, createElement, Component, createContext, Fragment;
     return {
         setters: [function (module) {
             faGithub = module.faGithub;
@@ -17,6 +17,10 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             faTrashAlt$1 = module.faTrashAlt;
             faArrowAltCircleUp = module.faArrowAltCircleUp;
             faArrowAltCircleDown = module.faArrowAltCircleDown;
+        }, function (module) {
+            moment = module.default;
+        }, function (module) {
+            momentTimezone = module.default;
         }, function (module) {
             faHome = module.faHome;
             faPlus = module.faPlus;
@@ -2607,6 +2611,15 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return PageInputControl;
             }(Component));
 
+            var timezoneNames = momentTimezone.tz.names();
+            var timezones = [];
+            timezoneNames.forEach(function (timezone) {
+                timezones.push({
+                    text: "(GMT" + moment.tz(timezone).format('Z') + ") " + timezone.replace('_', ' '),
+                    value: timezone
+                });
+            });
+            timezones.sort(function (a, b) { return a.text.localeCompare(b.text); });
             var systemSettingsFields = [{
                     description: 'Language',
                     displayName: 'Language',
@@ -2630,12 +2643,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     displayName: 'Timezone',
                     name: 'timezone',
                     valueType: 'string',
-                    values: [
-                        { value: 'Europe/Berlin', text: 'Europe/Berlin' },
-                        { value: 'Europe/London', text: 'Europe/London' },
-                        { value: 'Asia/Tokyo', text: 'Asia/Tokyo' },
-                        { value: 'America/New_York', text: 'America/New York' },
-                    ]
+                    values: timezones.slice()
                 }, {
                     description: 'Path of page to show on startup',
                     displayName: 'Startup Path',
