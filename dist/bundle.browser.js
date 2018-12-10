@@ -2613,9 +2613,12 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     name: 'lang',
                     valueType: 'string',
                     values: [
-                        { value: 'de-DE', text: 'German' },
-                        { value: 'en-GB', text: 'English' },
-                        { value: 'fr-FR', text: 'French' },
+                        { value: 'de', text: 'German' },
+                        { value: 'en', text: 'English' },
+                        { value: 'fr', text: 'French' },
+                        { value: 'es', text: 'Spanish' },
+                        { value: 'it', text: 'Italian' },
+                        { value: 'ru', text: 'Russian' },
                     ]
                 }, {
                     description: 'Location',
