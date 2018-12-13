@@ -3,7 +3,7 @@ import { AdminService } from "./services/AdminService";
 
 export const services: IReactronServiceDefinition[] = [{
     name: 'AdminService',
-    displayName: 'Modules API',
+    displayName: 'Admin Service',
     description: 'Registers Admin page on startup',
     service: AdminService
 }];

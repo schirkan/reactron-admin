@@ -59,28 +59,26 @@ var AdminService = /** @class */ (function () {
     }
     AdminService.prototype.start = function (context) {
         return __awaiter(this, void 0, Promise, function () {
-            var adminComponent, adminPage;
+            var component, page;
             return __generator(this, function (_a) {
                 console.log('AdminService.start');
-                adminComponent = {
+                component = {
                     id: 'reactron-admin',
                     componentName: 'Admin',
                     moduleName: 'reactron-admin',
                     options: {}
                 };
-                // const components = context.backendService.webComponentsManager.getAll();
-                // if (!components.find(x => x.id === adminComponent.id)) {
-                context.backendService.webComponentsManager.createOrUpdate(adminComponent);
-                adminPage = {
+                // register component
+                context.backendService.webComponentsManager.createOrUpdate(component);
+                page = {
                     id: 'reactron-admin-page',
                     title: 'Admin',
                     path: '/admin',
                     webComponentId: 'reactron-admin',
                     style: {}
                 };
-                // const pages = context.backendService.webPageManager.getAll();
-                // if (!pages.find(x => x.id === adminPage.id)) {
-                context.backendService.webPageManager.createOrUpdate(adminPage);
+                // register page 
+                context.backendService.webPageManager.createOrUpdate(page);
                 return [2 /*return*/];
             });
         });
@@ -90,7 +88,7 @@ var AdminService = /** @class */ (function () {
 
 var services = [{
         name: 'AdminService',
-        displayName: 'Modules API',
+        displayName: 'Admin Service',
         description: 'Registers Admin page on startup',
         service: AdminService
     }];
