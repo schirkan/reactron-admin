@@ -1,6 +1,6 @@
 System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@fortawesome/free-regular-svg-icons', 'moment', 'moment-timezone', '@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react'], function (exports, module) {
     'use strict';
-    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, moment, momentTimezone, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, FontAwesomeIcon, createElement, Component, createContext, Fragment;
+    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faArrowAltCircleRight, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, moment, momentTimezone, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, FontAwesomeIcon, createElement, Component, createContext, Fragment;
     return {
         setters: [function (module) {
             faGithub = module.faGithub;
@@ -13,6 +13,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             Switch = module.Switch;
         }, function (module) {
             faFile = module.faFile;
+            faArrowAltCircleRight = module.faArrowAltCircleRight;
             faEdit = module.faEdit;
             faTrashAlt$1 = module.faTrashAlt;
             faArrowAltCircleUp = module.faArrowAltCircleUp;
@@ -382,7 +383,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiFlowLayout;
             }(Component));
 
-            var css$2 = ".UiCard {\n  overflow: auto;\n  width: 100%;\n  border: 1px solid #ddd;\n  border-radius: 2px;\n  background: white;\n  color: #222;\n  box-sizing: border-box;\n  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; }\n  .UiCard a {\n    color: #555; }\n";
+            var css$2 = ".UiCard {\n  overflow: auto;\n  width: 100%;\n  border: 1px solid #ddd;\n  border-radius: 2px;\n  background: white;\n  color: #222;\n  box-sizing: border-box;\n  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; }\n  .UiCard a {\n    color: #222; }\n";
             styleInject(css$2);
 
             var UiCard = /** @class */ (function (_super) {
@@ -1177,6 +1178,27 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return result;
             };
 
+            var ErrorBoundary = /** @class */ (function (_super) {
+                __extends(ErrorBoundary, _super);
+                function ErrorBoundary(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.state = { error: null };
+                    return _this;
+                }
+                ErrorBoundary.prototype.componentDidCatch = function (error, info) {
+                    console.log(error);
+                    console.log(info);
+                    this.setState({ error: error });
+                };
+                ErrorBoundary.prototype.render = function () {
+                    if (this.state.error) {
+                        return createElement("h1", null, "Something went wrong.");
+                    }
+                    return this.props.children;
+                };
+                return ErrorBoundary;
+            }(Component));
+
             var guid = createCommonjsModule(function (module, exports) {
             exports.__esModule = true;
             var Guid = /** @class */ (function () {
@@ -1336,7 +1358,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         icon: faList,
                         detailsControl: ArrayForm,
                         inputControl: function (props) {
-                            var array = props.value || [];
+                            var array = props && props.value || [];
                             return '(' + array.length + ' items)';
                         }
                     };
@@ -1565,7 +1587,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         icon: faCss3,
                         detailsControl: StyleForm,
                         inputControl: function (props) {
-                            var text = JSON.stringify(props.value) || '';
+                            var text = JSON.stringify(props && props.value) || '';
                             return text === '{}' ? '' : text;
                         }
                     };
@@ -1583,7 +1605,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     if (definition.textRows !== undefined && definition.textRows > 1) {
                         return {
                             detailsControl: TextAreaInputControl,
-                            inputControl: function (props) { return props.value; }
+                            inputControl: function (props) { return props && props.value; }
                         };
                     }
                     return {
@@ -2065,7 +2087,11 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         this.state.icon && (createElement(UiButton, null,
                             createElement(FontAwesomeIcon, { icon: this.state.icon }))),
                         createElement("span", { className: "header-text" }, this.props.definition.displayName)));
-                    var input = this.state.inputControl && createElement(this.state.inputControl, __assign({}, this.props, { uniqueId: this.state.uniqueId })) || '';
+                    var input = '';
+                    if (this.state.inputControl) {
+                        input = createElement(ErrorBoundary, null,
+                            createElement(this.state.inputControl, __assign({}, this.props, { uniqueId: this.state.uniqueId })));
+                    }
                     if (this.state.detailsControl) {
                         return (createElement(UiButton, { className: "item-header", onClick: this.toggleItemDetails },
                             label,
@@ -2082,7 +2108,8 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                         return null;
                     }
                     return (createElement("div", { className: "item-details", hidden: !this.state.detailsVisible, "data-isarray": this.props.definition.isArray ? 'true' : 'false' },
-                        createElement(this.state.detailsControl, __assign({}, this.props, { uniqueId: this.state.uniqueId }))));
+                        createElement(ErrorBoundary, null,
+                            createElement(this.state.detailsControl, __assign({}, this.props, { uniqueId: this.state.uniqueId })))));
                 };
                 OptionItem.prototype.render = function () {
                     return (createElement("div", { className: "OptionItem", "data-hasdetails": this.state.detailsControl ? 'true' : 'false', "data-detailsvisible": this.state.detailsVisible ? 'true' : 'false', "data-valuetype": this.props.definition.valueType },
@@ -2104,7 +2131,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return _this;
                 }
                 OptionList.prototype.valueChange = function (field, value) {
-                    var newValue = __assign({}, this.props.value);
+                    var newValue = this.props.value ? __assign({}, this.props.value) : {};
                     newValue[field.name] = value;
                     this.props.valueChange(newValue);
                 };
@@ -2239,6 +2266,9 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 PageCard.prototype.renderFooter = function () {
                     return (createElement(UiCardButtonRow, { divider: "half" },
+                        createElement(Link, { to: this.props.page.path },
+                            createElement(FontAwesomeIcon, { icon: faArrowAltCircleRight }),
+                            " Goto"),
                         createElement(UiButton, { onClick: this.onEdit },
                             createElement(FontAwesomeIcon, { icon: faEdit }),
                             " Edit"),
@@ -2789,7 +2819,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return SystemPage;
             }(Component));
 
-            var css$w = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    font-size: 16px;\n    background: white; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
+            var css$w = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a {\n    text-decoration: none; }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    font-size: 16px;\n    background: white; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
             styleInject(css$w);
 
             var Admin = /** @class */ (function (_super) {
@@ -2801,7 +2831,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                     return (createElement(AdminPageContext.Provider, { value: this.context },
                         createElement("section", { className: "Admin" },
                             createElement("header", null,
-                                createElement(RoundButton, { to: "/" },
+                                createElement(RoundButton, { to: this.context.settings.startupPath },
                                     createElement(FontAwesomeIcon, { icon: faHome }),
                                     " Home"),
                                 createElement("div", { className: "title" }, "Reactron Admin")),

@@ -11,7 +11,7 @@ export class TextControlsProvider implements IInputControlsProvider {
     if (definition.textRows !== undefined && definition.textRows > 1) {
       return {
         detailsControl: TextAreaInputControl,
-        inputControl: (props: IInputComponentProps) => props.value
+        inputControl: (props: IInputComponentProps) => props && props.value
       };
     }
 

@@ -13,7 +13,7 @@ export class ArrayControlsProvider implements IInputControlsProvider {
       icon: SolidIcons.faList,
       detailsControl: ArrayForm,
       inputControl: (props: IInputComponentProps) => {
-        const array = props.value as any[] || [];
+        const array = props && props.value as any[] || [];
         return '(' + array.length + ' items)';
       }
     };

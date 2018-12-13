@@ -18,7 +18,7 @@ export default class OptionList extends React.Component<IOptionListProps> {
   }
 
   private valueChange(field: IFieldDefinition, value: any) {
-    const newValue = { ...this.props.value };
+    const newValue = this.props.value ? { ...this.props.value } : {};
     newValue[field.name] = value;
     this.props.valueChange(newValue);
   }

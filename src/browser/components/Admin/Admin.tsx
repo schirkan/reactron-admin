@@ -17,12 +17,12 @@ import './Admin.scss';
 export default class Admin extends React.Component {
   public context: IReactronComponentContext;
 
-    public render() {
+  public render() {
     return (
       <AdminPageContext.Provider value={this.context}>
         <section className="Admin">
           <header>
-            <RoundButton to="/">
+            <RoundButton to={this.context.settings.startupPath}>
               <FontAwesome.FontAwesomeIcon icon={SvgIcons.faHome} /> Home
             </RoundButton>
             <div className="title">Reactron Admin</div>

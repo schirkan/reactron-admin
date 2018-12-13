@@ -13,7 +13,7 @@ export class StyleControlsProvider implements IInputControlsProvider {
       icon: BrandIcons.faCss3,
       detailsControl: StyleForm,
       inputControl: (props: IInputComponentProps) => {
-        const text = JSON.stringify(props.value) || '';
+        const text = JSON.stringify(props && props.value) || '';
         return text === '{}' ? '' : text;
       }
     };

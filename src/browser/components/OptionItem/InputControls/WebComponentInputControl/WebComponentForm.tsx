@@ -204,9 +204,6 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     return (
       <select className="componentSelect" value={selectedComponentKey} onChange={this.onSelectedComponentDefinitionChange}>
         <option key="_" value="">Select Component...</option>
-        {/* {this.state.componentDefinitions.map(item =>
-          <option key={item.key} value={item.key}>{item.definition.displayName} ({item.moduleName})</option>
-        )} */}
         {Object.keys(optionGroups).map(type =>
           <optgroup key={type} label={type}>
             {optionGroups[type].map(item =>

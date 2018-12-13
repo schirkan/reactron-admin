@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IFieldDefinition } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
 import { AdminPageContext } from '../AdminPageContext';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import UiButton from '../UiButton/UiButton';
 import { getInputControls } from './InputControls/getInputControls';
 import { IInputControls } from "./InputControls/IInputControls";
@@ -53,7 +54,11 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
       </label>
     );
 
-    const input = this.state.inputControl && <this.state.inputControl {...this.props} uniqueId={this.state.uniqueId} /> || '';
+    let input: JSX.Element | string = '';
+
+    if (this.state.inputControl) {
+      input = <ErrorBoundary><this.state.inputControl {...this.props} uniqueId={this.state.uniqueId} /></ErrorBoundary>;
+    }
 
     if (this.state.detailsControl) {
       return (
@@ -81,7 +86,9 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
     }
     return (
       <div className="item-details" hidden={!this.state.detailsVisible} data-isarray={this.props.definition.isArray ? 'true' : 'false'}>
-        <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} />
+        <ErrorBoundary>
+          <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} />
+        </ErrorBoundary>
       </div>
     );
   }

@@ -2,6 +2,7 @@ import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IWebPageOptions } from "@schirkan/reactron-interfaces";
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import UiButton from '../../UiButton/UiButton';
 import UiCard from '../../UiCard/UiCard';
 import UiCardButtonRow from '../../UiCardButtonRow/UiCardButtonRow';
@@ -51,6 +52,9 @@ export default class PageCard extends React.Component<IPageCardProps> {
   public renderFooter() {
     return (
       <UiCardButtonRow divider="half">
+        <Link to={this.props.page.path}>
+          <FontAwesomeIcon icon={RegularIcons.faArrowAltCircleRight} /> Goto
+        </Link>
         <UiButton onClick={this.onEdit}>
           <FontAwesomeIcon icon={RegularIcons.faEdit} /> Edit
         </UiButton>
