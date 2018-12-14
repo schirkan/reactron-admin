@@ -2,10 +2,11 @@ import { IFieldDefinition, IInputComponentProps, IReactronComponentContext } fro
 import { ArrayControlsProvider } from './ArrayInputControl/ArrayControlsProvider';
 import { BooleanControlsProvider } from './BooleanInputControl/BooleanControlsProvider';
 import { IInputControls, IInputControlsProvider } from './IInputControls';
-import { NumberControlsProvider } from './NumberControlsProvider';
-import { ObjectControlsProvider } from './ObjectControlsProvider';
+import { NumberControlsProvider } from './NumberInputControl/NumberControlsProvider';
+import { ObjectControlsProvider } from './ObjectInputControl/ObjectControlsProvider';
+import { PasswordControlsProvider } from './PasswordInputControl/PasswordControlsProvider';
 import { StyleControlsProvider } from './StyleInputControl/StyleControlsProvider';
-import { TextControlsProvider } from './TextControlsProvider';
+import { TextControlsProvider } from './TextInputControl/TextControlsProvider';
 import { ValuesControlsProvider } from './ValuesInputControl/ValuesControlsProvider';
 import { WebComponentControlsProvider } from './WebComponentInputControl/WebComponentControlsProvider';
 
@@ -18,6 +19,7 @@ const providers: IInputControlsProvider[] = [
   new BooleanControlsProvider(),
   new TextControlsProvider(),
   new NumberControlsProvider(),
+  new PasswordControlsProvider(),
 ];
 
 export const getInputControls = (definition: IFieldDefinition, context: IReactronComponentContext): IInputControls => {

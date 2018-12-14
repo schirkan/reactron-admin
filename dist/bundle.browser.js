@@ -1,6 +1,6 @@
 System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@fortawesome/free-regular-svg-icons', 'moment', 'moment-timezone', '@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react'], function (exports, module) {
     'use strict';
-    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faArrowAltCircleRight, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, moment, momentTimezone, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, FontAwesomeIcon, createElement, Component, createContext, Fragment;
+    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faArrowAltCircleRight, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, moment, momentTimezone, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, FontAwesomeIcon, createElement, Component, createContext, Fragment;
     return {
         setters: [function (module) {
             faGithub = module.faGithub;
@@ -18,6 +18,8 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             faTrashAlt$1 = module.faTrashAlt;
             faArrowAltCircleUp = module.faArrowAltCircleUp;
             faArrowAltCircleDown = module.faArrowAltCircleDown;
+            faEyeSlash = module.faEyeSlash;
+            faEye = module.faEye;
         }, function (module) {
             moment = module.default;
         }, function (module) {
@@ -548,7 +550,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiButton;
             }(Component));
 
-            var css$8 = ".UiTabs header {\n  margin-left: 20px;\n  margin-right: 20px; }\n  .UiTabs header .UiTabHeader {\n    display: inline-block;\n    margin: 8px;\n    margin-bottom: 0;\n    border-bottom: 1px solid #ddd;\n    transition: 0.5s; }\n    .UiTabs header .UiTabHeader.selected {\n      border-bottom-color: #888; }\n";
+            var css$8 = ".UiTabs header {\n  margin-left: 20px;\n  margin-right: 20px; }\n  .UiTabs header .UiTabHeader {\n    display: inline-block;\n    margin: 8px;\n    margin-bottom: 0;\n    border-bottom: 1px solid #ddd;\n    -webkit-transition: 0.5s;\n    transition: 0.5s; }\n    .UiTabs header .UiTabHeader.selected {\n      border-bottom-color: #888; }\n";
             styleInject(css$8);
 
             var UiTabs = /** @class */ (function (_super) {
@@ -591,7 +593,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiTabs;
             }(Component));
 
-            var css$9 = "section.AddModuleCard {\n  display: inline-flex; }\n  section.AddModuleCard input {\n    padding-left: 6px;\n    border: none;\n    width: 100%; }\n  section.AddModuleCard .addButton {\n    border-left: 1px solid #ddd;\n    overflow: visible; }\n";
+            var css$9 = "section.AddModuleCard {\n  display: -webkit-inline-box;\n  display: inline-flex; }\n  section.AddModuleCard input {\n    padding-left: 6px;\n    border: none;\n    width: 100%; }\n  section.AddModuleCard .addButton {\n    border-left: 1px solid #ddd;\n    overflow: visible; }\n";
             styleInject(css$9);
 
             var AddModuleCard = /** @class */ (function (_super) {
@@ -676,7 +678,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return UiCardButtonRow;
             }(Component));
 
-            var css$c = ".ModuleCard {\n  overflow: hidden; }\n  .ModuleCard .UiCardTitle .hasUpdate {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard .UiCardButtonRow {\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard .UiCardButtonRow.default.hide {\n      margin-left: -100%; }\n    .ModuleCard .UiCardButtonRow.actions {\n      margin-top: -34px; }\n      .ModuleCard .UiCardButtonRow.actions.hide {\n        margin-left: 100%; }\n    .ModuleCard .UiCardButtonRow a {\n      text-decoration: none; }\n";
+            var css$c = ".ModuleCard {\n  overflow: hidden; }\n  .ModuleCard .UiCardTitle .hasUpdate {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard .UiCardButtonRow {\n    -webkit-transition: 0.5s ease-in-out;\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard .UiCardButtonRow.default.hide {\n      margin-left: -100%; }\n    .ModuleCard .UiCardButtonRow.actions {\n      margin-top: -34px; }\n      .ModuleCard .UiCardButtonRow.actions.hide {\n        margin-left: 100%; }\n    .ModuleCard .UiCardButtonRow a {\n      text-decoration: none; }\n";
             styleInject(css$c);
 
             var ModuleCard = /** @class */ (function (_super) {
@@ -1113,7 +1115,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return ModuleManagerPage;
             }(Component));
 
-            var css$g = "section.Navigation {\n  background: #456;\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\n  section.Navigation a {\n    padding-bottom: 8px;\n    padding-top: 11px;\n    color: #ddd;\n    text-decoration: none;\n    border-bottom: 3px solid transparent;\n    text-align: center;\n    transition: 0.5s; }\n    section.Navigation a:hover, section.Navigation a:active, section.Navigation a.active {\n      background: transparent;\n      color: white; }\n    section.Navigation a:nth-child(1).active {\n      background: #4a8599; }\n    section.Navigation a:nth-child(1).active, section.Navigation a:nth-child(1):hover {\n      border-bottom: 3px solid #42e1f7; }\n    section.Navigation a:nth-child(2).active {\n      background: #69006f; }\n    section.Navigation a:nth-child(2).active, section.Navigation a:nth-child(2):hover {\n      border-bottom: 3px solid #f000ff; }\n    section.Navigation a:nth-child(3).active {\n      background: #5f5600; }\n    section.Navigation a:nth-child(3).active, section.Navigation a:nth-child(3):hover {\n      border-bottom: 3px solid #ffe700; }\n    section.Navigation a:nth-child(4).active {\n      background: #2f6108; }\n    section.Navigation a:nth-child(4).active, section.Navigation a:nth-child(4):hover {\n      border-bottom: 3px solid #74ee15; }\n    section.Navigation a:nth-child(5).active {\n      background: #001086; }\n    section.Navigation a:nth-child(5).active, section.Navigation a:nth-child(5):hover {\n      border-bottom: 3px solid #001eff; }\n";
+            var css$g = "section.Navigation {\n  background: #456;\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\n  section.Navigation a {\n    padding-bottom: 8px;\n    padding-top: 11px;\n    color: #ddd;\n    text-decoration: none;\n    border-bottom: 3px solid transparent;\n    text-align: center;\n    -webkit-transition: 0.5s;\n    transition: 0.5s; }\n    section.Navigation a:hover, section.Navigation a:active, section.Navigation a.active {\n      background: transparent;\n      color: white; }\n    section.Navigation a:nth-child(1).active {\n      background: #4a8599; }\n    section.Navigation a:nth-child(1).active, section.Navigation a:nth-child(1):hover {\n      border-bottom: 3px solid #42e1f7; }\n    section.Navigation a:nth-child(2).active {\n      background: #69006f; }\n    section.Navigation a:nth-child(2).active, section.Navigation a:nth-child(2):hover {\n      border-bottom: 3px solid #f000ff; }\n    section.Navigation a:nth-child(3).active {\n      background: #5f5600; }\n    section.Navigation a:nth-child(3).active, section.Navigation a:nth-child(3):hover {\n      border-bottom: 3px solid #ffe700; }\n    section.Navigation a:nth-child(4).active {\n      background: #2f6108; }\n    section.Navigation a:nth-child(4).active, section.Navigation a:nth-child(4):hover {\n      border-bottom: 3px solid #74ee15; }\n    section.Navigation a:nth-child(5).active {\n      background: #001086; }\n    section.Navigation a:nth-child(5).active, section.Navigation a:nth-child(5):hover {\n      border-bottom: 3px solid #001eff; }\n";
             styleInject(css$g);
 
             var Navigation = /** @class */ (function (_super) {
@@ -1366,7 +1368,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return ArrayControlsProvider;
             }());
 
-            var css$i = ".BooleanInputControl {\n  position: relative;\n  display: inline-block;\n  width: 30px;\n  height: 17px;\n  margin-top: auto;\n  margin-bottom: auto; }\n  .BooleanInputControl input {\n    opacity: 0;\n    width: 0;\n    height: 0; }\n    .BooleanInputControl input:checked + .slider {\n      background-color: #2196F3; }\n    .BooleanInputControl input:focus + .slider {\n      box-shadow: 0 0 1px #2196F3; }\n    .BooleanInputControl input:checked + .slider:before {\n      -webkit-transform: translateX(100%);\n              transform: translateX(100%); }\n  .BooleanInputControl .slider {\n    position: absolute;\n    cursor: pointer;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background-color: #ccc;\n    transition: .4s;\n    border-radius: 17px; }\n    .BooleanInputControl .slider:before {\n      position: absolute;\n      content: \"\";\n      height: 13px;\n      width: 13px;\n      left: 2px;\n      bottom: 2px;\n      background-color: white;\n      transition: .4s;\n      border-radius: 50%; }\n";
+            var css$i = ".BooleanInputControl {\n  position: relative;\n  display: inline-block;\n  width: 30px;\n  height: 17px;\n  margin-top: auto;\n  margin-bottom: auto; }\n  .BooleanInputControl input {\n    opacity: 0;\n    width: 0;\n    height: 0; }\n    .BooleanInputControl input:checked + .slider {\n      background-color: #2196F3; }\n    .BooleanInputControl input:focus + .slider {\n      box-shadow: 0 0 1px #2196F3; }\n    .BooleanInputControl input:checked + .slider:before {\n      -webkit-transform: translateX(100%);\n              transform: translateX(100%); }\n  .BooleanInputControl .slider {\n    position: absolute;\n    cursor: pointer;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background-color: #ccc;\n    -webkit-transition: .4s;\n    transition: .4s;\n    border-radius: 17px; }\n    .BooleanInputControl .slider:before {\n      position: absolute;\n      content: \"\";\n      height: 13px;\n      width: 13px;\n      left: 2px;\n      bottom: 2px;\n      background-color: white;\n      -webkit-transition: .4s;\n      transition: .4s;\n      border-radius: 50%; }\n";
             styleInject(css$i);
 
             var BooleanInputControl = /** @class */ (function (_super) {
@@ -1402,6 +1404,38 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return BooleanControlsProvider;
             }());
 
+            var NumberInputControl = /** @class */ (function (_super) {
+                __extends(NumberInputControl, _super);
+                function NumberInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onInputChange = _this.onInputChange.bind(_this);
+                    return _this;
+                }
+                NumberInputControl.prototype.onInputChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                NumberInputControl.prototype.render = function () {
+                    return (createElement("input", { style: { width: '100%' }, type: "number", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
+                };
+                return NumberInputControl;
+            }(Component));
+
+            var RangeInputControl = /** @class */ (function (_super) {
+                __extends(RangeInputControl, _super);
+                function RangeInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onInputChange = _this.onInputChange.bind(_this);
+                    return _this;
+                }
+                RangeInputControl.prototype.onInputChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                RangeInputControl.prototype.render = function () {
+                    return (createElement("input", { style: { width: '100%' }, type: "range", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
+                };
+                return RangeInputControl;
+            }(Component));
+
             var NumberControlsProvider = /** @class */ (function () {
                 function NumberControlsProvider() {
                 }
@@ -1422,37 +1456,21 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 return NumberControlsProvider;
             }());
-            // tslint:disable-next-line:max-classes-per-file
-            var NumberInputControl = /** @class */ (function (_super) {
-                __extends(NumberInputControl, _super);
-                function NumberInputControl(props) {
+
+            var ObjectInputControl = /** @class */ (function (_super) {
+                __extends(ObjectInputControl, _super);
+                function ObjectInputControl(props) {
                     var _this = _super.call(this, props) || this;
-                    _this.onInputChange = _this.onInputChange.bind(_this);
+                    _this.triggerValueChange = _this.triggerValueChange.bind(_this);
                     return _this;
                 }
-                NumberInputControl.prototype.onInputChange = function (e) {
-                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                ObjectInputControl.prototype.triggerValueChange = function (newValue) {
+                    this.props.valueChange(this.props.definition, newValue);
                 };
-                NumberInputControl.prototype.render = function () {
-                    return (createElement("input", { style: { width: '100%' }, type: "number", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
+                ObjectInputControl.prototype.render = function () {
+                    return createElement(OptionList, { fields: this.props.definition.fields, value: this.props.value, valueChange: this.triggerValueChange });
                 };
-                return NumberInputControl;
-            }(Component));
-            // tslint:disable-next-line:max-classes-per-file
-            var RangeInputControl = /** @class */ (function (_super) {
-                __extends(RangeInputControl, _super);
-                function RangeInputControl(props) {
-                    var _this = _super.call(this, props) || this;
-                    _this.onInputChange = _this.onInputChange.bind(_this);
-                    return _this;
-                }
-                RangeInputControl.prototype.onInputChange = function (e) {
-                    this.props.valueChange(this.props.definition, e.currentTarget.value);
-                };
-                RangeInputControl.prototype.render = function () {
-                    return (createElement("input", { style: { width: '100%' }, type: "range", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
-                };
-                return RangeInputControl;
+                return ObjectInputControl;
             }(Component));
 
             var ObjectControlsProvider = /** @class */ (function () {
@@ -1468,24 +1486,46 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 return ObjectControlsProvider;
             }());
-            // tslint:disable-next-line:max-classes-per-file
-            var ObjectInputControl = /** @class */ (function (_super) {
-                __extends(ObjectInputControl, _super);
-                function ObjectInputControl(props) {
+
+            var PasswordInputControl = /** @class */ (function (_super) {
+                __extends(PasswordInputControl, _super);
+                function PasswordInputControl(props) {
                     var _this = _super.call(this, props) || this;
-                    _this.triggerValueChange = _this.triggerValueChange.bind(_this);
+                    _this.state = { show: false };
+                    _this.onInputChange = _this.onInputChange.bind(_this);
+                    _this.toggleText = _this.toggleText.bind(_this);
                     return _this;
                 }
-                ObjectInputControl.prototype.triggerValueChange = function (newValue) {
-                    this.props.valueChange(this.props.definition, newValue);
+                PasswordInputControl.prototype.onInputChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
                 };
-                ObjectInputControl.prototype.render = function () {
-                    return (createElement(OptionList, { fields: this.props.definition.fields, value: this.props.value, valueChange: this.triggerValueChange }));
+                PasswordInputControl.prototype.toggleText = function () {
+                    this.setState(function (state) { return ({ show: !state.show }); });
                 };
-                return ObjectInputControl;
+                PasswordInputControl.prototype.render = function () {
+                    return (createElement("div", { style: { display: 'flex' } },
+                        createElement("input", { style: { width: '100%' }, type: this.state.show ? 'text' : 'password', id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange }),
+                        createElement(UiButton, { onClick: this.toggleText },
+                            createElement(FontAwesomeIcon, { icon: this.state.show ? faEyeSlash : faEye }))));
+                };
+                return PasswordInputControl;
             }(Component));
 
-            var css$j = ".StyleForm .newPropertyRow {\n  display: flex; }\n  .StyleForm .newPropertyRow select {\n    width: 100%; }\n  .StyleForm .newPropertyRow .UiButton {\n    overflow: initial; }\n";
+            var PasswordControlsProvider = /** @class */ (function () {
+                function PasswordControlsProvider() {
+                }
+                PasswordControlsProvider.prototype.match = function (definition) {
+                    return definition.valueType === 'password';
+                };
+                PasswordControlsProvider.prototype.get = function () {
+                    return {
+                        inputControl: PasswordInputControl
+                    };
+                };
+                return PasswordControlsProvider;
+            }());
+
+            var css$j = ".StyleForm .newPropertyRow {\n  display: -webkit-box;\n  display: flex; }\n  .StyleForm .newPropertyRow select {\n    width: 100%; }\n  .StyleForm .newPropertyRow .UiButton {\n    overflow: initial; }\n";
             styleInject(css$j);
 
             var styleProperties = ['background', 'backgroundAttachment', 'backgroundColor', 'backgroundImage',
@@ -1595,6 +1635,38 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return StyleControlsProvider;
             }());
 
+            var TextAreaInputControl = /** @class */ (function (_super) {
+                __extends(TextAreaInputControl, _super);
+                function TextAreaInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onTextareaChange = _this.onTextareaChange.bind(_this);
+                    return _this;
+                }
+                TextAreaInputControl.prototype.onTextareaChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                TextAreaInputControl.prototype.render = function () {
+                    return createElement("textarea", { id: this.props.uniqueId, value: this.props.value, onChange: this.onTextareaChange, rows: this.props.definition.textRows });
+                };
+                return TextAreaInputControl;
+            }(Component));
+
+            var TextBoxInputControl = /** @class */ (function (_super) {
+                __extends(TextBoxInputControl, _super);
+                function TextBoxInputControl(props) {
+                    var _this = _super.call(this, props) || this;
+                    _this.onInputChange = _this.onInputChange.bind(_this);
+                    return _this;
+                }
+                TextBoxInputControl.prototype.onInputChange = function (e) {
+                    this.props.valueChange(this.props.definition, e.currentTarget.value);
+                };
+                TextBoxInputControl.prototype.render = function () {
+                    return createElement("input", { type: "text", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange });
+                };
+                return TextBoxInputControl;
+            }(Component));
+
             var TextControlsProvider = /** @class */ (function () {
                 function TextControlsProvider() {
                 }
@@ -1614,38 +1686,6 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 };
                 return TextControlsProvider;
             }());
-            // tslint:disable-next-line:max-classes-per-file
-            var TextBoxInputControl = /** @class */ (function (_super) {
-                __extends(TextBoxInputControl, _super);
-                function TextBoxInputControl(props) {
-                    var _this = _super.call(this, props) || this;
-                    _this.onInputChange = _this.onInputChange.bind(_this);
-                    return _this;
-                }
-                TextBoxInputControl.prototype.onInputChange = function (e) {
-                    this.props.valueChange(this.props.definition, e.currentTarget.value);
-                };
-                TextBoxInputControl.prototype.render = function () {
-                    return (createElement("input", { type: "text", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange }));
-                };
-                return TextBoxInputControl;
-            }(Component));
-            // tslint:disable-next-line:max-classes-per-file
-            var TextAreaInputControl = /** @class */ (function (_super) {
-                __extends(TextAreaInputControl, _super);
-                function TextAreaInputControl(props) {
-                    var _this = _super.call(this, props) || this;
-                    _this.onTextareaChange = _this.onTextareaChange.bind(_this);
-                    return _this;
-                }
-                TextAreaInputControl.prototype.onTextareaChange = function (e) {
-                    this.props.valueChange(this.props.definition, e.currentTarget.value);
-                };
-                TextAreaInputControl.prototype.render = function () {
-                    return (createElement("textarea", { id: this.props.uniqueId, value: this.props.value, onChange: this.onTextareaChange, rows: this.props.definition.textRows }));
-                };
-                return TextAreaInputControl;
-            }(Component));
 
             var ValuesInputControl = /** @class */ (function (_super) {
                 __extends(ValuesInputControl, _super);
@@ -2031,6 +2071,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 new BooleanControlsProvider(),
                 new TextControlsProvider(),
                 new NumberControlsProvider(),
+                new PasswordControlsProvider(),
             ];
             var getInputControls = function (definition, context) {
                 var provider = providers.find(function (x) { return x.match(definition); });
@@ -2060,7 +2101,7 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 return result;
             };
 
-            var css$l = ".OptionItem {\n  margin-left: 6px;\n  line-height: 32px;\n  border-top: 1px solid transparent; }\n  .OptionItem + .OptionItem {\n    border-color: #eee; }\n  .OptionItem[data-hasdetails='false'] {\n    display: grid;\n    grid-template-columns: 50% 50%; }\n  .OptionItem[data-detailsvisible='false'] + .add-array-item {\n    border-top: 1px solid #eee; }\n  .OptionItem[data-detailsvisible='true'] {\n    padding-left: 3px;\n    margin-left: 0px;\n    border-left-width: 3px;\n    border-top-width: 1px;\n    border-bottom-width: 1px;\n    border-bottom-color: #eee;\n    border-right-width: 0;\n    border-style: solid;\n    border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] {\n      border-left-color: #964; }\n      .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n        border-left-color: #6a9; }\n        .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n          border-left-color: #649; }\n          .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n            border-left-color: #496; }\n            .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n              border-left-color: #946; }\n              .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                border-left-color: #649; }\n                .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                  border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] > .item-header {\n      border-bottom: 1px solid #eee; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='true'] {\n      margin-top: 6px; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='false'] {\n      border-top-width: 0; }\n    .OptionItem[data-detailsvisible='true'] :last-child {\n      border-bottom-width: 0; }\n  .OptionItem label,\n  .OptionItem .header-text,\n  .OptionItem .sub-header-text {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .OptionItem label {\n    display: flex; }\n    .OptionItem label :first-child.header-text {\n      padding-left: 4px; }\n  .OptionItem input,\n  .OptionItem select {\n    height: 32px;\n    border: none;\n    padding-left: 6px;\n    background: white;\n    box-sizing: border-box;\n    margin: 0; }\n    .OptionItem input[type='range'],\n    .OptionItem select[type='range'] {\n      padding-left: 0; }\n  .OptionItem textarea {\n    border: none;\n    width: 100%;\n    padding: 6px;\n    display: flex;\n    box-sizing: border-box; }\n  .OptionItem .item-header {\n    display: grid;\n    grid-template-columns: 50% auto 33px;\n    padding: 0 !important; }\n  .OptionItem .UiButton {\n    padding-top: 0;\n    padding-bottom: 0; }\n";
+            var css$l = ".OptionItem {\n  margin-left: 6px;\n  line-height: 32px;\n  border-top: 1px solid transparent; }\n  .OptionItem + .OptionItem {\n    border-color: #eee; }\n  .OptionItem[data-hasdetails='false'] {\n    display: grid;\n    grid-template-columns: 50% 50%; }\n  .OptionItem[data-detailsvisible='false'] + .add-array-item {\n    border-top: 1px solid #eee; }\n  .OptionItem[data-detailsvisible='true'] {\n    padding-left: 3px;\n    margin-left: 0px;\n    border-left-width: 3px;\n    border-top-width: 1px;\n    border-bottom-width: 1px;\n    border-bottom-color: #eee;\n    border-right-width: 0;\n    border-style: solid;\n    border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] {\n      border-left-color: #964; }\n      .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n        border-left-color: #6a9; }\n        .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n          border-left-color: #649; }\n          .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n            border-left-color: #496; }\n            .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n              border-left-color: #946; }\n              .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                border-left-color: #649; }\n                .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                  border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] > .item-header {\n      border-bottom: 1px solid #eee; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='true'] {\n      margin-top: 6px; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='false'] {\n      border-top-width: 0; }\n    .OptionItem[data-detailsvisible='true'] :last-child {\n      border-bottom-width: 0; }\n  .OptionItem label,\n  .OptionItem .header-text,\n  .OptionItem .sub-header-text {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .OptionItem label {\n    display: -webkit-box;\n    display: flex; }\n    .OptionItem label :first-child.header-text {\n      padding-left: 4px; }\n  .OptionItem input,\n  .OptionItem select {\n    height: 32px;\n    border: none;\n    padding-left: 6px;\n    background: white;\n    box-sizing: border-box;\n    margin: 0; }\n    .OptionItem input[type='range'],\n    .OptionItem select[type='range'] {\n      padding-left: 0; }\n  .OptionItem textarea {\n    border: none;\n    width: 100%;\n    padding: 6px;\n    display: -webkit-box;\n    display: flex;\n    box-sizing: border-box; }\n  .OptionItem .item-header {\n    display: grid;\n    grid-template-columns: 50% auto 33px;\n    padding: 0 !important; }\n  .OptionItem .UiButton {\n    padding-top: 0;\n    padding-bottom: 0; }\n";
             styleInject(css$l);
 
             var counter = 0;
