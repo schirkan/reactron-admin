@@ -1,39 +1,11 @@
-System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@fortawesome/free-regular-svg-icons', 'moment', 'moment-timezone', '@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react'], function (exports, module) {
+System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react', 'react-router-dom', '@fortawesome/free-brands-svg-icons', '@fortawesome/free-regular-svg-icons', 'moment', 'moment-timezone'], function (exports, module) {
     'use strict';
-    var faGithub, faCss3, NavLink, Link, Redirect, Route, Switch, faFile, faArrowAltCircleRight, faEdit, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, moment, momentTimezone, faHome, faPlus, faCogs, faTimes, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faSpinner, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faUndo, faSave, faArrowDown, faArrowRight, faList, FontAwesomeIcon, createElement, Component, createContext, Fragment;
+    var faSpinner, faPlus, faTimes, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faList, faArrowDown, faArrowRight, faUndo, faSave, faCogs, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faHome, FontAwesomeIcon, createContext, createElement, Component, Fragment, NavLink, Link, Switch, Route, Redirect, faGithub, faCss3, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, faFile, faArrowAltCircleRight, faEdit, moment, momentTimezone;
     return {
         setters: [function (module) {
-            faGithub = module.faGithub;
-            faCss3 = module.faCss3;
-        }, function (module) {
-            NavLink = module.NavLink;
-            Link = module.Link;
-            Redirect = module.Redirect;
-            Route = module.Route;
-            Switch = module.Switch;
-        }, function (module) {
-            faFile = module.faFile;
-            faArrowAltCircleRight = module.faArrowAltCircleRight;
-            faEdit = module.faEdit;
-            faTrashAlt$1 = module.faTrashAlt;
-            faArrowAltCircleUp = module.faArrowAltCircleUp;
-            faArrowAltCircleDown = module.faArrowAltCircleDown;
-            faEyeSlash = module.faEyeSlash;
-            faEye = module.faEye;
-        }, function (module) {
-            moment = module.default;
-        }, function (module) {
-            momentTimezone = module.default;
-        }, function (module) {
-            faHome = module.faHome;
-            faPlus = module.faPlus;
-            faCogs = module.faCogs;
-            faTimes = module.faTimes;
-            faSignOutAlt = module.faSignOutAlt;
-            faRedo = module.faRedo;
-            faPowerOff = module.faPowerOff;
-            faExclamationTriangle = module.faExclamationTriangle;
             faSpinner = module.faSpinner;
+            faPlus = module.faPlus;
+            faTimes = module.faTimes;
             faCheck = module.faCheck;
             faQuestion = module.faQuestion;
             faStarOfLife = module.faStarOfLife;
@@ -42,18 +14,46 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
             faDownload = module.faDownload;
             faTrashAlt = module.faTrashAlt;
             faSyncAlt = module.faSyncAlt;
-            faUndo = module.faUndo;
-            faSave = module.faSave;
+            faList = module.faList;
             faArrowDown = module.faArrowDown;
             faArrowRight = module.faArrowRight;
-            faList = module.faList;
+            faUndo = module.faUndo;
+            faSave = module.faSave;
+            faCogs = module.faCogs;
+            faSignOutAlt = module.faSignOutAlt;
+            faRedo = module.faRedo;
+            faPowerOff = module.faPowerOff;
+            faExclamationTriangle = module.faExclamationTriangle;
+            faHome = module.faHome;
         }, function (module) {
             FontAwesomeIcon = module.FontAwesomeIcon;
         }, function (module) {
+            createContext = module.createContext;
             createElement = module.createElement;
             Component = module.Component;
-            createContext = module.createContext;
             Fragment = module.Fragment;
+        }, function (module) {
+            NavLink = module.NavLink;
+            Link = module.Link;
+            Switch = module.Switch;
+            Route = module.Route;
+            Redirect = module.Redirect;
+        }, function (module) {
+            faGithub = module.faGithub;
+            faCss3 = module.faCss3;
+        }, function (module) {
+            faTrashAlt$1 = module.faTrashAlt;
+            faArrowAltCircleUp = module.faArrowAltCircleUp;
+            faArrowAltCircleDown = module.faArrowAltCircleDown;
+            faEyeSlash = module.faEyeSlash;
+            faEye = module.faEye;
+            faFile = module.faFile;
+            faArrowAltCircleRight = module.faArrowAltCircleRight;
+            faEdit = module.faEdit;
+        }, function (module) {
+            moment = module.default;
+        }, function (module) {
+            momentTimezone = module.default;
         }],
         execute: function () {
 
@@ -827,6 +827,9 @@ System.register(['@fortawesome/free-brands-svg-icons', 'react-router-dom', '@for
                 }, {
                     name: 'reactron-scifi-dashboard',
                     url: 'https://github.com/schirkan/reactron-scifi-dashboard'
+                }, {
+                    name: 'reactron-bring-shopping-list',
+                    url: 'https://github.com/schirkan/reactron-bring-shopping-list'
                 }];
             var ModuleCatalog = /** @class */ (function (_super) {
                 __extends(ModuleCatalog, _super);

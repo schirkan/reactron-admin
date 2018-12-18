@@ -24,6 +24,9 @@ const catalog: IModuleCatalogItem[] = [{
 }, {
   name: 'reactron-scifi-dashboard',
   url: 'https://github.com/schirkan/reactron-scifi-dashboard'
+}, {
+  name: 'reactron-bring-shopping-list',
+  url: 'https://github.com/schirkan/reactron-bring-shopping-list'
 }];
 
 export interface IModuleCatalogProps {
