@@ -8,4 +8,7 @@
     overflow: hidden;
     background: white;
     border-bottom: 1px solid #ddd;
+    & > .svg-inline--fa {
+        margin-right: 4px;
+    }
 }

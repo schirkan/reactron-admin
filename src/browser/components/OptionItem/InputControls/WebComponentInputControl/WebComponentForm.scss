@@ -4,10 +4,18 @@
         grid-template-columns: 33px auto 33px;
         border-bottom: 1px solid #eee;
     }
-    .componentSelect {
-        width: 100%;
+    .componentSelect  {
+        display: grid;
+        grid-template-columns: 33px min-content auto;
+        select{
+            width: 100%;
+        }
     }
      :last-child {
         border-bottom: none;
     }
+}
+
+.OptionItem[data-valuetype=webComponent] > .item-header {
+    display: none;
 }

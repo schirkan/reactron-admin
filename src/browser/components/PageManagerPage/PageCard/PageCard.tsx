@@ -53,7 +53,7 @@ export default class PageCard extends React.Component<IPageCardProps> {
     return (
       <UiCardButtonRow divider="half">
         <Link to={this.props.page.path}>
-          <FontAwesomeIcon icon={RegularIcons.faArrowAltCircleRight} /> Goto
+          <FontAwesomeIcon icon={RegularIcons.faArrowAltCircleRight} /> View
         </Link>
         <UiButton onClick={this.onEdit}>
           <FontAwesomeIcon icon={RegularIcons.faEdit} /> Edit

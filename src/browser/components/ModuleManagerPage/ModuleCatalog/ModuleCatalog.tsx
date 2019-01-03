@@ -61,7 +61,7 @@ export default class ModuleCatalog extends React.Component<IModuleCatalogProps> 
   public render() {
     return (
       <UiCard className="ModuleCatalog">
-        <UiCardTitle>Module Catalog</UiCardTitle>
+        <UiCardTitle><FontAwesomeIcon icon={SolidIcons.faCubes} /> Module Catalog</UiCardTitle>
         {this.renderCatalogItems()}
       </UiCard>
     );

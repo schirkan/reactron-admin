@@ -60,6 +60,12 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     this.loadWebComponents();
   }
 
+  // public componentDidUpdate(prevProps: IInputComponentProps) {
+  //   if (prevProps.value !== this.props.value) {
+  //     this.initCurrentComponent();
+  //   }
+  // }
+
   public componentWillUnmount() {
     if (this.state.selectedWebComponentOptions) {
       this.formEvents.webComponentRemoved(this.state.selectedWebComponentOptions);
@@ -124,7 +130,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
 
       newWebComponentOptions = {
         id,
-        parentId: this.optionItemContext.parentComponent.id,
+        parentId: this.optionItemContext.parentComponent && this.optionItemContext.parentComponent.id,
         moduleName: selectedComponentDefinition.moduleName,
         componentName: selectedComponentDefinition.definition.name,
         options: getDefaultObjectValue(selectedComponentDefinition.definition.fields)
@@ -183,7 +189,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
             <FontAwesomeIcon icon={SolidIcons.faCube} />
           </UiButton>
           <label>
-            {this.state.selectedComponentDefinition.definition.displayName} ({this.state.selectedComponentDefinition.moduleName})
+            {this.props.definition.displayName}: {this.state.selectedComponentDefinition.definition.displayName} ({this.state.selectedComponentDefinition.moduleName})
           </label>
           <UiButton onClick={this.removeWebComponent}>
             <FontAwesomeIcon icon={RegularIcons.faTrashAlt} />
@@ -207,16 +213,22 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
       });
 
     return (
-      <select className="componentSelect" value={selectedComponentKey} onChange={this.onSelectedComponentDefinitionChange}>
-        <option key="_" value="">Select Component...</option>
-        {Object.keys(optionGroups).map(type =>
-          <optgroup key={type} label={type}>
-            {optionGroups[type].map(item =>
-              <option key={item.key} value={item.key}>{item.definition.displayName} ({item.moduleName})</option>
-            )}
-          </optgroup>
-        )}
-      </select>
+      <div className="componentSelect">
+        <UiButton>
+          <FontAwesomeIcon icon={SolidIcons.faCube} />
+        </UiButton>
+        <div>{this.props.definition.displayName}</div>
+        <select className="componentSelect" value={selectedComponentKey} onChange={this.onSelectedComponentDefinitionChange}>
+          <option key="_" value="">Select Component...</option>
+          {Object.keys(optionGroups).map(type =>
+            <optgroup key={type} label={type}>
+              {optionGroups[type].map(item =>
+                <option key={item.key} value={item.key}>{item.definition.displayName} ({item.moduleName})</option>
+              )}
+            </optgroup>
+          )}
+        </select>
+      </div>
     );
   }
 

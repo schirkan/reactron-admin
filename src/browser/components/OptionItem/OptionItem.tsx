@@ -30,7 +30,8 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
     super(props);
 
     this.state = {
-      uniqueId: 'ID' + (counter++)
+      uniqueId: 'ID' + (counter++),
+      detailsVisible: props.definition.valueType === 'webComponent' || undefined
     };
 
     this.toggleItemDetails = this.toggleItemDetails.bind(this);

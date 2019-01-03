@@ -1,6 +1,6 @@
 System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react', 'react-router-dom', '@fortawesome/free-brands-svg-icons', '@fortawesome/free-regular-svg-icons', 'moment', 'moment-timezone'], function (exports, module) {
     'use strict';
-    var faSpinner, faPlus, faTimes, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faSyncAlt, faList, faArrowDown, faArrowRight, faUndo, faSave, faCogs, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faHome, FontAwesomeIcon, createContext, createElement, Component, Fragment, NavLink, Link, Switch, Route, Redirect, faGithub, faCss3, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, faFile, faArrowAltCircleRight, faEdit, moment, momentTimezone;
+    var faSpinner, faPlus, faTimes, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faCubes, faSyncAlt, faList, faArrowDown, faArrowRight, faUndo, faSave, faCogs, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faHome, FontAwesomeIcon, createContext, createElement, Component, Fragment, NavLink, Link, Switch, Route, Redirect, faGithub, faCss3, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, faFile, faArrowAltCircleRight, faEdit, moment, momentTimezone;
     return {
         setters: [function (module) {
             faSpinner = module.faSpinner;
@@ -13,6 +13,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             faCog = module.faCog;
             faDownload = module.faDownload;
             faTrashAlt = module.faTrashAlt;
+            faCubes = module.faCubes;
             faSyncAlt = module.faSyncAlt;
             faList = module.faList;
             faArrowDown = module.faArrowDown;
@@ -413,7 +414,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return UiCardContent;
             }(Component));
 
-            var css$4 = ".UiCardTitle {\n  padding: 6px;\n  padding-left: 10px;\n  font-size: 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  background: white;\n  border-bottom: 1px solid #ddd; }\n";
+            var css$4 = ".UiCardTitle {\n  padding: 6px;\n  padding-left: 10px;\n  font-size: 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  background: white;\n  border-bottom: 1px solid #ddd; }\n  .UiCardTitle > .svg-inline--fa {\n    margin-right: 4px; }\n";
             styleInject(css$4);
 
             var UiCardTitle = /** @class */ (function (_super) {
@@ -824,7 +825,9 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 };
                 ModuleCatalog.prototype.render = function () {
                     return (createElement(UiCard, { className: "ModuleCatalog" },
-                        createElement(UiCardTitle, null, "Module Catalog"),
+                        createElement(UiCardTitle, null,
+                            createElement(FontAwesomeIcon, { icon: faCubes }),
+                            " Module Catalog"),
                         this.renderCatalogItems()));
                 };
                 return ModuleCatalog;
@@ -1878,7 +1881,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }());
             var WebComponentFormContext = createContext(new WebComponentFormContextData());
 
-            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  width: 100%; }\n\n.WebComponentForm :last-child {\n  border-bottom: none; }\n";
+            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.WebComponentForm :last-child {\n  border-bottom: none; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n";
             styleInject(css$k);
 
             var WebComponentForm = /** @class */ (function (_super) {
@@ -1908,6 +1911,11 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.loadComponentDefinitions();
                     this.loadWebComponents();
                 };
+                // public componentDidUpdate(prevProps: IInputComponentProps) {
+                //   if (prevProps.value !== this.props.value) {
+                //     this.initCurrentComponent();
+                //   }
+                // }
                 WebComponentForm.prototype.componentWillUnmount = function () {
                     if (this.state.selectedWebComponentOptions) {
                         this.formEvents.webComponentRemoved(this.state.selectedWebComponentOptions);
@@ -1987,7 +1995,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             selectedComponentDefinition.definition.name + '_' + guid_1.raw();
                         newWebComponentOptions = {
                             id: id,
-                            parentId: this.optionItemContext.parentComponent.id,
+                            parentId: this.optionItemContext.parentComponent && this.optionItemContext.parentComponent.id,
                             moduleName: selectedComponentDefinition.moduleName,
                             componentName: selectedComponentDefinition.definition.name,
                             options: getDefaultObjectValue(selectedComponentDefinition.definition.fields)
@@ -2036,6 +2044,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             createElement(UiButton, null,
                                 createElement(FontAwesomeIcon, { icon: faCube })),
                             createElement("label", null,
+                                this.props.definition.displayName,
+                                ": ",
                                 this.state.selectedComponentDefinition.definition.displayName,
                                 " (",
                                 this.state.selectedComponentDefinition.moduleName,
@@ -2055,17 +2065,21 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         optionGroups[type].push(item);
                     });
-                    return (createElement("select", { className: "componentSelect", value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
-                        createElement("option", { key: "_", value: "" }, "Select Component..."),
-                        Object.keys(optionGroups).map(function (type) {
-                            return createElement("optgroup", { key: type, label: type }, optionGroups[type].map(function (item) {
-                                return createElement("option", { key: item.key, value: item.key },
-                                    item.definition.displayName,
-                                    " (",
-                                    item.moduleName,
-                                    ")");
-                            }));
-                        })));
+                    return (createElement("div", { className: "componentSelect" },
+                        createElement(UiButton, null,
+                            createElement(FontAwesomeIcon, { icon: faCube })),
+                        createElement("div", null, this.props.definition.displayName),
+                        createElement("select", { className: "componentSelect", value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
+                            createElement("option", { key: "_", value: "" }, "Select Component..."),
+                            Object.keys(optionGroups).map(function (type) {
+                                return createElement("optgroup", { key: type, label: type }, optionGroups[type].map(function (item) {
+                                    return createElement("option", { key: item.key, value: item.key },
+                                        item.definition.displayName,
+                                        " (",
+                                        item.moduleName,
+                                        ")");
+                                }));
+                            }))));
                 };
                 WebComponentForm.prototype.renderComponentForm = function () {
                     if (!this.state.selectedWebComponentOptions || !this.state.selectedComponentDefinition) {
@@ -2094,7 +2108,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 };
                 WebComponentControlsProvider.prototype.get = function () {
                     return {
-                        icon: faFile,
+                        icon: faCube,
                         detailsControl: WebComponentForm,
                         inputControl: function (props) {
                             return props && props.value || 'none';
@@ -2152,7 +2166,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 function OptionItem(props) {
                     var _this = _super.call(this, props) || this;
                     _this.state = {
-                        uniqueId: 'ID' + (counter++)
+                        uniqueId: 'ID' + (counter++),
+                        detailsVisible: props.definition.valueType === 'webComponent' || undefined
                     };
                     _this.toggleItemDetails = _this.toggleItemDetails.bind(_this);
                     return _this;
@@ -2351,7 +2366,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return (createElement(UiCardButtonRow, { divider: "half" },
                         createElement(Link, { to: this.props.page.path },
                             createElement(FontAwesomeIcon, { icon: faArrowAltCircleRight }),
-                            " Goto"),
+                            " View"),
                         createElement(UiButton, { onClick: this.onEdit },
                             createElement(FontAwesomeIcon, { icon: faEdit }),
                             " Edit"),
