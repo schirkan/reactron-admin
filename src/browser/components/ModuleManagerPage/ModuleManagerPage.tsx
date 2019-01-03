@@ -10,10 +10,10 @@ import UiTabs from '../UiTabs/UiTabs';
 import AddModuleCard from './AddModuleCard/AddModuleCard';
 import CommandResult from './CommandResult/CommandResult';
 import ModuleCard from './ModuleCard/ModuleCard';
+import ModuleCatalog from './ModuleCatalog/ModuleCatalog';
 import UpdateModulesCard from './UpdateModulesCard/UpdateModulesCard';
 
 import './ModuleManagerPage.scss';
-import ModuleCatalog from './ModuleCatalog/ModuleCatalog';
 
 export interface IModuleManagerPageState {
   loading: boolean;

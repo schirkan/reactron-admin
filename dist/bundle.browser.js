@@ -784,38 +784,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return ModuleCard;
             }(Component));
 
-            var css$d = "section.UpdateModulesCard .UiCardButtonRow {\n  background: transparent; }\n";
+            var css$d = ".ModuleCatalog .ModuleCatalogItem {\n  display: grid;\n  grid-template-columns: 1fr auto;\n  margin-left: 8px; }\n  .ModuleCatalog .ModuleCatalogItem a {\n    padding: 6px;\n    text-decoration: none; }\n  .ModuleCatalog .ModuleCatalogItem ~ .ModuleCatalogItem {\n    border-top: 1px solid #ddd; }\n";
             styleInject(css$d);
-
-            var UpdateModulesCard = /** @class */ (function (_super) {
-                __extends(UpdateModulesCard, _super);
-                function UpdateModulesCard() {
-                    return _super !== null && _super.apply(this, arguments) || this;
-                }
-                UpdateModulesCard.prototype.render = function () {
-                    var modulesWithUpdates = this.props.modules.filter(function (x) { return x.hasUpdate; });
-                    var isChecked = this.props.modules.some(function (x) { return x.hasUpdate !== undefined; });
-                    var updatesTitle = isChecked ? modulesWithUpdates.length : '-';
-                    return (createElement(UiCard, { className: "UpdateModulesCard" },
-                        createElement(UiCardButtonRow, { divider: "full" },
-                            createElement("div", null,
-                                "Updates: ",
-                                updatesTitle),
-                            createElement(UiButton, { className: "checkUpdatesButton", onClick: this.props.onCheckUpdates, disabled: this.props.checkingUpdates },
-                                createElement(FontAwesomeIcon, { icon: faSyncAlt, spin: this.props.checkingUpdates }),
-                                " Check"),
-                            createElement(UiButton, { className: "updateAllButton", onClick: this.props.onUpdateAll, disabled: !modulesWithUpdates.length },
-                                createElement(FontAwesomeIcon, { icon: faDownload }),
-                                " Update All"))));
-                };
-                return UpdateModulesCard;
-            }(Component));
-
-            var css$e = "";
-            styleInject(css$e);
-
-            var css$f = ".ModuleCatalog .ModuleCatalogItem {\n  display: grid;\n  grid-template-columns: 1fr auto;\n  margin-left: 8px; }\n  .ModuleCatalog .ModuleCatalogItem a {\n    padding: 6px;\n    text-decoration: none; }\n  .ModuleCatalog .ModuleCatalogItem ~ .ModuleCatalogItem {\n    border-top: 1px solid #ddd; }\n";
-            styleInject(css$f);
 
             // TODO load from url
             var catalog = [{
@@ -859,6 +829,36 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 };
                 return ModuleCatalog;
             }(Component));
+
+            var css$e = "section.UpdateModulesCard .UiCardButtonRow {\n  background: transparent; }\n";
+            styleInject(css$e);
+
+            var UpdateModulesCard = /** @class */ (function (_super) {
+                __extends(UpdateModulesCard, _super);
+                function UpdateModulesCard() {
+                    return _super !== null && _super.apply(this, arguments) || this;
+                }
+                UpdateModulesCard.prototype.render = function () {
+                    var modulesWithUpdates = this.props.modules.filter(function (x) { return x.hasUpdate; });
+                    var isChecked = this.props.modules.some(function (x) { return x.hasUpdate !== undefined; });
+                    var updatesTitle = isChecked ? modulesWithUpdates.length : '-';
+                    return (createElement(UiCard, { className: "UpdateModulesCard" },
+                        createElement(UiCardButtonRow, { divider: "full" },
+                            createElement("div", null,
+                                "Updates: ",
+                                updatesTitle),
+                            createElement(UiButton, { className: "checkUpdatesButton", onClick: this.props.onCheckUpdates, disabled: this.props.checkingUpdates },
+                                createElement(FontAwesomeIcon, { icon: faSyncAlt, spin: this.props.checkingUpdates }),
+                                " Check"),
+                            createElement(UiButton, { className: "updateAllButton", onClick: this.props.onUpdateAll, disabled: !modulesWithUpdates.length },
+                                createElement(FontAwesomeIcon, { icon: faDownload }),
+                                " Update All"))));
+                };
+                return UpdateModulesCard;
+            }(Component));
+
+            var css$f = "";
+            styleInject(css$f);
 
             var ModuleManagerPage = /** @class */ (function (_super) {
                 __extends(ModuleManagerPage, _super);
@@ -1871,6 +1871,13 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }());
             var OptionCardContext = createContext(new OptionsCardContextData());
 
+            var WebComponentFormContextData = /** @class */ (function () {
+                function WebComponentFormContextData() {
+                }
+                return WebComponentFormContextData;
+            }());
+            var WebComponentFormContext = createContext(new WebComponentFormContextData());
+
             var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  width: 100%; }\n\n.WebComponentForm :last-child {\n  border-bottom: none; }\n";
             styleInject(css$k);
 
@@ -1907,28 +1914,52 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     }
                 };
                 WebComponentForm.prototype.loadComponentDefinitions = function () {
-                    var _this = this;
-                    return this.adminPageContext.componentLoader.getAllComponents()
-                        .then(function (result) {
-                        var componentDefinitions = [];
-                        Object.keys(result).forEach(function (moduleName) {
-                            var components = result[moduleName];
-                            components.forEach(function (definition) {
-                                var key = moduleName + '.' + definition.name;
-                                componentDefinitions.push({ moduleName: moduleName, definition: definition, key: key });
-                            });
+                    return __awaiter(this, void 0, void 0, function () {
+                        var result_1, componentDefinitions_1, err_1;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 2, , 3]);
+                                    return [4 /*yield*/, this.adminPageContext.componentLoader.getAllComponents()];
+                                case 1:
+                                    result_1 = _a.sent();
+                                    componentDefinitions_1 = [];
+                                    Object.keys(result_1).forEach(function (moduleName) {
+                                        var components = result_1[moduleName];
+                                        components.forEach(function (definition) {
+                                            var key = moduleName + '.' + definition.name;
+                                            componentDefinitions_1.push({ moduleName: moduleName, definition: definition, key: key });
+                                        });
+                                    });
+                                    this.setState({ componentDefinitions: componentDefinitions_1, loadingComponentDefinitions: false }, this.initCurrentComponent);
+                                    return [3 /*break*/, 3];
+                                case 2:
+                                    err_1 = _a.sent();
+                                    return [2 /*return*/, console.log(err_1)];
+                                case 3: return [2 /*return*/];
+                            }
                         });
-                        _this.setState({ componentDefinitions: componentDefinitions, loadingComponentDefinitions: false }, _this.initCurrentComponent);
-                    })
-                        .catch(function (err) { return console.log(err); }); // TODO
+                    });
                 };
                 WebComponentForm.prototype.loadWebComponents = function () {
-                    var _this = this;
-                    return apiClient.getWebComponentOptions()
-                        .then(function (webComponents) {
-                        _this.setState({ webComponents: webComponents, loadingWebComponents: false }, _this.initCurrentComponent);
-                    })
-                        .catch(function (err) { return console.log(err); }); // TODO
+                    return __awaiter(this, void 0, void 0, function () {
+                        var webComponents, err_2;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 2, , 3]);
+                                    return [4 /*yield*/, apiClient.getWebComponentOptions()];
+                                case 1:
+                                    webComponents = _a.sent();
+                                    this.setState({ webComponents: webComponents, loadingWebComponents: false }, this.initCurrentComponent);
+                                    return [3 /*break*/, 3];
+                                case 2:
+                                    err_2 = _a.sent();
+                                    return [2 /*return*/, console.log(err_2)];
+                                case 3: return [2 /*return*/];
+                            }
+                        });
+                    });
                 };
                 WebComponentForm.prototype.initCurrentComponent = function () {
                     var _this = this;
@@ -1956,6 +1987,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             selectedComponentDefinition.definition.name + '_' + guid_1.raw();
                         newWebComponentOptions = {
                             id: id,
+                            parentId: this.optionItemContext.parentComponent.id,
                             moduleName: selectedComponentDefinition.moduleName,
                             componentName: selectedComponentDefinition.definition.name,
                             options: getDefaultObjectValue(selectedComponentDefinition.definition.fields)
@@ -2035,13 +2067,20 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             }));
                         })));
                 };
+                WebComponentForm.prototype.renderComponentForm = function () {
+                    if (!this.state.selectedWebComponentOptions || !this.state.selectedComponentDefinition) {
+                        return null;
+                    }
+                    return (createElement(WebComponentFormContext.Provider, { value: { parentComponent: this.state.selectedWebComponentOptions } },
+                        createElement(OptionList, { value: this.state.selectedWebComponentOptions.options, fields: this.state.selectedComponentDefinition.definition.fields, valueChange: this.onOptionsChange })));
+                };
                 WebComponentForm.prototype.render = function () {
                     var _this = this;
                     return (createElement("div", { className: "WebComponentForm" },
                         createElement(AdminPageContext.Consumer, null, function (value) { return (_this.adminPageContext = value) && null; }),
+                        createElement(WebComponentFormContext.Consumer, null, function (value) { return (_this.optionItemContext = value) && null; }),
                         this.renderComponentSelection(),
-                        this.state.selectedWebComponentOptions &&
-                            this.state.selectedComponentDefinition && (createElement(OptionList, { value: this.state.selectedWebComponentOptions.options, fields: this.state.selectedComponentDefinition.definition.fields, valueChange: this.onOptionsChange }))));
+                        this.renderComponentForm()));
                 };
                 WebComponentForm.contextType = OptionCardContext;
                 return WebComponentForm;
@@ -2709,11 +2748,11 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         { value: 'it', text: 'Italian' },
                         { value: 'ru', text: 'Russian' },
                     ]
-                }, {
-                    description: 'Location',
-                    displayName: 'Location',
-                    name: 'location',
-                    valueType: 'string'
+                    // }, {
+                    //   description: 'Location',
+                    //   displayName: 'Location',
+                    //   name: 'location',
+                    //   valueType: 'string'
                 }, {
                     description: 'Timezone',
                     displayName: 'Timezone',
@@ -2722,7 +2761,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     values: timezones.slice()
                 }, {
                     description: 'Path of page to show on startup',
-                    displayName: 'Startup Path',
+                    displayName: 'Startup page',
                     name: 'startupPath',
                     valueType: 'string',
                     inputControl: PageInputControl

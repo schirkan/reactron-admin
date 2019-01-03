@@ -33,11 +33,11 @@ export const systemSettingsFields: IFieldDefinition[] = [{
     { value: 'it', text: 'Italian' },
     { value: 'ru', text: 'Russian' },
   ]
-}, {
-  description: 'Location',
-  displayName: 'Location',
-  name: 'location',
-  valueType: 'string'
+// }, {
+//   description: 'Location',
+//   displayName: 'Location',
+//   name: 'location',
+//   valueType: 'string'
 }, {
   description: 'Timezone',
   displayName: 'Timezone',
@@ -46,7 +46,7 @@ export const systemSettingsFields: IFieldDefinition[] = [{
   values: [...timezones]
 }, {
   description: 'Path of page to show on startup',
-  displayName: 'Startup Path',
+  displayName: 'Startup page',
   name: 'startupPath',
   valueType: 'string',
   inputControl: PageInputControl

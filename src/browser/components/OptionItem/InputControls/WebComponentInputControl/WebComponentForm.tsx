@@ -10,6 +10,7 @@ import { AdminPageContext } from '../../../AdminPageContext';
 import { OptionCardContext, OptionsCardContextData } from '../../../OptionCard/OptionCardContext';
 import OptionList from '../../../OptionList/OptionList';
 import UiButton from '../../../UiButton/UiButton';
+import { WebComponentFormContext, WebComponentFormContextData } from './OptionItemContext';
 
 import './WebComponentForm.scss';
 
@@ -32,6 +33,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
   public static contextType = OptionCardContext;
   public context: OptionsCardContextData;
   public adminPageContext: IReactronComponentContext;
+  public optionItemContext: WebComponentFormContextData;
 
   constructor(props: IInputComponentProps) {
     super(props);
@@ -64,30 +66,32 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     }
   }
 
-  private loadComponentDefinitions() {
-    return this.adminPageContext.componentLoader.getAllComponents()
-      .then(result => {
-        const componentDefinitions: IReactronComponentDefinitionItem[] = [];
-        Object.keys(result).forEach(moduleName => {
-          const components = result[moduleName];
-          components.forEach(definition => {
-            const key = moduleName + '.' + definition.name;
-            componentDefinitions.push({ moduleName, definition, key });
-          });
+  private async loadComponentDefinitions() {
+    try {
+      const result = await this.adminPageContext.componentLoader.getAllComponents();
+      const componentDefinitions: IReactronComponentDefinitionItem[] = [];
+      Object.keys(result).forEach(moduleName => {
+        const components = result[moduleName];
+        components.forEach(definition => {
+          const key = moduleName + '.' + definition.name;
+          componentDefinitions.push({ moduleName, definition, key });
         });
-        this.setState({ componentDefinitions, loadingComponentDefinitions: false },
-          this.initCurrentComponent);
-      })
-      .catch(err => console.log(err)); // TODO
+      });
+      this.setState({ componentDefinitions, loadingComponentDefinitions: false }, this.initCurrentComponent);
+    }
+    catch (err) {
+      return console.log(err);
+    } // TODO
   }
 
-  private loadWebComponents() {
-    return apiClient.getWebComponentOptions()
-      .then(webComponents => {
-        this.setState({ webComponents, loadingWebComponents: false },
-          this.initCurrentComponent);
-      })
-      .catch(err => console.log(err)); // TODO
+  private async loadWebComponents() {
+    try {
+      const webComponents = await apiClient.getWebComponentOptions();
+      this.setState({ webComponents, loadingWebComponents: false }, this.initCurrentComponent);
+    }
+    catch (err) {
+      return console.log(err);
+    } // TODO
   }
 
   private initCurrentComponent() {
@@ -120,6 +124,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
 
       newWebComponentOptions = {
         id,
+        parentId: this.optionItemContext.parentComponent.id,
         moduleName: selectedComponentDefinition.moduleName,
         componentName: selectedComponentDefinition.definition.name,
         options: getDefaultObjectValue(selectedComponentDefinition.definition.fields)
@@ -156,7 +161,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     if (!this.state.selectedWebComponentOptions) {
       return;
     }
-    const newWebComponentOptions = { ...this.state.selectedWebComponentOptions };
+    const newWebComponentOptions: IWebComponentOptions = { ...this.state.selectedWebComponentOptions };
     newWebComponentOptions.options = newOptions;
     this.setState({ selectedWebComponentOptions: newWebComponentOptions });
 
@@ -215,19 +220,27 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     );
   }
 
+  private renderComponentForm() {
+    if (!this.state.selectedWebComponentOptions || !this.state.selectedComponentDefinition) {
+      return null;
+    }
+
+    return (
+      <WebComponentFormContext.Provider value={{ parentComponent: this.state.selectedWebComponentOptions }}>
+        <OptionList value={this.state.selectedWebComponentOptions.options}
+          fields={this.state.selectedComponentDefinition.definition.fields}
+          valueChange={this.onOptionsChange} />
+      </WebComponentFormContext.Provider>
+    );
+  }
+
   public render() {
     return (
       <div className="WebComponentForm">
-        <AdminPageContext.Consumer>
-          {value => (this.adminPageContext = value) && null}
-        </AdminPageContext.Consumer>
+        <AdminPageContext.Consumer>{value => (this.adminPageContext = value) && null}</AdminPageContext.Consumer>
+        <WebComponentFormContext.Consumer>{value => (this.optionItemContext = value) && null}</WebComponentFormContext.Consumer>
         {this.renderComponentSelection()}
-        {this.state.selectedWebComponentOptions &&
-          this.state.selectedComponentDefinition && (
-            <OptionList value={this.state.selectedWebComponentOptions.options}
-              fields={this.state.selectedComponentDefinition.definition.fields}
-              valueChange={this.onOptionsChange} />
-          )}
+        {this.renderComponentForm()}
       </div>
     );
   }
