@@ -9,7 +9,6 @@ import OptionList from '../OptionList/OptionList';
 import UiButton from '../UiButton/UiButton';
 import UiCard from '../UiCard/UiCard';
 import UiCardButtonRow from '../UiCardButtonRow/UiCardButtonRow';
-import UiCardContent from '../UiCardContent/UiCardContent';
 import UiCardTitle from '../UiCardTitle/UiCardTitle';
 import { OptionCardContext, OptionsCardContextData } from './OptionCardContext';
 
@@ -24,6 +23,7 @@ export interface IOptionCardProps {
   onSave: (newOptions: object) => any;
   onCancel?: () => any;
   showReset?: boolean;
+  showToggleStyleOptions?: boolean;
 }
 
 interface IOptionCardState {
@@ -90,9 +90,11 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
       <UiCardTitle>
         <FontAwesomeIcon icon={this.props.icon} /> {this.props.title}
         <div className="buttons">
-          <UiButton onClick={() => this.setState({ showExpertOptions: !this.state.showExpertOptions })}>
-            Style options <FontAwesomeIcon icon={this.state.showExpertOptions ? RegularIcons.faEye : RegularIcons.faEyeSlash} />
-          </UiButton>
+          {this.props.showToggleStyleOptions && (
+            <UiButton onClick={() => this.setState({ showExpertOptions: !this.state.showExpertOptions })}>
+              Style options <FontAwesomeIcon icon={this.state.showExpertOptions ? RegularIcons.faEye : RegularIcons.faEyeSlash} />
+            </UiButton>
+          )}
           <UiButton onClick={() => this.setState({ showDebug: !this.state.showDebug })}>
             Debug <FontAwesomeIcon icon={this.state.showDebug ? RegularIcons.faEye : RegularIcons.faEyeSlash} />
           </UiButton>
@@ -112,7 +114,7 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
     );
   }
 
-  public renderExportStyle() {
+  public renderStyleOptionsStyle() {
     if (this.state.showExpertOptions) {
       return null;
     }
@@ -153,9 +155,9 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
       <UiCard className={className}>
         {this.renderTitle()}
         {this.renderContent()}
-        {this.renderExportStyle()}
-        {this.renderDebugStyle()}
         {this.renderFooter()}
+        {this.renderStyleOptionsStyle()}
+        {this.renderDebugStyle()}
       </UiCard >
     );
   }

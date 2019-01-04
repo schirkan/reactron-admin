@@ -113,7 +113,7 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
 
     return (
       <UiOverlay>
-        <OptionCard icon={RegularIcons.faFile}
+        <OptionCard icon={RegularIcons.faFile} showToggleStyleOptions={true}
           title={title} fields={pageOptionsFields}
           onSave={this.savePage} onCancel={this.hidePageDetailsDialog} options={page || {}}
         />

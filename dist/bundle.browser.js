@@ -364,7 +364,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return Loading;
             }(Component));
 
-            var css$1 = ".UiFlowLayout {\n  padding: 10px;\n  -webkit-column-count: 4;\n          column-count: 4;\n  -webkit-column-gap: 0;\n          column-gap: 0; }\n  .UiFlowLayout > * {\n    width: calc(100% - 20px);\n    padding: 10px;\n    -webkit-column-break-inside: avoid;\n            break-inside: avoid; }\n  .UiFlowLayout + .UiFlowLayout {\n    padding-top: 0px;\n    margin-top: -10px; }\n\n@media screen and (max-width: 1200px) {\n  .UiFlowLayout {\n    -webkit-column-count: 3;\n            column-count: 3; } }\n\n@media screen and (max-width: 900px) {\n  .UiFlowLayout {\n    -webkit-column-count: 2;\n            column-count: 2; } }\n\n@media screen and (max-width: 600px) {\n  .UiFlowLayout {\n    -webkit-column-count: 1;\n            column-count: 1; } }\n";
+            var css$1 = ".UiFlowLayout {\n  padding: 10px;\n  -webkit-column-count: 4;\n          column-count: 4;\n  -webkit-column-gap: 0;\n          column-gap: 0; }\n  .UiFlowLayout > * {\n    width: calc(100% - 20px);\n    padding: 10px;\n    -webkit-column-break-inside: avoid;\n            break-inside: avoid; }\n  .UiFlowLayout + .UiFlowLayout {\n    padding-top: 0px;\n    margin-top: -10px; }\n\n@media screen and (max-width: 1500px) {\n  .UiFlowLayout {\n    -webkit-column-count: 3;\n            column-count: 3; } }\n\n@media screen and (max-width: 1100px) {\n  .UiFlowLayout {\n    -webkit-column-count: 2;\n            column-count: 2; } }\n\n@media screen and (max-width: 700px) {\n  .UiFlowLayout {\n    -webkit-column-count: 1;\n            column-count: 1; } }\n";
             styleInject(css$1);
 
             var UiFlowLayout = /** @class */ (function (_super) {
@@ -414,7 +414,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return UiCardContent;
             }(Component));
 
-            var css$4 = ".UiCardTitle {\n  padding: 6px;\n  padding-left: 10px;\n  font-size: 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  background: white;\n  border-bottom: 1px solid #ddd; }\n  .UiCardTitle > .svg-inline--fa {\n    margin-right: 4px; }\n";
+            var css$4 = ".UiCardTitle {\n  position: relative;\n  padding: 6px;\n  padding-left: 10px;\n  font-size: 16px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  background: white;\n  border-bottom: 1px solid #ddd; }\n  .UiCardTitle > .svg-inline--fa {\n    margin-right: 4px; }\n";
             styleInject(css$4);
 
             var UiCardTitle = /** @class */ (function (_super) {
@@ -1531,7 +1531,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return PasswordControlsProvider;
             }());
 
-            var css$j = ".StyleForm .newPropertyRow {\n  display: -webkit-box;\n  display: flex; }\n  .StyleForm .newPropertyRow select {\n    width: 100%; }\n  .StyleForm .newPropertyRow .UiButton {\n    overflow: initial; }\n";
+            var css$j = ".StyleForm .OptionItem + .newPropertyRow {\n  border-top: 1px solid #eee; }\n\n.StyleForm .newPropertyRow {\n  display: -webkit-box;\n  display: flex; }\n  .StyleForm .newPropertyRow select {\n    width: 100%; }\n  .StyleForm .newPropertyRow .UiButton {\n    overflow: initial; }\n";
             styleInject(css$j);
 
             var styleProperties = ['background', 'backgroundAttachment', 'backgroundColor', 'backgroundImage',
@@ -1881,7 +1881,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }());
             var WebComponentFormContext = createContext(new WebComponentFormContextData());
 
-            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.WebComponentForm :last-child {\n  border-bottom: none; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.item-details[data-isarray=true] > .OptionItem[data-valuetype=webComponent] > .item-header {\n  display: initial; }\n";
+            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.item-details[data-isarray=true] > .OptionItem[data-valuetype=webComponent] > .item-header {\n  display: initial; }\n";
             styleInject(css$k);
 
             var WebComponentForm = /** @class */ (function (_super) {
@@ -2068,8 +2068,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return (createElement("div", { className: "componentSelect" },
                         createElement(UiButton, null,
                             createElement(FontAwesomeIcon, { icon: faCube })),
-                        createElement("div", null, this.props.definition.displayName),
-                        createElement("select", { className: "componentSelect", value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
+                        createElement("label", { htmlFor: this.props.uniqueId }, this.props.definition.displayName),
+                        createElement("select", { className: "componentSelect", id: this.props.uniqueId, value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
                             createElement("option", { key: "_", value: "" }, "Select Component..."),
                             Object.keys(optionGroups).map(function (type) {
                                 return createElement("optgroup", { key: type, label: type }, optionGroups[type].map(function (item) {
@@ -2243,16 +2243,16 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         // return <span>No options / fields defined</span>;
                     }
                     return (createElement("div", { className: "OptionList" },
+                        this.renderDebug(),
                         this.props.fields.map(function (field) {
                             var value = _this.props.value && _this.props.value[field.name];
                             return createElement(OptionItem, { key: field.name, definition: field, value: value, valueChange: _this.valueChange });
-                        }),
-                        this.renderDebug()));
+                        })));
                 };
                 return OptionList;
             }(Component));
 
-            var css$n = ".OptionCard > .UiCardTitle .buttons {\n  position: absolute;\n  top: 0;\n  right: 0;\n  display: -webkit-box;\n  display: flex; }\n  .OptionCard > .UiCardTitle .buttons svg {\n    margin-left: 3px; }\n\n.OptionCard > .OptionList {\n  position: relative;\n  overflow-x: hidden; }\n  .OptionCard > .OptionList > :last-child {\n    border-bottom: none; }\n\n.OptionCard .debug {\n  white-space: pre;\n  line-height: 16px; }\n";
+            var css$n = ".OptionCard > .UiCardTitle .buttons {\n  position: absolute;\n  top: 0;\n  right: 0;\n  display: -webkit-box;\n  display: flex; }\n  .OptionCard > .UiCardTitle .buttons svg {\n    margin-left: 3px; }\n\n.OptionCard > .OptionList {\n  position: relative;\n  overflow-x: hidden; }\n  .OptionCard > .OptionList > :last-child {\n    border-bottom: none; }\n\n.OptionCard > .UiCardButtonRow {\n  border-top: 1px solid #ddd; }\n\n.OptionCard .debug {\n  white-space: pre;\n  line-height: 16px; }\n";
             styleInject(css$n);
 
             var OptionCard = /** @class */ (function (_super) {
@@ -2314,9 +2314,9 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         " ",
                         this.props.title,
                         createElement("div", { className: "buttons" },
-                            createElement(UiButton, { onClick: function () { return _this.setState({ showExpertOptions: !_this.state.showExpertOptions }); } },
+                            this.props.showToggleStyleOptions && (createElement(UiButton, { onClick: function () { return _this.setState({ showExpertOptions: !_this.state.showExpertOptions }); } },
                                 "Style options ",
-                                createElement(FontAwesomeIcon, { icon: this.state.showExpertOptions ? faEye : faEyeSlash })),
+                                createElement(FontAwesomeIcon, { icon: this.state.showExpertOptions ? faEye : faEyeSlash }))),
                             createElement(UiButton, { onClick: function () { return _this.setState({ showDebug: !_this.state.showDebug }); } },
                                 "Debug ",
                                 createElement(FontAwesomeIcon, { icon: this.state.showDebug ? faEye : faEyeSlash })))));
@@ -2325,7 +2325,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return (createElement(OptionCardContext.Provider, { value: this.state.formContext },
                         createElement(OptionList, { fields: this.props.fields, value: this.state.newOptions, valueChange: this.optionsChange })));
                 };
-                OptionCard.prototype.renderExportStyle = function () {
+                OptionCard.prototype.renderStyleOptionsStyle = function () {
                     if (this.state.showExpertOptions) {
                         return null;
                     }
@@ -2354,9 +2354,9 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return (createElement(UiCard, { className: className },
                         this.renderTitle(),
                         this.renderContent(),
-                        this.renderExportStyle(),
-                        this.renderDebugStyle(),
-                        this.renderFooter()));
+                        this.renderFooter(),
+                        this.renderStyleOptionsStyle(),
+                        this.renderDebugStyle()));
                 };
                 return OptionCard;
             }(Component));
@@ -2428,8 +2428,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     name: 'webComponentId',
                     valueType: 'webComponent'
                 }, {
-                    description: 'Style',
-                    displayName: 'Style',
+                    description: 'Page Style',
+                    displayName: 'Page Style',
                     name: 'style',
                     valueType: 'style'
                 }];
@@ -2507,7 +2507,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     var page = this.state.selectedPage;
                     var title = page ? 'Edit Page' : 'Add Page';
                     return (createElement(UiOverlay, null,
-                        createElement(OptionCard, { icon: faFile, title: title, fields: pageOptionsFields, onSave: this.savePage, onCancel: this.hidePageDetailsDialog, options: page || {} })));
+                        createElement(OptionCard, { icon: faFile, showToggleStyleOptions: true, title: title, fields: pageOptionsFields, onSave: this.savePage, onCancel: this.hidePageDetailsDialog, options: page || {} })));
                 };
                 PageManagerPage.prototype.render = function () {
                     return (createElement("section", { className: "PageManagerPage" },
@@ -2945,7 +2945,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return SystemPage;
             }(Component));
 
-            var css$w = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a {\n    text-decoration: none; }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    background: white; }\n    section.Admin select:focus,\n    section.Admin textarea:focus,\n    section.Admin input:focus {\n      font-size: 16px; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
+            var css$w = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a {\n    text-decoration: none; }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    background: white;\n    font-size: 16px; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
             styleInject(css$w);
 
             var Admin = /** @class */ (function (_super) {

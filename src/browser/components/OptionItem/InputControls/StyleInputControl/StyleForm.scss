@@ -1,4 +1,7 @@
 .StyleForm {
+    .OptionItem+.newPropertyRow {
+        border-top: 1px solid #eee;
+    }
     .newPropertyRow {
         display: flex;
         select {

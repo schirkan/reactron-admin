@@ -60,9 +60,7 @@ section.Admin {
     textarea,
     input {
         background: white;
-        &:focus {
-            font-size: 16px;
-        }
+        font-size: 16px;
     }
     svg {
         // https://stackoverflow.com/questions/32142182/css-column-count-and-transition-weird-jump-on-chrome

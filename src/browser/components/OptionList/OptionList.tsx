@@ -40,11 +40,11 @@ export default class OptionList extends React.Component<IOptionListProps> {
 
     return (
       <div className="OptionList">
+        {this.renderDebug()}
         {this.props.fields.map(field => {
           const value = this.props.value && this.props.value[field.name];
           return <OptionItem key={field.name} definition={field} value={value} valueChange={this.valueChange} />;
         })}
-        {this.renderDebug()}
       </div>
     );
   }

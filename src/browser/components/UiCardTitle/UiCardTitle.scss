@@ -1,4 +1,5 @@
 .UiCardTitle {
+    position: relative;
     padding: 6px;
     padding-left: 10px;
     font-size: 16px;
@@ -8,7 +9,7 @@
     overflow: hidden;
     background: white;
     border-bottom: 1px solid #ddd;
-    & > .svg-inline--fa {
+    &>.svg-inline--fa {
         margin-right: 4px;
     }
 }

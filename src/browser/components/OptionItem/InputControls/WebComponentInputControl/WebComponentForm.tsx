@@ -217,8 +217,8 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
         <UiButton>
           <FontAwesomeIcon icon={SolidIcons.faCube} />
         </UiButton>
-        <div>{this.props.definition.displayName}</div>
-        <select className="componentSelect" value={selectedComponentKey} onChange={this.onSelectedComponentDefinitionChange}>
+        <label htmlFor={this.props.uniqueId}>{this.props.definition.displayName}</label>
+        <select className="componentSelect" id={this.props.uniqueId} value={selectedComponentKey} onChange={this.onSelectedComponentDefinitionChange}>
           <option key="_" value="">Select Component...</option>
           {Object.keys(optionGroups).map(type =>
             <optgroup key={type} label={type}>

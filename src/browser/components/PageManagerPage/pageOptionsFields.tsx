@@ -18,8 +18,8 @@ export const pageOptionsFields: IFieldDefinition[] = [{
   name: 'webComponentId',
   valueType: 'webComponent'
 }, {
-  description: 'Style',
-  displayName: 'Style',
+  description: 'Page Style',
+  displayName: 'Page Style',
   name: 'style',
   valueType: 'style'
 }];
