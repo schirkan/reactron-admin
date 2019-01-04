@@ -4,10 +4,10 @@
         grid-template-columns: 33px auto 33px;
         border-bottom: 1px solid #eee;
     }
-    .componentSelect  {
+    .componentSelect {
         display: grid;
         grid-template-columns: 33px min-content auto;
-        select{
+        select {
             width: 100%;
         }
     }
@@ -16,6 +16,10 @@
     }
 }
 
-.OptionItem[data-valuetype=webComponent] > .item-header {
+.OptionItem[data-valuetype=webComponent]>.item-header {
     display: none;
+}
+
+.item-details[data-isarray=true]>.OptionItem[data-valuetype=webComponent]>.item-header {
+    display: initial;
 }

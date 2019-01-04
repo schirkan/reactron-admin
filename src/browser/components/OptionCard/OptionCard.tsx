@@ -1,5 +1,6 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
+import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IFieldDefinition } from "@schirkan/reactron-interfaces";
 import * as React from 'react';
@@ -28,6 +29,8 @@ export interface IOptionCardProps {
 interface IOptionCardState {
   newOptions: any;
   formContext: OptionsCardContextData;
+  showDebug: boolean;
+  showExpertOptions: boolean;
 }
 
 export default class OptionCard extends React.Component<IOptionCardProps, IOptionCardState> {
@@ -38,7 +41,9 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
 
     this.state = {
       newOptions,
-      formContext: new OptionsCardContextData()
+      formContext: new OptionsCardContextData(),
+      showDebug: false,
+      showExpertOptions: false,
     };
 
     this.cancel = this.cancel.bind(this);
@@ -84,6 +89,14 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
     return (
       <UiCardTitle>
         <FontAwesomeIcon icon={this.props.icon} /> {this.props.title}
+        <div className="buttons">
+          <UiButton onClick={() => this.setState({ showExpertOptions: !this.state.showExpertOptions })}>
+            Style options <FontAwesomeIcon icon={this.state.showExpertOptions ? RegularIcons.faEye : RegularIcons.faEyeSlash} />
+          </UiButton>
+          <UiButton onClick={() => this.setState({ showDebug: !this.state.showDebug })}>
+            Debug <FontAwesomeIcon icon={this.state.showDebug ? RegularIcons.faEye : RegularIcons.faEyeSlash} />
+          </UiButton>
+        </div>
       </UiCardTitle>
     );
   }
@@ -99,6 +112,20 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
     );
   }
 
+  public renderExportStyle() {
+    if (this.state.showExpertOptions) {
+      return null;
+    }
+    return <style>{'[data-valuetype="style"] { display: none; }'}</style>;
+  }
+
+  public renderDebugStyle() {
+    if (this.state.showDebug) {
+      return null;
+    }
+    return <style>{'.debug { display: none; }'}</style>;
+  }
+
   public renderFooter() {
     return (
       <UiCardButtonRow divider="half">
@@ -108,8 +135,8 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
           </UiButton>
         )}
         {this.props.showReset && (
-        <UiButton onClick={this.reset}>
-          <FontAwesomeIcon icon={SolidIcons.faUndo} /> Reset
+          <UiButton onClick={this.reset}>
+            <FontAwesomeIcon icon={SolidIcons.faUndo} /> Reset
         </UiButton>
         )}
         <UiButton onClick={this.save}>
@@ -126,9 +153,8 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
       <UiCard className={className}>
         {this.renderTitle()}
         {this.renderContent()}
-        <UiCardContent className="debug" style={{ whiteSpace: 'pre' }}>
-          {JSON.stringify(this.state.newOptions, undefined, 2)}
-        </UiCardContent>
+        {this.renderExportStyle()}
+        {this.renderDebugStyle()}
         {this.renderFooter()}
       </UiCard >
     );

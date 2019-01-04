@@ -1881,7 +1881,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }());
             var WebComponentFormContext = createContext(new WebComponentFormContextData());
 
-            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.WebComponentForm :last-child {\n  border-bottom: none; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n";
+            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.WebComponentForm :last-child {\n  border-bottom: none; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.item-details[data-isarray=true] > .OptionItem[data-valuetype=webComponent] > .item-header {\n  display: initial; }\n";
             styleInject(css$k);
 
             var WebComponentForm = /** @class */ (function (_super) {
@@ -2233,21 +2233,26 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     newValue[field.name] = value;
                     this.props.valueChange(newValue);
                 };
+                OptionList.prototype.renderDebug = function () {
+                    return (createElement(UiCardContent, { className: "debug" }, JSON.stringify(this.props.value, undefined, 2)));
+                };
                 OptionList.prototype.render = function () {
                     var _this = this;
                     if (!this.props.fields || !this.props.fields.length) {
                         return null;
                         // return <span>No options / fields defined</span>;
                     }
-                    return (createElement("div", { className: "OptionList" }, this.props.fields.map(function (field) {
-                        var value = _this.props.value && _this.props.value[field.name];
-                        return createElement(OptionItem, { key: field.name, definition: field, value: value, valueChange: _this.valueChange });
-                    })));
+                    return (createElement("div", { className: "OptionList" },
+                        this.props.fields.map(function (field) {
+                            var value = _this.props.value && _this.props.value[field.name];
+                            return createElement(OptionItem, { key: field.name, definition: field, value: value, valueChange: _this.valueChange });
+                        }),
+                        this.renderDebug()));
                 };
                 return OptionList;
             }(Component));
 
-            var css$n = ".OptionCard > .OptionList {\n  position: relative;\n  overflow-x: hidden; }\n  .OptionCard > .OptionList :last-child {\n    border-bottom: none; }\n\n.OptionCard .debug {\n  display: none; }\n";
+            var css$n = ".OptionCard > .UiCardTitle .buttons {\n  position: absolute;\n  top: 0;\n  right: 0;\n  display: -webkit-box;\n  display: flex; }\n  .OptionCard > .UiCardTitle .buttons svg {\n    margin-left: 3px; }\n\n.OptionCard > .OptionList {\n  position: relative;\n  overflow-x: hidden; }\n  .OptionCard > .OptionList > :last-child {\n    border-bottom: none; }\n\n.OptionCard .debug {\n  white-space: pre;\n  line-height: 16px; }\n";
             styleInject(css$n);
 
             var OptionCard = /** @class */ (function (_super) {
@@ -2257,7 +2262,9 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     var newOptions = _this.setDefaultValues(props.options || {});
                     _this.state = {
                         newOptions: newOptions,
-                        formContext: new OptionsCardContextData()
+                        formContext: new OptionsCardContextData(),
+                        showDebug: false,
+                        showExpertOptions: false,
                     };
                     _this.cancel = _this.cancel.bind(_this);
                     _this.save = _this.save.bind(_this);
@@ -2301,14 +2308,34 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.setState({ newOptions: newValue });
                 };
                 OptionCard.prototype.renderTitle = function () {
+                    var _this = this;
                     return (createElement(UiCardTitle, null,
                         createElement(FontAwesomeIcon, { icon: this.props.icon }),
                         " ",
-                        this.props.title));
+                        this.props.title,
+                        createElement("div", { className: "buttons" },
+                            createElement(UiButton, { onClick: function () { return _this.setState({ showExpertOptions: !_this.state.showExpertOptions }); } },
+                                "Style options ",
+                                createElement(FontAwesomeIcon, { icon: this.state.showExpertOptions ? faEye : faEyeSlash })),
+                            createElement(UiButton, { onClick: function () { return _this.setState({ showDebug: !_this.state.showDebug }); } },
+                                "Debug ",
+                                createElement(FontAwesomeIcon, { icon: this.state.showDebug ? faEye : faEyeSlash })))));
                 };
                 OptionCard.prototype.renderContent = function () {
                     return (createElement(OptionCardContext.Provider, { value: this.state.formContext },
                         createElement(OptionList, { fields: this.props.fields, value: this.state.newOptions, valueChange: this.optionsChange })));
+                };
+                OptionCard.prototype.renderExportStyle = function () {
+                    if (this.state.showExpertOptions) {
+                        return null;
+                    }
+                    return createElement("style", null, '[data-valuetype="style"] { display: none; }');
+                };
+                OptionCard.prototype.renderDebugStyle = function () {
+                    if (this.state.showDebug) {
+                        return null;
+                    }
+                    return createElement("style", null, '.debug { display: none; }');
                 };
                 OptionCard.prototype.renderFooter = function () {
                     return (createElement(UiCardButtonRow, { divider: "half" },
@@ -2327,7 +2354,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return (createElement(UiCard, { className: className },
                         this.renderTitle(),
                         this.renderContent(),
-                        createElement(UiCardContent, { className: "debug", style: { whiteSpace: 'pre' } }, JSON.stringify(this.state.newOptions, undefined, 2)),
+                        this.renderExportStyle(),
+                        this.renderDebugStyle(),
                         this.renderFooter()));
                 };
                 return OptionCard;
@@ -2917,7 +2945,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return SystemPage;
             }(Component));
 
-            var css$w = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a {\n    text-decoration: none; }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    font-size: 16px;\n    background: white; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
+            var css$w = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a {\n    text-decoration: none; }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    background: white; }\n    section.Admin select:focus,\n    section.Admin textarea:focus,\n    section.Admin input:focus {\n      font-size: 16px; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
             styleInject(css$w);
 
             var Admin = /** @class */ (function (_super) {

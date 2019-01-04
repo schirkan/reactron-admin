@@ -3,6 +3,7 @@ import * as React from 'react';
 import OptionItem from '../OptionItem/OptionItem';
 
 import './OptionList.scss';
+import UiCardContent from '../UiCardContent/UiCardContent';
 
 interface IOptionListProps {
   fields?: IFieldDefinition[];
@@ -23,6 +24,14 @@ export default class OptionList extends React.Component<IOptionListProps> {
     this.props.valueChange(newValue);
   }
 
+  public renderDebug() {
+    return (
+      <UiCardContent className="debug">
+        {JSON.stringify(this.props.value, undefined, 2)}
+      </UiCardContent>
+    );
+  }
+
   public render() {
     if (!this.props.fields || !this.props.fields.length) {
       return null;
@@ -35,6 +44,7 @@ export default class OptionList extends React.Component<IOptionListProps> {
           const value = this.props.value && this.props.value[field.name];
           return <OptionItem key={field.name} definition={field} value={value} valueChange={this.valueChange} />;
         })}
+        {this.renderDebug()}
       </div>
     );
   }

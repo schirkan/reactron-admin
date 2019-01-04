@@ -1,4 +1,4 @@
-import * as SvgIcons from '@fortawesome/free-regular-svg-icons';
+import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IInputComponentProps } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
@@ -24,7 +24,7 @@ export class PasswordInputControl extends React.Component<IInputComponentProps, 
     return (
       <div style={{ display: 'flex' }}>
         <input style={{ width: '100%' }} type={this.state.show ? 'text' : 'password'} id={this.props.uniqueId} value={this.props.value} onChange={this.onInputChange} />
-        <UiButton onClick={this.toggleText}><FontAwesomeIcon icon={this.state.show ? SvgIcons.faEyeSlash : SvgIcons.faEye} /></UiButton>
+        <UiButton onClick={this.toggleText}><FontAwesomeIcon icon={this.state.show ? RegularIcons.faEyeSlash : RegularIcons.faEye} /></UiButton>
       </div>
     );
   }

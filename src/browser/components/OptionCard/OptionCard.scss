@@ -1,12 +1,22 @@
 .OptionCard {
+    >.UiCardTitle .buttons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        svg {
+            margin-left: 3px;
+        }
+    }
     >.OptionList {
         position: relative;
         overflow-x: hidden;
-         :last-child {
+        > :last-child {
             border-bottom: none;
         }
     }
     .debug {
-        display: none;
+        white-space: pre;
+        line-height: 16px;
     }
 }
