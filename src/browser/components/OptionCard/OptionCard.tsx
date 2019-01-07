@@ -1,6 +1,6 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
+import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IFieldDefinition } from "@schirkan/reactron-interfaces";
 import * as React from 'react';
@@ -50,6 +50,8 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
     this.save = this.save.bind(this);
     this.reset = this.reset.bind(this);
     this.optionsChange = this.optionsChange.bind(this);
+    this.toggleStyleOptions = this.toggleStyleOptions.bind(this);
+    this.toggleDebug = this.toggleDebug.bind(this);
   }
 
   // init fields
@@ -85,17 +87,25 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
     this.setState({ newOptions: newValue });
   }
 
+  private toggleStyleOptions(){
+    this.setState(prevState => ({ showExpertOptions: !prevState.showExpertOptions }));
+  }
+
+  private toggleDebug(){
+    this.setState(prevState => ({ showDebug: !prevState.showDebug }));
+  }
+
   public renderTitle() {
     return (
       <UiCardTitle>
         <FontAwesomeIcon icon={this.props.icon} /> {this.props.title}
         <div className="buttons">
           {this.props.showToggleStyleOptions && (
-            <UiButton onClick={() => this.setState({ showExpertOptions: !this.state.showExpertOptions })}>
+            <UiButton onClick={this.toggleStyleOptions}>
               Style options <FontAwesomeIcon icon={this.state.showExpertOptions ? RegularIcons.faEye : RegularIcons.faEyeSlash} />
             </UiButton>
           )}
-          <UiButton onClick={() => this.setState({ showDebug: !this.state.showDebug })}>
+          <UiButton onClick={this.toggleDebug}>
             Debug <FontAwesomeIcon icon={this.state.showDebug ? RegularIcons.faEye : RegularIcons.faEyeSlash} />
           </UiButton>
         </div>

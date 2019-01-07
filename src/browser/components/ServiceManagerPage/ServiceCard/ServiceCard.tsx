@@ -52,10 +52,10 @@ export default class ServiceCard extends React.Component<IServiceCardProps> {
   public renderFooter() {
     return (
       <UiCardButtonRow divider="half">
-        <UiButton onClick={this.showLog}>
+        <UiButton onClick={this.showLog} disabled={!this.props.service.log || this.props.service.log.length === 0}>
           <FontAwesomeIcon icon={RegularIcons.faFile} /> Log
         </UiButton>
-        <UiButton onClick={this.showOptions}>
+        <UiButton onClick={this.showOptions} disabled={!this.props.service.fields || this.props.service.fields.length === 0}>
           <FontAwesomeIcon icon={SolidIcons.faCog} /> Options
         </UiButton>
       </UiCardButtonRow>

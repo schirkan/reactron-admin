@@ -11,9 +11,11 @@ import UiCard from '../UiCard/UiCard';
 import UiCardButtonRow from '../UiCardButtonRow/UiCardButtonRow';
 import UiCardContent from '../UiCardContent/UiCardContent';
 import UiCardTitle from '../UiCardTitle/UiCardTitle';
+import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
 import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
 import UiOverlay from '../UiOverlay/UiOverlay';
 import ServiceGroup from './ServiceGroup/ServiceGroup';
+import ServiceGroupCard from './ServiceGroupCard/ServiceGroupCard';
 
 import './ServiceManagerPage.scss';
 
@@ -145,7 +147,7 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
       <UiOverlay>
         <UiCard className="ServiceLogCard">
           <UiCardTitle>
-          <FontAwesomeIcon icon={RegularIcons.faFile} /> Log for {this.state.selectedService.displayName}
+            <FontAwesomeIcon icon={RegularIcons.faFile} /> Log for {this.state.selectedService.displayName}
           </UiCardTitle>
           <UiCardContent>
             <ul>
@@ -171,13 +173,17 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
 
     const groups = this.state.services.map(x => x.moduleName).filter(onlyUnique);
 
-    return groups.map(moduleName => {
+    const groupCards = groups.map(moduleName => {
       const services = this.state.services.filter(x => x.moduleName === moduleName); // TODO: .sort((a, b) => a.displayName > b.displayName)
       return (
-        <ServiceGroup key={moduleName} moduleName={moduleName} services={services}
+        // <ServiceGroup key={moduleName} moduleName={moduleName} services={services}
+        //   onShowServiceLog={this.showLog} onShowServiceOptions={this.showOptions} />
+        <ServiceGroupCard key={moduleName} moduleName={moduleName} services={services}
           onShowServiceLog={this.showLog} onShowServiceOptions={this.showOptions} />
       );
     });
+
+    return <UiFlowLayout>{groupCards}</UiFlowLayout>;
   }
 
   public render() {

@@ -8,18 +8,18 @@ import ServiceCard from '../ServiceCard/ServiceCard';
 
 import './ServiceGroup.scss';
 
-export interface IModuleManagerPageProps {
+export interface IServiceGroupProps {
   services: IServiceRepositoryItem[];
   moduleName: string;
   onShowServiceLog: (service: IServiceRepositoryItem) => any;
   onShowServiceOptions: (service: IServiceRepositoryItem) => any;
 }
 
-export interface IModuleManagerPageState {
+export interface IServiceGroupState {
   groupOpen: boolean;
 }
 
-export default class ServiceGroup extends React.Component<IModuleManagerPageProps, IModuleManagerPageState> {
+export default class ServiceGroup extends React.Component<IServiceGroupProps, IServiceGroupState> {
   constructor(props: any) {
     super(props);
 

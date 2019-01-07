@@ -2270,6 +2270,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     _this.save = _this.save.bind(_this);
                     _this.reset = _this.reset.bind(_this);
                     _this.optionsChange = _this.optionsChange.bind(_this);
+                    _this.toggleStyleOptions = _this.toggleStyleOptions.bind(_this);
+                    _this.toggleDebug = _this.toggleDebug.bind(_this);
                     return _this;
                 }
                 // init fields
@@ -2307,17 +2309,22 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 OptionCard.prototype.optionsChange = function (newValue) {
                     this.setState({ newOptions: newValue });
                 };
+                OptionCard.prototype.toggleStyleOptions = function () {
+                    this.setState(function (prevState) { return ({ showExpertOptions: !prevState.showExpertOptions }); });
+                };
+                OptionCard.prototype.toggleDebug = function () {
+                    this.setState(function (prevState) { return ({ showDebug: !prevState.showDebug }); });
+                };
                 OptionCard.prototype.renderTitle = function () {
-                    var _this = this;
                     return (createElement(UiCardTitle, null,
                         createElement(FontAwesomeIcon, { icon: this.props.icon }),
                         " ",
                         this.props.title,
                         createElement("div", { className: "buttons" },
-                            this.props.showToggleStyleOptions && (createElement(UiButton, { onClick: function () { return _this.setState({ showExpertOptions: !_this.state.showExpertOptions }); } },
+                            this.props.showToggleStyleOptions && (createElement(UiButton, { onClick: this.toggleStyleOptions },
                                 "Style options ",
                                 createElement(FontAwesomeIcon, { icon: this.state.showExpertOptions ? faEye : faEyeSlash }))),
-                            createElement(UiButton, { onClick: function () { return _this.setState({ showDebug: !_this.state.showDebug }); } },
+                            createElement(UiButton, { onClick: this.toggleDebug },
                                 "Debug ",
                                 createElement(FontAwesomeIcon, { icon: this.state.showDebug ? faEye : faEyeSlash })))));
                 };
@@ -2535,53 +2542,52 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             var css$r = "";
             styleInject(css$r);
 
-            var ServiceCard = /** @class */ (function (_super) {
-                __extends(ServiceCard, _super);
-                function ServiceCard(props) {
+            var ServiceListItem = /** @class */ (function (_super) {
+                __extends(ServiceListItem, _super);
+                function ServiceListItem(props) {
                     var _this = _super.call(this, props) || this;
                     _this.showOptions = _this.showOptions.bind(_this);
                     _this.showLog = _this.showLog.bind(_this);
                     return _this;
                 }
-                ServiceCard.prototype.showOptions = function () {
+                ServiceListItem.prototype.showOptions = function () {
                     return this.props.onShowOptions(this.props.service);
                 };
-                ServiceCard.prototype.showLog = function () {
+                ServiceListItem.prototype.showLog = function () {
                     return this.props.onShowLog(this.props.service);
                 };
-                ServiceCard.prototype.renderTitle = function () {
-                    return (createElement(UiCardTitle, null,
-                        createElement(FontAwesomeIcon, { icon: faCogs }),
-                        " ",
-                        this.props.service.name));
-                };
-                ServiceCard.prototype.renderDescription = function () {
-                    return (createElement(UiCardContent, { className: "description" }, this.props.service.description || 'no description'));
-                };
-                ServiceCard.prototype.renderFooter = function () {
+                ServiceListItem.prototype.renderButtonRow = function () {
+                    var hasLog = this.props.service.log && this.props.service.log.length > 0;
+                    var hasOptions = this.props.service.fields && this.props.service.fields.length > 0;
+                    if (!hasLog && !hasOptions) {
+                        return null;
+                    }
                     return (createElement(UiCardButtonRow, { divider: "half" },
-                        createElement(UiButton, { onClick: this.showLog },
+                        hasLog && (createElement(UiButton, { onClick: this.showLog },
                             createElement(FontAwesomeIcon, { icon: faFile }),
-                            " Log"),
-                        createElement(UiButton, { onClick: this.showOptions },
+                            " Log")),
+                        hasOptions && (createElement(UiButton, { onClick: this.showOptions },
                             createElement(FontAwesomeIcon, { icon: faCog }),
-                            " Options")));
+                            " Options"))));
                 };
-                ServiceCard.prototype.render = function () {
-                    return (createElement(UiCard, { className: "ServiceCard" },
-                        this.renderTitle(),
-                        this.renderDescription(),
-                        this.renderFooter()));
+                ServiceListItem.prototype.render = function () {
+                    return (createElement(Fragment, { key: this.props.service.name },
+                        createElement(UiCardContent, { className: "ServiceListItem" },
+                            createElement(FontAwesomeIcon, { icon: faCogs }),
+                            " ",
+                            this.props.service.name),
+                        this.props.service.description && (createElement(UiCardContent, null, this.props.service.description)),
+                        this.renderButtonRow()));
                 };
-                return ServiceCard;
+                return ServiceListItem;
             }(Component));
 
-            var css$s = ".ServiceGroup .group-header {\n  margin-top: 10px;\n  padding-left: 20px !important;\n  padding-right: 36px !important;\n  font-size: 16px;\n  line-height: 20px; }\n  .ServiceGroup .group-header > :last-child {\n    position: absolute;\n    right: 20px; }\n";
+            var css$s = ".ServiceGroupCard .group-header > :last-child {\n  position: absolute;\n  right: 10px;\n  top: 10px; }\n";
             styleInject(css$s);
 
-            var ServiceGroup = /** @class */ (function (_super) {
-                __extends(ServiceGroup, _super);
-                function ServiceGroup(props) {
+            var ServiceGroupCard = /** @class */ (function (_super) {
+                __extends(ServiceGroupCard, _super);
+                function ServiceGroupCard(props) {
                     var _this = _super.call(this, props) || this;
                     _this.state = {
                         groupOpen: false
@@ -2589,13 +2595,13 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     _this.toggleGroup = _this.toggleGroup.bind(_this);
                     return _this;
                 }
-                ServiceGroup.prototype.toggleGroup = function () {
+                ServiceGroupCard.prototype.toggleGroup = function () {
                     this.setState(function (state) { return ({ groupOpen: !state.groupOpen }); });
                 };
-                ServiceGroup.prototype.render = function () {
+                ServiceGroupCard.prototype.render = function () {
                     var _this = this;
-                    return (createElement("section", { className: "ServiceGroup" },
-                        createElement(UiButton, { className: "group-header", onClick: this.toggleGroup },
+                    return (createElement(UiCard, { className: "ServiceGroupCard" },
+                        createElement(UiButton, { className: "group-header UiCardTitle", onClick: this.toggleGroup },
                             createElement(FontAwesomeIcon, { icon: faCube }),
                             " ",
                             this.props.moduleName,
@@ -2603,11 +2609,11 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             this.props.services.length,
                             ")",
                             createElement(FontAwesomeIcon, { icon: this.state.groupOpen ? faArrowDown : faArrowRight })),
-                        this.state.groupOpen && (createElement(UiFlowLayout, null, this.props.services.map(function (item) {
-                            return createElement(ServiceCard, { key: item.name, service: item, onShowLog: _this.props.onShowServiceLog, onShowOptions: _this.props.onShowServiceOptions });
-                        })))));
+                        this.state.groupOpen && this.props.services.map(function (item) {
+                            return createElement(ServiceListItem, { key: item.name, service: item, onShowLog: _this.props.onShowServiceLog, onShowOptions: _this.props.onShowServiceOptions });
+                        })));
                 };
-                return ServiceGroup;
+                return ServiceGroupCard;
             }(Component));
 
             var css$t = ".ServiceManagerPage {\n  min-height: 100px; }\n";
@@ -2722,10 +2728,14 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         return createElement(Loading, { center: true });
                     }
                     var groups = this.state.services.map(function (x) { return x.moduleName; }).filter(onlyUnique);
-                    return groups.map(function (moduleName) {
+                    var groupCards = groups.map(function (moduleName) {
                         var services = _this.state.services.filter(function (x) { return x.moduleName === moduleName; }); // TODO: .sort((a, b) => a.displayName > b.displayName)
-                        return (createElement(ServiceGroup, { key: moduleName, moduleName: moduleName, services: services, onShowServiceLog: _this.showLog, onShowServiceOptions: _this.showOptions }));
+                        return (
+                        // <ServiceGroup key={moduleName} moduleName={moduleName} services={services}
+                        //   onShowServiceLog={this.showLog} onShowServiceOptions={this.showOptions} />
+                        createElement(ServiceGroupCard, { key: moduleName, moduleName: moduleName, services: services, onShowServiceLog: _this.showLog, onShowServiceOptions: _this.showOptions }));
                     });
+                    return createElement(UiFlowLayout, null, groupCards);
                 };
                 ServiceManagerPage.prototype.render = function () {
                     return (createElement("section", { className: "ServiceManagerPage" },
