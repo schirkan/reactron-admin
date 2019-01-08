@@ -15,12 +15,25 @@ export interface IServiceListItemProps {
   onShowOptions: (service: IServiceRepositoryItem) => void;
 }
 
-export default class ServiceListItem extends React.Component<IServiceListItemProps> {
+interface IServiceListItemState{
+  isOpen: boolean;
+}
+
+export default class ServiceListItem extends React.Component<IServiceListItemProps, IServiceListItemState> {
   constructor(props: IServiceListItemProps) {
     super(props);
 
+    this.state = {
+      isOpen: false
+    };
+
     this.showOptions = this.showOptions.bind(this);
     this.showLog = this.showLog.bind(this);
+    this.toggleOpen = this.toggleOpen.bind(this);
+  }
+
+  private toggleOpen() {
+    this.setState(state => ({ isOpen: !state.isOpen }));
   }
 
   private showOptions() {
@@ -54,16 +67,29 @@ export default class ServiceListItem extends React.Component<IServiceListItemPro
     );
   }
 
-  public render() {
+  private rendeDetails(){
+    if(!this.state.isOpen){
+      return null;
+    }
+
     return (
-      <React.Fragment key={this.props.service.name}>
-        <UiCardContent className="ServiceListItem">
-          <FontAwesomeIcon icon={SolidIcons.faCogs} /> {this.props.service.name}
-        </UiCardContent>
+      <React.Fragment>
         {this.props.service.description && (
           <UiCardContent>{this.props.service.description}</UiCardContent>
         )}
         {this.renderButtonRow()}
+      </React.Fragment>
+    );
+  }
+
+  public render() {
+    return (
+      <React.Fragment key={this.props.service.name}>
+        <UiButton className="ServiceListItem UiCardContent" onClick={this.toggleOpen}>
+          <FontAwesomeIcon icon={SolidIcons.faCogs} /> {this.props.service.displayName}
+          <FontAwesomeIcon icon={this.state.isOpen ? SolidIcons.faArrowDown : SolidIcons.faArrowRight} />
+        </UiButton>
+        {this.rendeDetails()}
       </React.Fragment>
     );
   }

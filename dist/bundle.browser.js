@@ -1321,9 +1321,13 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 ArrayForm.prototype.arrayItemAdd = function () {
                     var arrayItemDefinition = __assign({}, this.props.definition);
                     arrayItemDefinition.isArray = false;
+                    var newItem = getDefaultFieldValue(arrayItemDefinition);
+                    if (typeof newItem === 'object') {
+                        newItem.__new = true;
+                    }
                     var array = this.props.value || [];
-                    array = array.slice();
-                    array.push(getDefaultFieldValue(arrayItemDefinition));
+                    array = array.slice(); // copy
+                    array.push(newItem); // add item
                     this.props.valueChange(this.props.definition, array);
                 };
                 ArrayForm.prototype.renderArrayItem = function (value, index) {
@@ -2165,16 +2169,28 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 __extends(OptionItem, _super);
                 function OptionItem(props) {
                     var _this = _super.call(this, props) || this;
+                    var detailsVisible = props.definition.valueType === 'webComponent' || undefined;
                     _this.state = {
                         uniqueId: 'ID' + (counter++),
-                        detailsVisible: props.definition.valueType === 'webComponent' || undefined
+                        detailsVisible: detailsVisible
                     };
                     _this.toggleItemDetails = _this.toggleItemDetails.bind(_this);
                     return _this;
                 }
                 OptionItem.prototype.componentDidMount = function () {
+                    var _this = this;
                     var inputControls = getInputControls(this.props.definition, this.context);
-                    this.setState(inputControls);
+                    var isNewArrayItem = this.props.value && this.props.value.__new;
+                    // auto open new array items
+                    if (isNewArrayItem) {
+                        inputControls.detailsVisible = true;
+                    }
+                    this.setState(inputControls, function () {
+                        if (isNewArrayItem) {
+                            delete (_this.props.value.__new);
+                            _this.props.valueChange(_this.props.definition, _this.props.value);
+                        }
+                    });
                 };
                 OptionItem.prototype.toggleItemDetails = function () {
                     this.setState(function (state) { return ({ detailsVisible: !state.detailsVisible }); });
@@ -2539,17 +2555,24 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return RoundButton;
             }(Component));
 
-            var css$r = "";
+            var css$r = ".ServiceListItem :last-child {\n  float: right; }\n";
             styleInject(css$r);
 
             var ServiceListItem = /** @class */ (function (_super) {
                 __extends(ServiceListItem, _super);
                 function ServiceListItem(props) {
                     var _this = _super.call(this, props) || this;
+                    _this.state = {
+                        isOpen: false
+                    };
                     _this.showOptions = _this.showOptions.bind(_this);
                     _this.showLog = _this.showLog.bind(_this);
+                    _this.toggleOpen = _this.toggleOpen.bind(_this);
                     return _this;
                 }
+                ServiceListItem.prototype.toggleOpen = function () {
+                    this.setState(function (state) { return ({ isOpen: !state.isOpen }); });
+                };
                 ServiceListItem.prototype.showOptions = function () {
                     return this.props.onShowOptions(this.props.service);
                 };
@@ -2570,19 +2593,27 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             createElement(FontAwesomeIcon, { icon: faCog }),
                             " Options"))));
                 };
-                ServiceListItem.prototype.render = function () {
-                    return (createElement(Fragment, { key: this.props.service.name },
-                        createElement(UiCardContent, { className: "ServiceListItem" },
-                            createElement(FontAwesomeIcon, { icon: faCogs }),
-                            " ",
-                            this.props.service.name),
+                ServiceListItem.prototype.rendeDetails = function () {
+                    if (!this.state.isOpen) {
+                        return null;
+                    }
+                    return (createElement(Fragment, null,
                         this.props.service.description && (createElement(UiCardContent, null, this.props.service.description)),
                         this.renderButtonRow()));
+                };
+                ServiceListItem.prototype.render = function () {
+                    return (createElement(Fragment, { key: this.props.service.name },
+                        createElement(UiButton, { className: "ServiceListItem UiCardContent", onClick: this.toggleOpen },
+                            createElement(FontAwesomeIcon, { icon: faCogs }),
+                            " ",
+                            this.props.service.displayName,
+                            createElement(FontAwesomeIcon, { icon: this.state.isOpen ? faArrowDown : faArrowRight })),
+                        this.rendeDetails()));
                 };
                 return ServiceListItem;
             }(Component));
 
-            var css$s = ".ServiceGroupCard .group-header > :last-child {\n  position: absolute;\n  right: 10px;\n  top: 10px; }\n";
+            var css$s = "";
             styleInject(css$s);
 
             var ServiceGroupCard = /** @class */ (function (_super) {
@@ -2601,15 +2632,14 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 ServiceGroupCard.prototype.render = function () {
                     var _this = this;
                     return (createElement(UiCard, { className: "ServiceGroupCard" },
-                        createElement(UiButton, { className: "group-header UiCardTitle", onClick: this.toggleGroup },
+                        createElement(UiCardTitle, { className: "group-header" },
                             createElement(FontAwesomeIcon, { icon: faCube }),
                             " ",
                             this.props.moduleName,
                             " (",
                             this.props.services.length,
-                            ")",
-                            createElement(FontAwesomeIcon, { icon: this.state.groupOpen ? faArrowDown : faArrowRight })),
-                        this.state.groupOpen && this.props.services.map(function (item) {
+                            ")"),
+                        this.props.services.map(function (item) {
                             return createElement(ServiceListItem, { key: item.name, service: item, onShowLog: _this.props.onShowServiceLog, onShowOptions: _this.props.onShowServiceOptions });
                         })));
                 };
@@ -2788,8 +2818,30 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 });
             });
             timezones.sort(function (a, b) { return a.text.localeCompare(b.text); });
+            var FormattedTime = /** @class */ (function (_super) {
+                __extends(FormattedTime, _super);
+                function FormattedTime() {
+                    return _super !== null && _super.apply(this, arguments) || this;
+                }
+                FormattedTime.prototype.render = function () {
+                    var value = this.props.value || 0;
+                    var hour = Math.floor(value / 60);
+                    var minutes = value % 60;
+                    if (hour < 10) {
+                        hour = '0' + hour;
+                    }
+                    if (minutes < 10) {
+                        minutes = '0' + minutes;
+                    }
+                    return (createElement("span", null,
+                        hour,
+                        " : ",
+                        minutes));
+                };
+                return FormattedTime;
+            }(Component));
             var systemSettingsFields = [{
-                    description: 'Language',
+                    description: 'Localized text, time format and number format',
                     displayName: 'Language',
                     name: 'lang',
                     valueType: 'string',
@@ -2813,11 +2865,47 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     valueType: 'string',
                     values: timezones.slice()
                 }, {
-                    description: 'Path of page to show on startup',
+                    description: 'Page to show on startup',
                     displayName: 'Startup page',
                     name: 'startupPath',
                     valueType: 'string',
                     inputControl: PageInputControl
+                }, {
+                    description: 'Autorefresh',
+                    displayName: 'Autorefresh',
+                    name: 'autorefresh',
+                    isArray: true,
+                    valueType: 'object',
+                    fields: [{
+                            description: 'from',
+                            displayName: 'from',
+                            name: 'from',
+                            valueType: 'number',
+                            minValue: 0,
+                            maxValue: 1440,
+                            stepSize: 15,
+                            defaultValue: 480,
+                            inputControl: FormattedTime
+                        }, {
+                            description: 'to',
+                            displayName: 'to',
+                            name: 'to',
+                            valueType: 'number',
+                            minValue: 0,
+                            maxValue: 1440,
+                            stepSize: 15,
+                            defaultValue: 600,
+                            inputControl: FormattedTime
+                        }, {
+                            description: 'interval',
+                            displayName: 'interval',
+                            name: 'interval',
+                            valueType: 'number',
+                            minValue: 1,
+                            maxValue: 120,
+                            stepSize: 1,
+                            defaultValue: 10
+                        }]
                 }];
 
             var css$u = "";
@@ -2955,7 +3043,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return SystemPage;
             }(Component));
 
-            var css$w = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a {\n    text-decoration: none; }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    background: white;\n    font-size: 16px; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
+            var css$w = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a {\n    text-decoration: none; }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    background: white;\n    font-size: 16px;\n    text-overflow: ellipsis; }\n  section.Admin input[type=range] {\n    display: block; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
             styleInject(css$w);
 
             var Admin = /** @class */ (function (_super) {

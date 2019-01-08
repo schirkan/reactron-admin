@@ -72,10 +72,15 @@ export default class ArrayForm extends React.Component<IInputComponentProps> {
   private arrayItemAdd() {
     const arrayItemDefinition = { ...this.props.definition };
     arrayItemDefinition.isArray = false;
+    const newItem = getDefaultFieldValue(arrayItemDefinition);
+
+    if (typeof newItem === 'object') {
+      newItem.__new = true;
+    }
 
     let array = this.props.value || [];
-    array = array.slice();
-    array.push(getDefaultFieldValue(arrayItemDefinition));
+    array = array.slice(); // copy
+    array.push(newItem); // add item
     this.props.valueChange(this.props.definition, array);
   }
 

@@ -36,7 +36,7 @@ export default class ServiceCard extends React.Component<IServiceCardProps> {
   public renderTitle() {
     return (
       <UiCardTitle>
-        <FontAwesomeIcon icon={SolidIcons.faCogs} /> {this.props.service.name}
+        <FontAwesomeIcon icon={SolidIcons.faCogs} /> {this.props.service.displayName}
       </UiCardTitle>
     );
   }
@@ -64,7 +64,7 @@ export default class ServiceCard extends React.Component<IServiceCardProps> {
 
   public render() {
     return (
-      <UiCard className="ServiceCard">
+      <UiCard className="ServiceCard" key={this.props.service.name}>
         {this.renderTitle()}
         {this.renderDescription()}
         {this.renderFooter()}

@@ -29,17 +29,31 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
   constructor(props: IOptionItemProps) {
     super(props);
 
+    let detailsVisible = props.definition.valueType === 'webComponent' || undefined;
+
     this.state = {
       uniqueId: 'ID' + (counter++),
-      detailsVisible: props.definition.valueType === 'webComponent' || undefined
+      detailsVisible
     };
 
     this.toggleItemDetails = this.toggleItemDetails.bind(this);
   }
 
   public componentDidMount() {
-    const inputControls = getInputControls(this.props.definition, this.context);
-    this.setState(inputControls);
+    const inputControls = getInputControls(this.props.definition, this.context) as any;
+    const isNewArrayItem = this.props.value && this.props.value.__new;
+
+    // auto open new array items
+    if (isNewArrayItem) {
+      inputControls.detailsVisible = true;
+    }
+
+    this.setState(inputControls, () => {
+      if (isNewArrayItem) {
+        delete (this.props.value.__new);
+        this.props.valueChange(this.props.definition, this.props.value);
+      }
+    });
   }
 
   private toggleItemDetails() {

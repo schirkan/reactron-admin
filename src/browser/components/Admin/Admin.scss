@@ -45,8 +45,7 @@ section.Admin {
         padding-left: 8px;
         padding-right: 8px;
         &.disabled {
-            cursor: default;
-            // background: #eee;
+            cursor: default; // background: #eee;
             color: #bbb;
         }
         &:not(.disabled) {
@@ -61,6 +60,10 @@ section.Admin {
     input {
         background: white;
         font-size: 16px;
+        text-overflow: ellipsis;
+    }
+    input[type=range] {
+        display: block;
     }
     svg {
         // https://stackoverflow.com/questions/32142182/css-column-count-and-transition-weird-jump-on-chrome
