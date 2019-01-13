@@ -2555,7 +2555,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return RoundButton;
             }(Component));
 
-            var css$r = ".ServiceListItem :last-child {\n  float: right; }\n";
+            var css$r = ".ServiceListItem :last-child {\n  float: right;\n  margin-top: 3px; }\n";
             styleInject(css$r);
 
             var ServiceListItem = /** @class */ (function (_super) {
@@ -2619,26 +2619,15 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             var ServiceGroupCard = /** @class */ (function (_super) {
                 __extends(ServiceGroupCard, _super);
                 function ServiceGroupCard(props) {
-                    var _this = _super.call(this, props) || this;
-                    _this.state = {
-                        groupOpen: false
-                    };
-                    _this.toggleGroup = _this.toggleGroup.bind(_this);
-                    return _this;
+                    return _super.call(this, props) || this;
                 }
-                ServiceGroupCard.prototype.toggleGroup = function () {
-                    this.setState(function (state) { return ({ groupOpen: !state.groupOpen }); });
-                };
                 ServiceGroupCard.prototype.render = function () {
                     var _this = this;
                     return (createElement(UiCard, { className: "ServiceGroupCard" },
                         createElement(UiCardTitle, { className: "group-header" },
                             createElement(FontAwesomeIcon, { icon: faCube }),
                             " ",
-                            this.props.moduleName,
-                            " (",
-                            this.props.services.length,
-                            ")"),
+                            this.props.moduleName),
                         this.props.services.map(function (item) {
                             return createElement(ServiceListItem, { key: item.name, service: item, onShowLog: _this.props.onShowServiceLog, onShowOptions: _this.props.onShowServiceOptions });
                         })));
