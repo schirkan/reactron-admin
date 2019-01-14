@@ -17,6 +17,8 @@
     display: none;
 }
 
-.item-details[data-isarray=true]>.OptionItem[data-valuetype=webComponent]>.item-header {
+.OptionItem[data-valuetype=webComponent][data-isarray=true]>.item-header,
+.OptionItem[data-valuetype=webComponent][data-isarray=true]>.item-details>.OptionItem>.item-header
+{
     display: grid;
 }

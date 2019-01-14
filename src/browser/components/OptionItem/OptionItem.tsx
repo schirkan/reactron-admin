@@ -16,6 +16,7 @@ export interface IOptionItemProps {
   definition: IFieldDefinition;
   value: any;
   valueChange: (definition: IFieldDefinition, newValue: any) => void;
+  detailsVisible?: boolean;
 }
 
 interface IOptionItemState extends IInputControls {
@@ -29,11 +30,11 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
   constructor(props: IOptionItemProps) {
     super(props);
 
-    let detailsVisible = (props.definition.valueType === 'webComponent' && !props.definition.isArray) || undefined;
+    // let detailsVisible = (props.definition.valueType === 'webComponent' && !props.definition.isArray) || undefined;
 
     this.state = {
       uniqueId: 'ID' + (counter++),
-      detailsVisible
+      detailsVisible: props.detailsVisible
     };
 
     this.toggleItemDetails = this.toggleItemDetails.bind(this);
@@ -100,7 +101,7 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
       return null;
     }
     return (
-      <div className="item-details" hidden={!this.state.detailsVisible} data-isarray={this.props.definition.isArray ? 'true' : 'false'}>
+      <div className="item-details" hidden={!this.state.detailsVisible}>
         <ErrorBoundary>
           <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} />
         </ErrorBoundary>
@@ -113,6 +114,7 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
       <div className="OptionItem"
         data-hasdetails={this.state.detailsControl ? 'true' : 'false'}
         data-detailsvisible={this.state.detailsVisible ? 'true' : 'false'}
+        data-isarray={this.props.definition.isArray ? 'true' : 'false'}
         data-valuetype={this.props.definition.valueType}>
         {this.renderInputRow()}
         {this.renderDetailsForm()}

@@ -43,7 +43,8 @@ export default class OptionList extends React.Component<IOptionListProps> {
         {this.renderDebug()}
         {this.props.fields.map(field => {
           const value = this.props.value && this.props.value[field.name];
-          return <OptionItem key={field.name} definition={field} value={value} valueChange={this.valueChange} />;
+          const detailsVisible = (field.valueType === 'webComponent' && !field.isArray) || undefined;
+          return <OptionItem key={field.name} detailsVisible={detailsVisible} definition={field} value={value} valueChange={this.valueChange} />;
         })}
       </div>
     );

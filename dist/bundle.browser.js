@@ -1888,7 +1888,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }());
             var WebComponentFormContext = createContext(new WebComponentFormContextData());
 
-            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.item-details[data-isarray=true] > .OptionItem[data-valuetype=webComponent] > .item-header {\n  display: grid; }\n";
+            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.OptionItem[data-valuetype=webComponent][data-isarray=true] > .item-header,\n.OptionItem[data-valuetype=webComponent][data-isarray=true] > .item-details > .OptionItem > .item-header {\n  display: grid; }\n";
             styleInject(css$k);
 
             var WebComponentForm = /** @class */ (function (_super) {
@@ -2172,10 +2172,10 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 __extends(OptionItem, _super);
                 function OptionItem(props) {
                     var _this = _super.call(this, props) || this;
-                    var detailsVisible = (props.definition.valueType === 'webComponent' && !props.definition.isArray) || undefined;
+                    // let detailsVisible = (props.definition.valueType === 'webComponent' && !props.definition.isArray) || undefined;
                     _this.state = {
                         uniqueId: 'ID' + (counter++),
-                        detailsVisible: detailsVisible
+                        detailsVisible: props.detailsVisible
                     };
                     _this.toggleItemDetails = _this.toggleItemDetails.bind(_this);
                     return _this;
@@ -2224,12 +2224,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     if (!this.state.detailsControl) {
                         return null;
                     }
-                    return (createElement("div", { className: "item-details", hidden: !this.state.detailsVisible, "data-isarray": this.props.definition.isArray ? 'true' : 'false' },
+                    return (createElement("div", { className: "item-details", hidden: !this.state.detailsVisible },
                         createElement(ErrorBoundary, null,
                             createElement(this.state.detailsControl, __assign({}, this.props, { uniqueId: this.state.uniqueId })))));
                 };
                 OptionItem.prototype.render = function () {
-                    return (createElement("div", { className: "OptionItem", "data-hasdetails": this.state.detailsControl ? 'true' : 'false', "data-detailsvisible": this.state.detailsVisible ? 'true' : 'false', "data-valuetype": this.props.definition.valueType },
+                    return (createElement("div", { className: "OptionItem", "data-hasdetails": this.state.detailsControl ? 'true' : 'false', "data-detailsvisible": this.state.detailsVisible ? 'true' : 'false', "data-isarray": this.props.definition.isArray ? 'true' : 'false', "data-valuetype": this.props.definition.valueType },
                         this.renderInputRow(),
                         this.renderDetailsForm()));
                 };
@@ -2265,7 +2265,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.renderDebug(),
                         this.props.fields.map(function (field) {
                             var value = _this.props.value && _this.props.value[field.name];
-                            return createElement(OptionItem, { key: field.name, definition: field, value: value, valueChange: _this.valueChange });
+                            var detailsVisible = (field.valueType === 'webComponent' && !field.isArray) || undefined;
+                            return createElement(OptionItem, { key: field.name, detailsVisible: detailsVisible, definition: field, value: value, valueChange: _this.valueChange });
                         })));
                 };
                 return OptionList;
