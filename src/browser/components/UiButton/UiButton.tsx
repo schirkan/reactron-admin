@@ -6,7 +6,7 @@ import './UiButton.scss';
 
 export interface IUiButtonProps extends IUiComponentProps {
   disabled?: boolean;
-  onClick?: () => any;
+  onClick?: (e: React.MouseEvent) => any;
 }
 
 interface IUiButtonState {
@@ -33,7 +33,7 @@ export default class UiButton extends React.Component<IUiButtonProps, IUiButtonS
     e.stopPropagation();
     
     this.setState({ running: true }, () => {
-      Promise.resolve(this.props.onClick && this.props.onClick())
+      Promise.resolve(this.props.onClick && this.props.onClick(e))
         .catch()
         .then(() => {
           if (!this.disposed) {

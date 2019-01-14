@@ -532,7 +532,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     e.bubbles = false;
                     e.stopPropagation();
                     this.setState({ running: true }, function () {
-                        Promise.resolve(_this.props.onClick && _this.props.onClick())
+                        Promise.resolve(_this.props.onClick && _this.props.onClick(e))
                             .catch()
                             .then(function () {
                             if (!_this.disposed) {
@@ -1425,7 +1425,11 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.props.valueChange(this.props.definition, e.currentTarget.value);
                 };
                 NumberInputControl.prototype.render = function () {
-                    return (createElement("input", { style: { width: '100%' }, type: "number", id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
+                    var click = function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    };
+                    return (createElement("input", { style: { width: '100%' }, type: "number", onClick: click, id: this.props.uniqueId, value: this.props.value, onChange: this.onInputChange, step: this.props.definition.stepSize, min: this.props.definition.minValue, max: this.props.definition.maxValue }));
                 };
                 return NumberInputControl;
             }(Component));
@@ -1453,8 +1457,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return definition.valueType === 'number';
                 };
                 NumberControlsProvider.prototype.get = function (definition) {
-                    if (definition.minValue !== undefined &&
-                        definition.maxValue !== undefined) {
+                    if (definition.minValue !== undefined && definition.maxValue !== undefined && definition.stepSize !== undefined) {
                         return {
                             inputControl: NumberInputControl,
                             detailsControl: RangeInputControl
@@ -1885,7 +1888,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }());
             var WebComponentFormContext = createContext(new WebComponentFormContextData());
 
-            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.item-details[data-isarray=true] > .OptionItem[data-valuetype=webComponent] > .item-header {\n  display: initial; }\n";
+            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.item-details[data-isarray=true] > .OptionItem[data-valuetype=webComponent] > .item-header {\n  display: grid; }\n";
             styleInject(css$k);
 
             var WebComponentForm = /** @class */ (function (_super) {
@@ -2169,7 +2172,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 __extends(OptionItem, _super);
                 function OptionItem(props) {
                     var _this = _super.call(this, props) || this;
-                    var detailsVisible = props.definition.valueType === 'webComponent' || undefined;
+                    var detailsVisible = (props.definition.valueType === 'webComponent' && !props.definition.isArray) || undefined;
                     _this.state = {
                         uniqueId: 'ID' + (counter++),
                         detailsVisible: detailsVisible
@@ -2807,28 +2810,21 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 });
             });
             timezones.sort(function (a, b) { return a.text.localeCompare(b.text); });
-            var FormattedTime = /** @class */ (function (_super) {
-                __extends(FormattedTime, _super);
-                function FormattedTime() {
-                    return _super !== null && _super.apply(this, arguments) || this;
+            var renderFormattedTime = function (value) {
+                value = value || 0;
+                var hour = Math.floor(value / 60);
+                var minutes = value % 60;
+                if (hour < 10) {
+                    hour = '0' + hour;
                 }
-                FormattedTime.prototype.render = function () {
-                    var value = this.props.value || 0;
-                    var hour = Math.floor(value / 60);
-                    var minutes = value % 60;
-                    if (hour < 10) {
-                        hour = '0' + hour;
-                    }
-                    if (minutes < 10) {
-                        minutes = '0' + minutes;
-                    }
-                    return (createElement("span", null,
-                        hour,
-                        " : ",
-                        minutes));
-                };
-                return FormattedTime;
-            }(Component));
+                if (minutes < 10) {
+                    minutes = '0' + minutes;
+                }
+                return createElement("span", null,
+                    hour,
+                    ":",
+                    minutes);
+            };
             var systemSettingsFields = [{
                     description: 'Localized text, time format and number format',
                     displayName: 'Language',
@@ -2866,35 +2862,45 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     isArray: true,
                     valueType: 'object',
                     fields: [{
-                            description: 'from',
-                            displayName: 'from',
+                            description: 'From',
+                            displayName: 'From',
                             name: 'from',
                             valueType: 'number',
                             minValue: 0,
                             maxValue: 1440,
                             stepSize: 15,
                             defaultValue: 480,
-                            inputControl: FormattedTime
+                            inputControl: function (props) { return renderFormattedTime(props.value); }
                         }, {
-                            description: 'to',
-                            displayName: 'to',
+                            description: 'To',
+                            displayName: 'To',
                             name: 'to',
                             valueType: 'number',
                             minValue: 0,
                             maxValue: 1440,
                             stepSize: 15,
                             defaultValue: 600,
-                            inputControl: FormattedTime
+                            inputControl: function (props) { return renderFormattedTime(props.value); }
                         }, {
-                            description: 'interval',
-                            displayName: 'interval',
+                            description: 'Interval in min',
+                            displayName: 'Interval in min',
                             name: 'interval',
                             valueType: 'number',
                             minValue: 1,
                             maxValue: 120,
                             stepSize: 1,
                             defaultValue: 10
-                        }]
+                        }],
+                    inputControl: function (props) {
+                        var options = props.value;
+                        return createElement("span", null,
+                            renderFormattedTime(options.from),
+                            " - ",
+                            renderFormattedTime(options.to),
+                            " every ",
+                            options.interval,
+                            " min");
+                    }
                 }];
 
             var css$u = "";

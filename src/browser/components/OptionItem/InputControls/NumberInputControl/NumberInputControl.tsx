@@ -12,8 +12,12 @@ export class NumberInputControl extends React.Component<IInputComponentProps> {
   }
 
   public render() {
+    const click = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
     return (
-      <input style={{ width: '100%' }} type="number"
+      <input style={{ width: '100%' }} type="number" onClick={click}
         id={this.props.uniqueId} value={this.props.value}
         onChange={this.onInputChange} step={this.props.definition.stepSize}
         min={this.props.definition.minValue} max={this.props.definition.maxValue} />

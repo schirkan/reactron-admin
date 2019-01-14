@@ -18,5 +18,5 @@
 }
 
 .item-details[data-isarray=true]>.OptionItem[data-valuetype=webComponent]>.item-header {
-    display: initial;
+    display: grid;
 }

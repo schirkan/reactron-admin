@@ -9,8 +9,7 @@ export class NumberControlsProvider implements IInputControlsProvider {
   }
 
   public get(definition: IFieldDefinition): IInputControls {
-    if (definition.minValue !== undefined &&
-      definition.maxValue !== undefined) {
+    if (definition.minValue !== undefined && definition.maxValue !== undefined && definition.stepSize !== undefined) {
       return {
         inputControl: NumberInputControl,
         detailsControl: RangeInputControl

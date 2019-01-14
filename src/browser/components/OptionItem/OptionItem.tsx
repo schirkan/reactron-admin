@@ -29,7 +29,7 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
   constructor(props: IOptionItemProps) {
     super(props);
 
-    let detailsVisible = props.definition.valueType === 'webComponent' || undefined;
+    let detailsVisible = (props.definition.valueType === 'webComponent' && !props.definition.isArray) || undefined;
 
     this.state = {
       uniqueId: 'ID' + (counter++),

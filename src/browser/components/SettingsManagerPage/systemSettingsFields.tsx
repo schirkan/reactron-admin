@@ -1,4 +1,4 @@
-import { IFieldDefinition, IInputComponentProps } from '@schirkan/reactron-interfaces';
+import { IFieldDefinition, IInputComponentProps, ISystemSettingsAutoRefresh } from '@schirkan/reactron-interfaces';
 import moment from 'moment';
 import momentTimezone from 'moment-timezone';
 import * as React from 'react';
@@ -21,24 +21,20 @@ timezoneNames.forEach(timezone => {
 
 timezones.sort((a, b) => a.text.localeCompare(b.text));
 
-class FormattedTime extends React.Component<IInputComponentProps> {
-  public render() {
-    const value = this.props.value || 0;
-    let hour: any = Math.floor(value / 60);
-    let minutes: any = value % 60;
+const renderFormattedTime = (value: number) => {
+  value = value || 0;
+  let hour: any = Math.floor(value / 60);
+  let minutes: any = value % 60;
 
-    if (hour < 10) {
-      hour = '0' + hour;
-    }
-    if (minutes < 10) {
-      minutes = '0' + minutes;
-    }
-
-    return (
-      <span>{hour} : {minutes}</span>
-    );
+  if (hour < 10) {
+    hour = '0' + hour;
   }
-}
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+
+  return <span>{hour}:{minutes}</span>;
+};
 
 export const systemSettingsFields: IFieldDefinition[] = [{
   description: 'Localized text, time format and number format',
@@ -77,33 +73,37 @@ export const systemSettingsFields: IFieldDefinition[] = [{
   isArray: true,
   valueType: 'object',
   fields: [{
-    description: 'from',
-    displayName: 'from',
+    description: 'From',
+    displayName: 'From',
     name: 'from',
     valueType: 'number',
     minValue: 0,
     maxValue: 1440,
     stepSize: 15,
     defaultValue: 480,
-    inputControl: FormattedTime
+    inputControl: props => renderFormattedTime(props.value)
   }, {
-    description: 'to',
-    displayName: 'to',
+    description: 'To',
+    displayName: 'To',
     name: 'to',
     valueType: 'number',
     minValue: 0,
     maxValue: 1440,
     stepSize: 15,
     defaultValue: 600,
-    inputControl: FormattedTime
+    inputControl: props => renderFormattedTime(props.value)
   }, {
-    description: 'interval',
-    displayName: 'interval',
+    description: 'Interval in min',
+    displayName: 'Interval in min',
     name: 'interval',
     valueType: 'number',
     minValue: 1,
     maxValue: 120,
     stepSize: 1,
     defaultValue: 10
-  }]
+  }],
+  inputControl: (props: IInputComponentProps) => {
+    const options = props.value as ISystemSettingsAutoRefresh;
+    return <span>{renderFormattedTime(options.from)} - {renderFormattedTime(options.to)} every {options.interval} min</span>;
+  }
 }];
