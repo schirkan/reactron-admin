@@ -27,7 +27,9 @@
             color: #555;
         }
         .data {
-            white-space: pre;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-word;
         }
         &~.log-item {
             margin-top: 3px;
