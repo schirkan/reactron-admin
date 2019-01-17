@@ -4,7 +4,10 @@
         border: 1px solid #ddd;
         border-left-width: 4px;
         border-radius: 4px;
-
+        &:hover {
+            border-color: #bbb;
+            background-color: #fefefe;
+        }
         &[data-severity='error'] {
             border-left-color: red;
         }
@@ -20,8 +23,11 @@
         .timestamp {
             float: right;
             line-height: 21px;
-            font-size: 10px;
+            font-size: 11px;
             color: #555;
+        }
+        .data {
+            white-space: pre;
         }
         &~.log-item {
             margin-top: 3px;

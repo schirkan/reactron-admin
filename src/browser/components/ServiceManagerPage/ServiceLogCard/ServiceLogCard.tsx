@@ -63,8 +63,8 @@ export default class ServiceLogCard extends React.Component<IServiceLogCardProps
           {this.state.log.map(entry => (
             <div className="log-item" data-severity={entry.severity}>
               <div className="timestamp">{moment(entry.timestamp).toISOString()}</div>
-              <div>{entry.message}</div>
-              {entry.data && (<div>{JSON.stringify(entry.data)}</div>)}
+              <div className="message">{entry.message}</div>
+              {entry.data && (<div className="data">{JSON.stringify(entry.data)}</div>)}
             </div>
           ))}
         </UiCardContent>

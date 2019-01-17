@@ -2610,7 +2610,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             var css$t = ".ServiceManagerPage {\n  min-height: 100px; }\n";
             styleInject(css$t);
 
-            var css$u = ".ServiceLogCard .log-item {\n  padding: 0 3px 0 3px;\n  border: 1px solid #ddd;\n  border-left-width: 4px;\n  border-radius: 4px; }\n  .ServiceLogCard .log-item[data-severity='error'] {\n    border-left-color: red; }\n  .ServiceLogCard .log-item[data-severity='warning'] {\n    border-left-color: #fb3; }\n  .ServiceLogCard .log-item[data-severity='information'] {\n    border-left-color: #4B4; }\n  .ServiceLogCard .log-item[data-severity='debug'] {\n    border-left-color: #888; }\n  .ServiceLogCard .log-item .timestamp {\n    float: right;\n    line-height: 21px;\n    font-size: 10px;\n    color: #555; }\n  .ServiceLogCard .log-item ~ .log-item {\n    margin-top: 3px; }\n";
+            var css$u = ".ServiceLogCard .log-item {\n  padding: 0 3px 0 3px;\n  border: 1px solid #ddd;\n  border-left-width: 4px;\n  border-radius: 4px; }\n  .ServiceLogCard .log-item:hover {\n    border-color: #bbb;\n    background-color: #fefefe; }\n  .ServiceLogCard .log-item[data-severity='error'] {\n    border-left-color: red; }\n  .ServiceLogCard .log-item[data-severity='warning'] {\n    border-left-color: #fb3; }\n  .ServiceLogCard .log-item[data-severity='information'] {\n    border-left-color: #4B4; }\n  .ServiceLogCard .log-item[data-severity='debug'] {\n    border-left-color: #888; }\n  .ServiceLogCard .log-item .timestamp {\n    float: right;\n    line-height: 21px;\n    font-size: 11px;\n    color: #555; }\n  .ServiceLogCard .log-item .data {\n    white-space: pre; }\n  .ServiceLogCard .log-item ~ .log-item {\n    margin-top: 3px; }\n";
             styleInject(css$u);
 
             var ServiceLogCard = /** @class */ (function (_super) {
@@ -2648,8 +2648,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             this.props.service.displayName),
                         createElement(UiCardContent, null, this.state.log.map(function (entry) { return (createElement("div", { className: "log-item", "data-severity": entry.severity },
                             createElement("div", { className: "timestamp" }, moment(entry.timestamp).toISOString()),
-                            createElement("div", null, entry.message),
-                            entry.data && (createElement("div", null, JSON.stringify(entry.data))))); })),
+                            createElement("div", { className: "message" }, entry.message),
+                            entry.data && (createElement("div", { className: "data" }, JSON.stringify(entry.data))))); })),
                         createElement(UiCardButtonRow, null,
                             createElement(UiButton, { onClick: this.close },
                                 createElement(FontAwesomeIcon, { icon: faTimes }),
