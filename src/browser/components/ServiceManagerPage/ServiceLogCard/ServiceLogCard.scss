@@ -1,0 +1,30 @@
+.ServiceLogCard {
+    .log-item {
+        padding: 0 3px 0 3px;
+        border: 1px solid #ddd;
+        border-left-width: 4px;
+        border-radius: 4px;
+
+        &[data-severity='error'] {
+            border-left-color: red;
+        }
+        &[data-severity='warning'] {
+            border-left-color: #fb3;
+        }
+        &[data-severity='information'] {
+            border-left-color: #4B4;
+        }
+        &[data-severity='debug'] {
+            border-left-color: #888;
+        }
+        .timestamp {
+            float: right;
+            line-height: 21px;
+            font-size: 10px;
+            color: #555;
+        }
+        &~.log-item {
+            margin-top: 3px;
+        }
+    }
+}

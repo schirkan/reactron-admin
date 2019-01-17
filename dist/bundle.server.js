@@ -59,17 +59,12 @@ var AdminService = /** @class */ (function () {
     }
     AdminService.prototype.start = function (context) {
         return __awaiter(this, void 0, Promise, function () {
-            var component, page;
+            var page, component;
             return __generator(this, function (_a) {
-                console.log('AdminService.start');
-                component = {
-                    id: 'reactron-admin',
-                    componentName: 'Admin',
-                    moduleName: 'reactron-admin',
-                    options: {}
-                };
-                // register component
-                context.backendService.webComponentsManager.createOrUpdate(component);
+                context.log.debug('test debug');
+                context.log.info('test info');
+                context.log.warning('test warning');
+                context.log.error('test error');
                 page = {
                     id: 'reactron-admin-page',
                     title: 'Admin',
@@ -79,6 +74,15 @@ var AdminService = /** @class */ (function () {
                 };
                 // register page 
                 context.backendService.webPageManager.createOrUpdate(page);
+                component = {
+                    id: 'reactron-admin',
+                    parentId: page.id,
+                    componentName: 'Admin',
+                    moduleName: 'reactron-admin',
+                    options: {}
+                };
+                // register component
+                context.backendService.webComponentsManager.createOrUpdate(component);
                 return [2 /*return*/];
             });
         });

@@ -11,23 +11,18 @@ import './ServiceGroupCard.scss';
 export interface IServiceGroupCardProps {
   services: IServiceRepositoryItem[];
   moduleName: string;
-  onShowServiceLog: (service: IServiceRepositoryItem) => any;
-  onShowServiceOptions: (service: IServiceRepositoryItem) => any;
+  onShowDetails: (service: IServiceRepositoryItem) => any;
 }
 
 export default class ServiceGroupCard extends React.Component<IServiceGroupCardProps> {
-  constructor(props: any) {
-    super(props);
-  }
-
   public render() {
     return (
       <UiCard className="ServiceGroupCard">
-        <UiCardTitle className="group-header">
-            <FontAwesomeIcon icon={SolidIcons.faCube} /> {this.props.moduleName}
+        <UiCardTitle>
+          <FontAwesomeIcon icon={SolidIcons.faCube} /> {this.props.moduleName}
         </UiCardTitle>
         {this.props.services.map(item =>
-          <ServiceListItem key={item.name} service={item} onShowLog={this.props.onShowServiceLog} onShowOptions={this.props.onShowServiceOptions} />
+          <ServiceListItem key={item.name} service={item} onShowDetails={this.props.onShowDetails} />
         )}
       </UiCard>
     );

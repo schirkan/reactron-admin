@@ -1,6 +1,7 @@
 .ServiceListItem {
-    :last-child {
-        float: right;
-        margin-top: 3px;
+    &>:last-child {
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 }

@@ -2,17 +2,10 @@ import { IReactronService, IReactronServiceContext, IWebComponentOptions, IWebPa
 
 export class AdminService implements IReactronService {
   public async start(context: IReactronServiceContext): Promise<void> {
-    console.log('AdminService.start');
-
-    const component: IWebComponentOptions = {
-      id: 'reactron-admin',
-      componentName: 'Admin',
-      moduleName: 'reactron-admin',
-      options: {}
-    };
-
-    // register component
-    context.backendService.webComponentsManager.createOrUpdate(component);
+    context.log.debug('test debug');
+    context.log.info('test info');
+    context.log.warning('test warning');
+    context.log.error('test error');
 
     const page: IWebPageOptions = {
       id: 'reactron-admin-page',
@@ -24,5 +17,16 @@ export class AdminService implements IReactronService {
 
     // register page 
     context.backendService.webPageManager.createOrUpdate(page);
+
+    const component: IWebComponentOptions = {
+      id: 'reactron-admin',
+      parentId: page.id,
+      componentName: 'Admin',
+      moduleName: 'reactron-admin',
+      options: {}
+    };
+
+    // register component
+    context.backendService.webComponentsManager.createOrUpdate(component);
   }
 }

@@ -14,10 +14,10 @@ import UiCardTitle from '../UiCardTitle/UiCardTitle';
 import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
 import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
 import UiOverlay from '../UiOverlay/UiOverlay';
-import ServiceGroup from './ServiceGroup/ServiceGroup';
 import ServiceGroupCard from './ServiceGroupCard/ServiceGroupCard';
 
 import './ServiceManagerPage.scss';
+import ServiceLogCard from './ServiceLogCard/ServiceLogCard';
 
 export interface IModuleManagerPageState {
   loadingServices: boolean;
@@ -25,6 +25,7 @@ export interface IModuleManagerPageState {
   services: IServiceRepositoryItem[];
   showOptions: boolean,
   showLog: boolean,
+  showDetails: boolean,
   selectedService: IServiceRepositoryItem | undefined;
   selectedServiceOptions: any;
 }
@@ -39,10 +40,13 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
       services: [],
       showOptions: false,
       showLog: false,
+      showDetails: false,
       selectedService: undefined,
       selectedServiceOptions: undefined
     };
 
+    this.showDetails = this.showDetails.bind(this);
+    this.closeDetails = this.closeDetails.bind(this);
     this.showLog = this.showLog.bind(this);
     this.closeLog = this.closeLog.bind(this);
     this.showOptions = this.showOptions.bind(this);
@@ -62,24 +66,28 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
       .catch(err => this.setState({ loadingServices: false })); // TODO
   }
 
-  private showLog(service: IServiceRepositoryItem) {
-    this.setState({ showLog: true, selectedService: service });
+  private showDetails(service: IServiceRepositoryItem) {
+    this.setState({ showDetails: true, selectedService: service });
   }
 
-  private showOptions(service: IServiceRepositoryItem) {
-    this.setState({
-      showOptions: true,
-      selectedService: service,
-      selectedServiceOptions: undefined
-    }, this.loadOptions);
+  private showLog() {
+    this.setState({ showLog: true });
+  }
+
+  private showOptions() {
+    this.setState({ showOptions: true, selectedServiceOptions: undefined }, this.loadOptions);
+  }
+
+  private closeDetails() {
+    this.setState({ showDetails: false, selectedService: undefined });
   }
 
   private closeOptions() {
-    this.setState({ showOptions: false, selectedService: undefined });
+    this.setState({ showOptions: false, showDetails: true });
   }
 
   private closeLog() {
-    this.setState({ showLog: false, selectedService: undefined });
+    this.setState({ showLog: false, showDetails: true });
   }
 
   private loadOptions() {
@@ -129,7 +137,7 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
 
     return (
       <UiOverlay>
-        <OptionCard icon={SolidIcons.faCogs} showReset={true}
+        <OptionCard icon={SolidIcons.faCog} showReset={true}
           title={title} fields={this.state.selectedService.fields || []}
           options={this.state.selectedServiceOptions}
           onSave={this.saveOptions} onCancel={this.closeOptions}
@@ -145,20 +153,36 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
 
     return (
       <UiOverlay>
-        <UiCard className="ServiceLogCard">
+        <ServiceLogCard service={this.state.selectedService} onClose={this.closeLog} />
+      </UiOverlay>
+    );
+  }
+
+  private renderServiceDetailsDialog() {
+    if (!this.state.showDetails || !this.state.selectedService) {
+      return null;
+    }
+
+    const hasOptions = this.state.selectedService.fields && this.state.selectedService.fields.length;
+
+    return (
+      <UiOverlay>
+        <UiCard className="ServiceDetailsCard">
           <UiCardTitle>
-            <FontAwesomeIcon icon={RegularIcons.faFile} /> Log for {this.state.selectedService.displayName}
+            <FontAwesomeIcon icon={SolidIcons.faCogs} /> {this.state.selectedService.displayName}
           </UiCardTitle>
           <UiCardContent>
-            <ul>
-              {this.state.selectedService.log.map(item => (
-                <li>{item}</li>
-              ))}
-            </ul>
+            {this.state.selectedService.description}
           </UiCardContent>
-          <UiCardButtonRow divider="full">
-            <UiButton onClick={this.closeLog}>
+          <UiCardButtonRow divider="half">
+            <UiButton onClick={this.closeDetails}>
               <FontAwesomeIcon icon={SolidIcons.faTimes} /> Close
+            </UiButton>
+            <UiButton onClick={this.showLog}>
+              <FontAwesomeIcon icon={RegularIcons.faFile} /> Log
+            </UiButton>
+            <UiButton onClick={this.showOptions} disabled={!hasOptions}>
+              <FontAwesomeIcon icon={SolidIcons.faCog} /> Options
             </UiButton>
           </UiCardButtonRow>
         </UiCard>
@@ -176,10 +200,8 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
     const groupCards = groups.map(moduleName => {
       const services = this.state.services.filter(x => x.moduleName === moduleName); // TODO: .sort((a, b) => a.displayName > b.displayName)
       return (
-        // <ServiceGroup key={moduleName} moduleName={moduleName} services={services}
-        //   onShowServiceLog={this.showLog} onShowServiceOptions={this.showOptions} />
         <ServiceGroupCard key={moduleName} moduleName={moduleName} services={services}
-          onShowServiceLog={this.showLog} onShowServiceOptions={this.showOptions} />
+          onShowDetails={this.showDetails} />
       );
     });
 
@@ -192,6 +214,7 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
         {this.renderServiceGroups()}
         {this.renderServiceOptionsDialog()}
         {this.renderServiceLogDialog()}
+        {this.renderServiceDetailsDialog()}
       </section>
     );
   }
