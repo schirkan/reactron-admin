@@ -2,11 +2,6 @@ import { IReactronService, IReactronServiceContext, IWebComponentOptions, IWebPa
 
 export class AdminService implements IReactronService {
   public async start(context: IReactronServiceContext): Promise<void> {
-    context.log.debug('test debug');
-    context.log.info('test info');
-    context.log.warning('test warning');
-    context.log.error('test error');
-
     const page: IWebPageOptions = {
       id: 'reactron-admin-page',
       title: 'Admin',
