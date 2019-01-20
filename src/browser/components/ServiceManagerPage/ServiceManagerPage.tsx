@@ -97,7 +97,7 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
 
     this.setState({ loadingServiceOptions: true });
 
-    apiClient.getServiceOptions({
+    apiClient.getServiceOptions(undefined, {
       moduleName: this.state.selectedService.moduleName,
       serviceName: this.state.selectedService.name
     })
@@ -115,12 +115,11 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
       return;
     }
 
-    apiClient.setServiceOptions({
+    apiClient.setServiceOptions(undefined, {
       moduleName: this.state.selectedService.moduleName,
-      serviceName: this.state.selectedService.name
-    },
-      newOptions
-    );
+      serviceName: this.state.selectedService.name,
+      options: newOptions
+    });
 
     this.closeOptions();
   }

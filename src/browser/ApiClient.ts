@@ -4,6 +4,7 @@ export class ApiClient {
   public getAllServices = apiCall(routes.getServices, true);
   public getServiceOptions = apiCall(routes.getServiceOptions);
   public setServiceOptions = apiCall(routes.setServiceOptions);
+  public callServiceMethod = apiCall(routes.callServiceMethod);
 
   public getModules = apiCall(routes.getModules, true);
   public addModule = apiCall(routes.addModule);

@@ -30,8 +30,6 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
   constructor(props: IOptionItemProps) {
     super(props);
 
-    // let detailsVisible = (props.definition.valueType === 'webComponent' && !props.definition.isArray) || undefined;
-
     this.state = {
       uniqueId: 'ID' + (counter++),
       detailsVisible: props.detailsVisible
@@ -73,7 +71,7 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
     let input: JSX.Element | string = '';
 
     if (this.state.inputControl) {
-      input = <ErrorBoundary><this.state.inputControl {...this.props} uniqueId={this.state.uniqueId} /></ErrorBoundary>;
+      input = <ErrorBoundary><this.state.inputControl {...this.props} uniqueId={this.state.uniqueId} context={this.context} /></ErrorBoundary>;
     }
 
     if (this.state.detailsControl) {
@@ -103,7 +101,7 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
     return (
       <div className="item-details" hidden={!this.state.detailsVisible}>
         <ErrorBoundary>
-          <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} />
+          <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} context={this.context} />
         </ErrorBoundary>
       </div>
     );

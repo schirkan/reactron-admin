@@ -73,7 +73,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
     this.setState({ loading: true });
     try {
       for (const module of modulesWithUpdates) {
-        const result = await apiClient.updateModule({ moduleName: module.name });
+        const result = await apiClient.updateModule(undefined, { moduleName: module.name });
         results.push(...result);
       }
       this.showResult(results);
@@ -91,7 +91,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await apiClient.updateModule({ moduleName: module.name });
+      const result = await apiClient.updateModule(undefined, { moduleName: module.name });
       this.showResult(result);
     } catch (error) {
       this.showError(error);
@@ -107,7 +107,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await apiClient.rebuildModule({ moduleName: module.name });
+      const result = await apiClient.rebuildModule(undefined, { moduleName: module.name });
       this.showResult(result);
     } catch (error) {
       this.showError(error);
@@ -123,7 +123,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await apiClient.deleteModule({ moduleName: module.name });
+      const result = await apiClient.deleteModule(undefined, { moduleName: module.name });
       this.showResult(result);
     } catch (error) {
       this.showError(error);

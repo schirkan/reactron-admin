@@ -92,14 +92,15 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }
             const routes = {
                 getServices: new ApiRoute('/service/', 'get'),
-                getServiceOptions: new ApiRoute('/service/:moduleName/:serviceName', 'get'),
-                setServiceOptions: new ApiRoute('/service/:moduleName/:serviceName', 'post'),
+                getServiceOptions: new ApiRoute('/service/getOptions', 'post'),
+                setServiceOptions: new ApiRoute('/service/setOptions', 'post'),
+                callServiceMethod: new ApiRoute('/service/rpc', 'post'),
                 getModules: new ApiRoute('/modules/', 'get'),
                 addModule: new ApiRoute('/modules/', 'post'),
-                deleteModule: new ApiRoute('/modules/:moduleName', 'delete'),
-                rebuildModule: new ApiRoute('/modules/:moduleName/rebuild', 'post'),
-                updateModule: new ApiRoute('/modules/:moduleName/update', 'post'),
-                checkUpdates: new ApiRoute('/modules/checkUpdates/update', 'get'),
+                deleteModule: new ApiRoute('/modules/delete', 'delete'),
+                rebuildModule: new ApiRoute('/modules/rebuild', 'post'),
+                updateModule: new ApiRoute('/modules/update', 'post'),
+                checkUpdates: new ApiRoute('/modules/checkUpdates', 'post'),
                 getWebPages: new ApiRoute('/pages/', 'get'),
                 setWebPage: new ApiRoute('/pages/', 'post'),
                 deleteWebPage: new ApiRoute('/pages/:id', 'delete'),
@@ -114,7 +115,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 getWebComponentOptions: new ApiRoute('/components/', 'get'),
                 setWebComponentOptions: new ApiRoute('/components/', 'post'),
                 deleteWebComponentOptions: new ApiRoute('/components/:id', 'delete'),
-                getLogEntries: new ApiRoute('/log/:source', 'get'),
+                getLogEntries: new ApiRoute('/log/entries', 'post'),
             };
 
             class ApiClient {
@@ -122,6 +123,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.getAllServices = apiCall(routes.getServices, true);
                     this.getServiceOptions = apiCall(routes.getServiceOptions);
                     this.setServiceOptions = apiCall(routes.setServiceOptions);
+                    this.callServiceMethod = apiCall(routes.callServiceMethod);
                     this.getModules = apiCall(routes.getModules, true);
                     this.addModule = apiCall(routes.addModule);
                     this.checkUpdates = apiCall(routes.checkUpdates);
@@ -770,7 +772,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.setState({ loading: true });
                         try {
                             for (const module of modulesWithUpdates) {
-                                const result = yield apiClient.updateModule({ moduleName: module.name });
+                                const result = yield apiClient.updateModule(undefined, { moduleName: module.name });
                                 results.push(...result);
                             }
                             this.showResult(results);
@@ -789,7 +791,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield apiClient.updateModule({ moduleName: module.name });
+                            const result = yield apiClient.updateModule(undefined, { moduleName: module.name });
                             this.showResult(result);
                         }
                         catch (error) {
@@ -806,7 +808,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield apiClient.rebuildModule({ moduleName: module.name });
+                            const result = yield apiClient.rebuildModule(undefined, { moduleName: module.name });
                             this.showResult(result);
                         }
                         catch (error) {
@@ -823,7 +825,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield apiClient.deleteModule({ moduleName: module.name });
+                            const result = yield apiClient.deleteModule(undefined, { moduleName: module.name });
                             this.showResult(result);
                         }
                         catch (error) {
@@ -1409,11 +1411,23 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.onSelectValueChange = (e) => {
                         this.props.valueChange(this.props.definition, e.currentTarget.value);
                     };
+                    this.state = {};
                     this.onSelectValueChange = this.onSelectValueChange.bind(this);
                 }
+                componentDidMount() {
+                    let values = this.props.definition.values || [];
+                    if (typeof values === 'function') {
+                        values(this.props.context).then(values => this.setState({ values }));
+                    }
+                    else {
+                        this.setState({ values });
+                    }
+                }
                 render() {
-                    const values = this.props.definition.values || [];
-                    const options = values.map((item, index) => createElement("option", { key: index, value: item.value }, item.text));
+                    if (!this.state.values || !this.state.values.length) {
+                        return null;
+                    }
+                    const options = this.state.values.map((item, index) => createElement("option", { key: index, value: item.value }, item.text));
                     return (createElement("select", { id: this.props.uniqueId, value: this.props.value, onChange: this.onSelectValueChange },
                         createElement("option", null, "Select item..."),
                         options));
@@ -1779,7 +1793,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             class OptionItem extends Component {
                 constructor(props) {
                     super(props);
-                    // let detailsVisible = (props.definition.valueType === 'webComponent' && !props.definition.isArray) || undefined;
                     this.state = {
                         uniqueId: 'ID' + (counter++),
                         detailsVisible: props.detailsVisible
@@ -1812,7 +1825,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     let input = '';
                     if (this.state.inputControl) {
                         input = createElement(ErrorBoundary, null,
-                            createElement(this.state.inputControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId })));
+                            createElement(this.state.inputControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context })));
                     }
                     if (this.state.detailsControl) {
                         return (createElement(UiButton, { className: "item-header", onClick: this.toggleItemDetails },
@@ -1831,7 +1844,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     }
                     return (createElement("div", { className: "item-details", hidden: !this.state.detailsVisible },
                         createElement(ErrorBoundary, null,
-                            createElement(this.state.detailsControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId })))));
+                            createElement(this.state.detailsControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context })))));
                 }
                 render() {
                     return (createElement("div", { className: "OptionItem", "data-hasdetails": this.state.detailsControl ? 'true' : 'false', "data-detailsvisible": this.state.detailsVisible ? 'true' : 'false', "data-isarray": this.props.definition.isArray ? 'true' : 'false', "data-valuetype": this.props.definition.valueType },
@@ -2196,7 +2209,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 // }
                 loadLog() {
                     const source = this.props.service.moduleName + '.' + this.props.service.name;
-                    apiClient.getLogEntries({ source }).then(log => {
+                    apiClient.getLogEntries(undefined, { source }).then(log => {
                         this.setState({ log });
                     });
                 }
@@ -2271,7 +2284,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         return;
                     }
                     this.setState({ loadingServiceOptions: true });
-                    apiClient.getServiceOptions({
+                    apiClient.getServiceOptions(undefined, {
                         moduleName: this.state.selectedService.moduleName,
                         serviceName: this.state.selectedService.name
                     })
@@ -2286,10 +2299,11 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     if (!this.state.selectedService) {
                         return;
                     }
-                    apiClient.setServiceOptions({
+                    apiClient.setServiceOptions(undefined, {
                         moduleName: this.state.selectedService.moduleName,
-                        serviceName: this.state.selectedService.name
-                    }, newOptions);
+                        serviceName: this.state.selectedService.name,
+                        options: newOptions
+                    });
                     this.closeOptions();
                 }
                 renderServiceOptionsDialog() {

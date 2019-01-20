@@ -48,7 +48,7 @@ export default class ServiceLogCard extends React.Component<IServiceLogCardProps
 
   private loadLog() {
     const source = this.props.service.moduleName + '.' + this.props.service.name;
-    apiClient.getLogEntries({ source }).then(log => {
+    apiClient.getLogEntries(undefined, { source }).then(log => {
       this.setState({ log });
     });
   }

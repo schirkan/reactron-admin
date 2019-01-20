@@ -10,15 +10,16 @@ export class ApiRoute<TParams, TBody, TResponse = void>{
 
 export const routes = {
   getServices: new ApiRoute<undefined, undefined, IServiceRepositoryItem[]>('/service/', 'get'),
-  getServiceOptions: new ApiRoute<{ moduleName: string, serviceName: string }, undefined, object>('/service/:moduleName/:serviceName', 'get'),
-  setServiceOptions: new ApiRoute<{ moduleName: string, serviceName: string }, object>('/service/:moduleName/:serviceName', 'post'),
+  getServiceOptions: new ApiRoute<undefined, { moduleName: string, serviceName: string }, object>('/service/getOptions', 'post'),
+  setServiceOptions: new ApiRoute<undefined, { moduleName: string, serviceName: string, options: object }>('/service/setOptions', 'post'),
+  callServiceMethod: new ApiRoute<undefined, { moduleName: string, serviceName: string, methodName: string, args: any[] }, { result: any, error: string }>('/service/rpc', 'post'),
 
   getModules: new ApiRoute<undefined, undefined, IModuleRepositoryItem[]>('/modules/', 'get'),
   addModule: new ApiRoute<undefined, { repository: string }, ICommandResult[]>('/modules/', 'post'),
-  deleteModule: new ApiRoute<{ moduleName: string }, undefined, ICommandResult[]>('/modules/:moduleName', 'delete'),
-  rebuildModule: new ApiRoute<{ moduleName: string }, undefined, ICommandResult[]>('/modules/:moduleName/rebuild', 'post'),
-  updateModule: new ApiRoute<{ moduleName: string }, undefined, ICommandResult[]>('/modules/:moduleName/update', 'post'),
-  checkUpdates: new ApiRoute<{ moduleName: string }, undefined, ICommandResult[]>('/modules/checkUpdates/update', 'get'),
+  deleteModule: new ApiRoute<undefined, { moduleName: string }, ICommandResult[]>('/modules/delete', 'delete'),
+  rebuildModule: new ApiRoute<undefined, { moduleName: string }, ICommandResult[]>('/modules/rebuild', 'post'),
+  updateModule: new ApiRoute<undefined, { moduleName: string }, ICommandResult[]>('/modules/update', 'post'),
+  checkUpdates: new ApiRoute<undefined, undefined, ICommandResult[]>('/modules/checkUpdates', 'post'),
 
   getWebPages: new ApiRoute<undefined, undefined, IWebPageOptions[]>('/pages/', 'get'),
   setWebPage: new ApiRoute<undefined, IWebPageOptions, IWebPageOptions>('/pages/', 'post'),
@@ -38,5 +39,5 @@ export const routes = {
   setWebComponentOptions: new ApiRoute<undefined, IWebComponentOptions, IWebComponentOptions>('/components/', 'post'),
   deleteWebComponentOptions: new ApiRoute<{ id: string }, undefined>('/components/:id', 'delete'),
 
-  getLogEntries: new ApiRoute<{ source?: string }, undefined, ILogEntry[]>('/log/:source', 'get'),
+  getLogEntries: new ApiRoute<undefined, { source?: string }, ILogEntry[]>('/log/entries', 'post'),
 };
