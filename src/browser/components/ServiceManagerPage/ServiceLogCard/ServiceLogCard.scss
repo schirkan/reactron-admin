@@ -1,4 +1,30 @@
 .ServiceLogCard {
+    .filter-severity {
+        border: 1px solid #eee;
+        border-bottom: 4px solid #eee;
+        border-radius: 4px;
+        padding: 0 3px 0 3px;
+        display: inline-block;
+        margin-left: 6px;
+        &:not(.active) {
+            color: #888;
+        }
+        &.active {
+            border-color: #ddd;
+            &.debug {
+                border-bottom-color: #888;
+            }
+            &.info {
+                border-bottom-color: #4B4;
+            }
+            &.warning {
+                border-bottom-color: #fb3;
+            }
+            &.error {
+                border-bottom-color: red;
+            }
+        }
+    }
     .log-item {
         padding: 0 3px 0 3px;
         border: 1px solid #ddd;

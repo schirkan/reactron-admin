@@ -1,6 +1,6 @@
 System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react', 'react-router-dom', '@fortawesome/free-brands-svg-icons', '@fortawesome/free-regular-svg-icons', 'moment', 'moment-timezone'], function (exports, module) {
     'use strict';
-    var faSpinner, faPlus, faTimes, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faCubes, faSyncAlt, faList, faArrowDown, faArrowRight, faUndo, faSave, faCogs, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faHome, FontAwesomeIcon, createContext, Component, createElement, Fragment, NavLink, Link, Switch, Route, Redirect, faGithub, faCss3, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, faFile, faArrowAltCircleRight, faEdit, moment, momentTimezone;
+    var faSpinner, faPlus, faTimes, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faCubes, faSyncAlt, faList, faArrowDown, faArrowRight, faUndo, faSave, faCogs, faArrowUp, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faHome, FontAwesomeIcon, createContext, Component, createElement, Fragment, NavLink, Link, Switch, Route, Redirect, faGithub, faCss3, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, faFile, faArrowAltCircleRight, faEdit, moment, momentTimezone;
     return {
         setters: [function (module) {
             faSpinner = module.faSpinner;
@@ -21,6 +21,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             faUndo = module.faUndo;
             faSave = module.faSave;
             faCogs = module.faCogs;
+            faArrowUp = module.faArrowUp;
             faSignOutAlt = module.faSignOutAlt;
             faRedo = module.faRedo;
             faPowerOff = module.faPowerOff;
@@ -319,8 +320,28 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             styleInject(css$2);
 
             class UiCard extends Component {
+                constructor(props) {
+                    super(props);
+                    this.scrollToTop = this.scrollToTop.bind(this);
+                    this.scrollToBottom = this.scrollToBottom.bind(this);
+                }
                 render() {
-                    return (createElement("section", { className: classnames('UiCard', this.props.className), style: this.props.style }, this.props.children));
+                    return (createElement("section", { className: classnames('UiCard', this.props.className), style: this.props.style, ref: el => this.root = el }, this.props.children));
+                }
+                scrollToTop() {
+                    if (!this.root) {
+                        return;
+                    }
+                    this.root.scrollTo({ top: 0 });
+                }
+                scrollToBottom() {
+                    if (!this.root) {
+                        return;
+                    }
+                    const scrollHeight = this.root.scrollHeight;
+                    const height = this.root.clientHeight;
+                    const maxScrollTop = scrollHeight - height;
+                    this.root.scrollTo({ top: maxScrollTop > 0 ? maxScrollTop : 0 });
                 }
             }
 
@@ -350,7 +371,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return (createElement(UiCard, { className: "UiLoadingCard" },
                         createElement(UiCardTitle, null, "Loading..."),
                         createElement(UiCardContent, null,
-                            createElement(Loading, null))));
+                            createElement(Loading, null)),
+                        this.props.children));
                 }
             }
 
@@ -447,7 +469,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$8 = ".UiTabs header {\n  margin-left: 20px;\n  margin-right: 20px; }\n  .UiTabs header .UiTabHeader {\n    display: inline-block;\n    margin: 8px;\n    margin-bottom: 0;\n    border-bottom: 1px solid #ddd;\n    -webkit-transition: 0.5s;\n    transition: 0.5s; }\n    .UiTabs header .UiTabHeader.selected {\n      border-bottom-color: #888; }\n";
+            var css$8 = ".UiTabs header {\n  margin-left: 20px;\n  margin-right: 20px; }\n  .UiTabs header .UiTabHeader {\n    display: inline-block;\n    margin: 8px;\n    margin-bottom: 0;\n    border-bottom: 1px solid #ddd;\n    transition: 0.5s; }\n    .UiTabs header .UiTabHeader.selected {\n      border-bottom-color: #888; }\n";
             styleInject(css$8);
 
             class UiTabs extends Component {
@@ -485,7 +507,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$9 = "section.AddModuleCard {\n  display: -webkit-inline-box;\n  display: inline-flex; }\n  section.AddModuleCard input {\n    padding-left: 6px;\n    border: none;\n    width: 100%; }\n  section.AddModuleCard .addButton {\n    border-left: 1px solid #ddd;\n    overflow: visible; }\n";
+            var css$9 = "section.AddModuleCard {\n  display: inline-flex; }\n  section.AddModuleCard input {\n    padding-left: 6px;\n    border: none;\n    width: 100%; }\n  section.AddModuleCard .addButton {\n    border-left: 1px solid #ddd;\n    overflow: visible; }\n";
             styleInject(css$9);
 
             class AddModuleCard extends Component {
@@ -553,7 +575,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$c = ".ModuleCard {\n  overflow: hidden; }\n  .ModuleCard .UiCardTitle .hasUpdate {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard .UiCardButtonRow {\n    -webkit-transition: 0.5s ease-in-out;\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard .UiCardButtonRow.default.hide {\n      margin-left: -100%; }\n    .ModuleCard .UiCardButtonRow.actions {\n      margin-top: -34px; }\n      .ModuleCard .UiCardButtonRow.actions.hide {\n        margin-left: 100%; }\n    .ModuleCard .UiCardButtonRow a {\n      text-decoration: none; }\n";
+            var css$c = ".ModuleCard {\n  overflow: hidden; }\n  .ModuleCard .UiCardTitle .hasUpdate {\n    margin-left: 6px;\n    font-size: 10px;\n    color: #59aaff;\n    vertical-align: text-top; }\n  .ModuleCard .UiCardButtonRow {\n    transition: 0.5s ease-in-out;\n    margin: 0; }\n    .ModuleCard .UiCardButtonRow.default.hide {\n      margin-left: -100%; }\n    .ModuleCard .UiCardButtonRow.actions {\n      margin-top: -34px; }\n      .ModuleCard .UiCardButtonRow.actions.hide {\n        margin-left: 100%; }\n    .ModuleCard .UiCardButtonRow a {\n      text-decoration: none; }\n";
             styleInject(css$c);
 
             class ModuleCard extends Component {
@@ -884,7 +906,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$g = "section.Navigation {\n  background: #456;\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\n  section.Navigation a {\n    padding-bottom: 8px;\n    padding-top: 11px;\n    color: #ddd;\n    text-decoration: none;\n    border-bottom: 3px solid transparent;\n    text-align: center;\n    -webkit-transition: 0.5s;\n    transition: 0.5s; }\n    section.Navigation a:hover, section.Navigation a:active, section.Navigation a.active {\n      background: transparent;\n      color: white; }\n    section.Navigation a:nth-child(1).active {\n      background: #4a8599; }\n    section.Navigation a:nth-child(1).active, section.Navigation a:nth-child(1):hover {\n      border-bottom: 3px solid #42e1f7; }\n    section.Navigation a:nth-child(2).active {\n      background: #69006f; }\n    section.Navigation a:nth-child(2).active, section.Navigation a:nth-child(2):hover {\n      border-bottom: 3px solid #f000ff; }\n    section.Navigation a:nth-child(3).active {\n      background: #5f5600; }\n    section.Navigation a:nth-child(3).active, section.Navigation a:nth-child(3):hover {\n      border-bottom: 3px solid #ffe700; }\n    section.Navigation a:nth-child(4).active {\n      background: #2f6108; }\n    section.Navigation a:nth-child(4).active, section.Navigation a:nth-child(4):hover {\n      border-bottom: 3px solid #74ee15; }\n    section.Navigation a:nth-child(5).active {\n      background: #001086; }\n    section.Navigation a:nth-child(5).active, section.Navigation a:nth-child(5):hover {\n      border-bottom: 3px solid #001eff; }\n";
+            var css$g = "section.Navigation {\n  background: #456;\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\n  section.Navigation a {\n    padding-bottom: 8px;\n    padding-top: 11px;\n    color: #ddd;\n    text-decoration: none;\n    border-bottom: 3px solid transparent;\n    text-align: center;\n    transition: 0.5s; }\n    section.Navigation a:hover, section.Navigation a:active, section.Navigation a.active {\n      background: transparent;\n      color: white; }\n    section.Navigation a:nth-child(1).active {\n      background: #4a8599; }\n    section.Navigation a:nth-child(1).active, section.Navigation a:nth-child(1):hover {\n      border-bottom: 3px solid #42e1f7; }\n    section.Navigation a:nth-child(2).active {\n      background: #69006f; }\n    section.Navigation a:nth-child(2).active, section.Navigation a:nth-child(2):hover {\n      border-bottom: 3px solid #f000ff; }\n    section.Navigation a:nth-child(3).active {\n      background: #5f5600; }\n    section.Navigation a:nth-child(3).active, section.Navigation a:nth-child(3):hover {\n      border-bottom: 3px solid #ffe700; }\n    section.Navigation a:nth-child(4).active {\n      background: #2f6108; }\n    section.Navigation a:nth-child(4).active, section.Navigation a:nth-child(4):hover {\n      border-bottom: 3px solid #74ee15; }\n    section.Navigation a:nth-child(5).active {\n      background: #001086; }\n    section.Navigation a:nth-child(5).active, section.Navigation a:nth-child(5):hover {\n      border-bottom: 3px solid #001eff; }\n";
             styleInject(css$g);
 
             class Navigation extends Component {
@@ -1126,7 +1148,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$i = ".BooleanInputControl {\n  position: relative;\n  display: inline-block;\n  width: 30px;\n  height: 17px;\n  margin-top: auto;\n  margin-bottom: auto; }\n  .BooleanInputControl input {\n    opacity: 0;\n    width: 0;\n    height: 0; }\n    .BooleanInputControl input:checked + .slider {\n      background-color: #2196F3; }\n    .BooleanInputControl input:focus + .slider {\n      box-shadow: 0 0 1px #2196F3; }\n    .BooleanInputControl input:checked + .slider:before {\n      -webkit-transform: translateX(100%);\n              transform: translateX(100%); }\n  .BooleanInputControl .slider {\n    position: absolute;\n    cursor: pointer;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background-color: #ccc;\n    -webkit-transition: .4s;\n    transition: .4s;\n    border-radius: 17px; }\n    .BooleanInputControl .slider:before {\n      position: absolute;\n      content: \"\";\n      height: 13px;\n      width: 13px;\n      left: 2px;\n      bottom: 2px;\n      background-color: white;\n      -webkit-transition: .4s;\n      transition: .4s;\n      border-radius: 50%; }\n";
+            var css$i = ".BooleanInputControl {\n  position: relative;\n  display: inline-block;\n  width: 30px;\n  height: 17px;\n  margin-top: auto;\n  margin-bottom: auto; }\n  .BooleanInputControl input {\n    opacity: 0;\n    width: 0;\n    height: 0; }\n    .BooleanInputControl input:checked + .slider {\n      background-color: #2196F3; }\n    .BooleanInputControl input:focus + .slider {\n      box-shadow: 0 0 1px #2196F3; }\n    .BooleanInputControl input:checked + .slider:before {\n      -webkit-transform: translateX(100%);\n              transform: translateX(100%); }\n  .BooleanInputControl .slider {\n    position: absolute;\n    cursor: pointer;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background-color: #ccc;\n    transition: .4s;\n    border-radius: 17px; }\n    .BooleanInputControl .slider:before {\n      position: absolute;\n      content: \"\";\n      height: 13px;\n      width: 13px;\n      left: 2px;\n      bottom: 2px;\n      background-color: white;\n      transition: .4s;\n      border-radius: 50%; }\n";
             styleInject(css$i);
 
             class BooleanInputControl extends Component {
@@ -1259,7 +1281,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$j = ".StyleForm .OptionItem + .newPropertyRow {\n  border-top: 1px solid #eee; }\n\n.StyleForm .newPropertyRow {\n  display: -webkit-box;\n  display: flex; }\n  .StyleForm .newPropertyRow select {\n    width: 100%; }\n  .StyleForm .newPropertyRow .UiButton {\n    overflow: initial; }\n";
+            var css$j = ".StyleForm .OptionItem + .newPropertyRow {\n  border-top: 1px solid #eee; }\n\n.StyleForm .newPropertyRow {\n  display: flex; }\n  .StyleForm .newPropertyRow select {\n    width: 100%; }\n  .StyleForm .newPropertyRow .UiButton {\n    overflow: initial; }\n";
             styleInject(css$j);
 
             const styleProperties = ['background', 'backgroundAttachment', 'backgroundColor', 'backgroundImage',
@@ -1786,7 +1808,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 return result;
             };
 
-            var css$l = ".OptionItem {\n  margin-left: 6px;\n  line-height: 32px;\n  border-top: 1px solid transparent; }\n  .OptionItem + .OptionItem {\n    border-color: #eee; }\n  .OptionItem[data-hasdetails='false'] {\n    display: grid;\n    grid-template-columns: 50% 50%; }\n  .OptionItem[data-detailsvisible='false'] + .add-array-item {\n    border-top: 1px solid #eee; }\n  .OptionItem[data-detailsvisible='true'] {\n    padding-left: 3px;\n    margin-left: 0px;\n    border-left-width: 3px;\n    border-top-width: 1px;\n    border-bottom-width: 1px;\n    border-bottom-color: #eee;\n    border-right-width: 0;\n    border-style: solid;\n    border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] {\n      border-left-color: #964; }\n      .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n        border-left-color: #6a9; }\n        .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n          border-left-color: #649; }\n          .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n            border-left-color: #496; }\n            .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n              border-left-color: #946; }\n              .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                border-left-color: #649; }\n                .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                  border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] > .item-header {\n      border-bottom: 1px solid #eee; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='true'] {\n      margin-top: 6px; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='false'] {\n      border-top-width: 0; }\n    .OptionItem[data-detailsvisible='true'] :last-child {\n      border-bottom-width: 0; }\n  .OptionItem label,\n  .OptionItem .header-text,\n  .OptionItem .sub-header-text {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .OptionItem label {\n    display: -webkit-box;\n    display: flex; }\n    .OptionItem label :first-child.header-text {\n      padding-left: 4px; }\n  .OptionItem input,\n  .OptionItem select {\n    height: 32px;\n    border: none;\n    padding-left: 6px;\n    background: white;\n    box-sizing: border-box;\n    margin: 0; }\n    .OptionItem input[type='range'],\n    .OptionItem select[type='range'] {\n      padding-left: 0; }\n  .OptionItem textarea {\n    border: none;\n    width: 100%;\n    padding: 6px;\n    display: -webkit-box;\n    display: flex;\n    box-sizing: border-box; }\n  .OptionItem .item-header {\n    display: grid;\n    grid-template-columns: 50% auto 33px;\n    padding: 0 !important; }\n  .OptionItem .UiButton {\n    padding-top: 0;\n    padding-bottom: 0; }\n";
+            var css$l = ".OptionItem {\n  margin-left: 6px;\n  line-height: 32px;\n  border-top: 1px solid transparent; }\n  .OptionItem + .OptionItem {\n    border-color: #eee; }\n  .OptionItem[data-hasdetails='false'] {\n    display: grid;\n    grid-template-columns: 50% 50%; }\n  .OptionItem[data-detailsvisible='false'] + .add-array-item {\n    border-top: 1px solid #eee; }\n  .OptionItem[data-detailsvisible='true'] {\n    padding-left: 3px;\n    margin-left: 0px;\n    border-left-width: 3px;\n    border-top-width: 1px;\n    border-bottom-width: 1px;\n    border-bottom-color: #eee;\n    border-right-width: 0;\n    border-style: solid;\n    border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] {\n      border-left-color: #964; }\n      .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n        border-left-color: #6a9; }\n        .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n          border-left-color: #649; }\n          .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n            border-left-color: #496; }\n            .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n              border-left-color: #946; }\n              .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                border-left-color: #649; }\n                .OptionItem[data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] [data-detailsvisible='true'] {\n                  border-left-color: #68a; }\n    .OptionItem[data-detailsvisible='true'] > .item-header {\n      border-bottom: 1px solid #eee; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='true'] {\n      margin-top: 6px; }\n    .OptionItem[data-detailsvisible='true'] + [data-detailsvisible='false'] {\n      border-top-width: 0; }\n    .OptionItem[data-detailsvisible='true'] :last-child {\n      border-bottom-width: 0; }\n  .OptionItem label,\n  .OptionItem .header-text,\n  .OptionItem .sub-header-text {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis; }\n  .OptionItem label {\n    display: flex; }\n    .OptionItem label :first-child.header-text {\n      padding-left: 4px; }\n  .OptionItem input,\n  .OptionItem select {\n    height: 32px;\n    border: none;\n    padding-left: 6px;\n    background: white;\n    box-sizing: border-box;\n    margin: 0; }\n    .OptionItem input[type='range'],\n    .OptionItem select[type='range'] {\n      padding-left: 0; }\n  .OptionItem textarea {\n    border: none;\n    width: 100%;\n    padding: 6px;\n    display: flex;\n    box-sizing: border-box; }\n  .OptionItem .item-header {\n    display: grid;\n    grid-template-columns: 50% auto 33px;\n    padding: 0 !important; }\n  .OptionItem .UiButton {\n    padding-top: 0;\n    padding-bottom: 0; }\n";
             styleInject(css$l);
 
             let counter = 0;
@@ -1885,7 +1907,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$n = ".OptionCard > .UiCardTitle .buttons {\n  position: absolute;\n  top: 0;\n  right: 0;\n  display: -webkit-box;\n  display: flex; }\n  .OptionCard > .UiCardTitle .buttons svg {\n    margin-left: 3px; }\n\n.OptionCard > .OptionList {\n  position: relative;\n  overflow-x: hidden; }\n  .OptionCard > .OptionList > :last-child {\n    border-bottom: none; }\n\n.OptionCard > .UiCardButtonRow {\n  border-top: 1px solid #ddd; }\n\n.OptionCard .debug {\n  white-space: pre;\n  line-height: 16px; }\n";
+            var css$n = ".OptionCard > .UiCardTitle .buttons {\n  position: absolute;\n  top: 0;\n  right: 0;\n  display: flex; }\n  .OptionCard > .UiCardTitle .buttons svg {\n    margin-left: 3px; }\n\n.OptionCard > .OptionList {\n  position: relative;\n  overflow-x: hidden; }\n  .OptionCard > .OptionList > :last-child {\n    border-bottom: none; }\n\n.OptionCard > .UiCardButtonRow {\n  border-top: 1px solid #ddd; }\n\n.OptionCard .debug {\n  white-space: pre;\n  line-height: 16px; }\n";
             styleInject(css$n);
 
             class OptionCard extends Component {
@@ -2186,15 +2208,34 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             var css$t = ".ServiceManagerPage {\n  min-height: 100px; }\n";
             styleInject(css$t);
 
-            var css$u = ".ServiceLogCard .log-item {\n  padding: 0 3px 0 3px;\n  border: 1px solid #ddd;\n  border-left-width: 4px;\n  border-radius: 4px; }\n  .ServiceLogCard .log-item:hover {\n    border-color: #bbb;\n    background-color: #fefefe; }\n  .ServiceLogCard .log-item[data-severity='error'] {\n    border-left-color: red; }\n  .ServiceLogCard .log-item[data-severity='warning'] {\n    border-left-color: #fb3; }\n  .ServiceLogCard .log-item[data-severity='information'] {\n    border-left-color: #4B4; }\n  .ServiceLogCard .log-item[data-severity='debug'] {\n    border-left-color: #888; }\n  .ServiceLogCard .log-item .timestamp {\n    float: right;\n    line-height: 21px;\n    font-size: 11px;\n    color: #555; }\n  .ServiceLogCard .log-item .data {\n    font-family: monospace;\n    font-size: 12px;\n    word-break: break-word; }\n  .ServiceLogCard .log-item ~ .log-item {\n    margin-top: 3px; }\n";
+            var css$u = ".ServiceLogCard .filter-severity {\n  border: 1px solid #eee;\n  border-bottom: 4px solid #eee;\n  border-radius: 4px;\n  padding: 0 3px 0 3px;\n  display: inline-block;\n  margin-left: 6px; }\n  .ServiceLogCard .filter-severity:not(.active) {\n    color: #888; }\n  .ServiceLogCard .filter-severity.active {\n    border-color: #ddd; }\n    .ServiceLogCard .filter-severity.active.debug {\n      border-bottom-color: #888; }\n    .ServiceLogCard .filter-severity.active.info {\n      border-bottom-color: #4B4; }\n    .ServiceLogCard .filter-severity.active.warning {\n      border-bottom-color: #fb3; }\n    .ServiceLogCard .filter-severity.active.error {\n      border-bottom-color: red; }\n\n.ServiceLogCard .log-item {\n  padding: 0 3px 0 3px;\n  border: 1px solid #ddd;\n  border-left-width: 4px;\n  border-radius: 4px; }\n  .ServiceLogCard .log-item:hover {\n    border-color: #bbb;\n    background-color: #fefefe; }\n  .ServiceLogCard .log-item[data-severity='error'] {\n    border-left-color: red; }\n  .ServiceLogCard .log-item[data-severity='warning'] {\n    border-left-color: #fb3; }\n  .ServiceLogCard .log-item[data-severity='information'] {\n    border-left-color: #4B4; }\n  .ServiceLogCard .log-item[data-severity='debug'] {\n    border-left-color: #888; }\n  .ServiceLogCard .log-item .timestamp {\n    float: right;\n    line-height: 21px;\n    font-size: 11px;\n    color: #555; }\n  .ServiceLogCard .log-item .data {\n    font-family: monospace;\n    font-size: 12px;\n    word-break: break-word; }\n  .ServiceLogCard .log-item ~ .log-item {\n    margin-top: 3px; }\n";
             styleInject(css$u);
 
             class ServiceLogCard extends Component {
                 constructor(props) {
                     super(props);
-                    this.state = { log: [] };
+                    this.state = {
+                        log: [],
+                        loading: true,
+                        showDebug: true,
+                        showInfo: true,
+                        showWarning: true,
+                        showError: true
+                    };
                     this.close = this.close.bind(this);
                     this.loadLog = this.loadLog.bind(this);
+                    this.toggleDebug = this.toggleDebug.bind(this);
+                    this.toggleInfo = this.toggleInfo.bind(this);
+                    this.toggleWarning = this.toggleWarning.bind(this);
+                    this.toggleError = this.toggleError.bind(this);
+                    this.scrollToTop = this.scrollToTop.bind(this);
+                    this.scrollToBottom = this.scrollToBottom.bind(this);
+                }
+                scrollToTop() {
+                    this.card && this.card.scrollToTop();
+                }
+                scrollToBottom() {
+                    this.card && this.card.scrollToBottom();
                 }
                 close() {
                     this.props.onClose();
@@ -2210,23 +2251,82 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 loadLog() {
                     const source = this.props.service.moduleName + '.' + this.props.service.name;
                     apiClient.getLogEntries(undefined, { source }).then(log => {
-                        this.setState({ log });
+                        this.setState({ log, loading: false });
                     });
                 }
+                toggleDebug() {
+                    this.setState(prevState => ({ showDebug: !prevState.showDebug }));
+                }
+                toggleInfo() {
+                    this.setState(prevState => ({ showInfo: !prevState.showInfo }));
+                }
+                toggleWarning() {
+                    this.setState(prevState => ({ showWarning: !prevState.showWarning }));
+                }
+                toggleError() {
+                    this.setState(prevState => ({ showError: !prevState.showError }));
+                }
+                renderSeverityFilter() {
+                    const debug = this.state.log.filter(x => x.severity === 'debug').length;
+                    const information = this.state.log.filter(x => x.severity === 'information').length;
+                    const warning = this.state.log.filter(x => x.severity === 'warning').length;
+                    const error = this.state.log.filter(x => x.severity === 'error').length;
+                    return (createElement("div", null,
+                        "Severity:",
+                        createElement("span", { className: "filter-severity clickable debug " + (this.state.showDebug ? 'active' : ''), onClick: this.toggleDebug },
+                            debug,
+                            " Debug"),
+                        createElement("span", { className: "filter-severity clickable info " + (this.state.showInfo ? 'active' : ''), onClick: this.toggleInfo },
+                            information,
+                            " Info"),
+                        createElement("span", { className: "filter-severity clickable warning " + (this.state.showWarning ? 'active' : ''), onClick: this.toggleWarning },
+                            warning,
+                            " Warning"),
+                        createElement("span", { className: "filter-severity clickable error " + (this.state.showError ? 'active' : ''), onClick: this.toggleError },
+                            error,
+                            " Error")));
+                }
+                renderButtons() {
+                    return (createElement(UiCardButtonRow, { divider: "half" },
+                        createElement(UiButton, { onClick: this.close },
+                            createElement(FontAwesomeIcon, { icon: faTimes }),
+                            " Close"),
+                        createElement(UiButton, { onClick: this.scrollToTop },
+                            createElement(FontAwesomeIcon, { icon: faArrowUp }),
+                            " Top"),
+                        createElement(UiButton, { onClick: this.scrollToBottom },
+                            createElement(FontAwesomeIcon, { icon: faArrowDown }),
+                            " Bottom")));
+                }
+                renderContent() {
+                    if (this.state.loading) {
+                        return createElement(UiCardContent, null,
+                            createElement(Loading, null));
+                    }
+                    return (createElement(Fragment, null,
+                        createElement(UiCardContent, null, this.renderSeverityFilter()),
+                        createElement(UiCardContent, null, this.filterEntries.map(entry => (createElement("div", { className: "log-item", "data-severity": entry.severity },
+                            createElement("div", { className: "timestamp" }, moment(entry.timestamp).toISOString()),
+                            createElement("div", { className: "message" }, entry.message),
+                            entry.data && (createElement("div", { className: "data" }, JSON.stringify(entry.data)))))))));
+                }
+                get filterEntries() {
+                    const filter = (item) => {
+                        return item.severity === 'debug' && this.state.showDebug ||
+                            item.severity === 'information' && this.state.showInfo ||
+                            item.severity === 'warning' && this.state.showWarning ||
+                            item.severity === 'error' && this.state.showError;
+                    };
+                    return this.state.log.filter(filter);
+                }
                 render() {
-                    return (createElement(UiCard, { className: "ServiceLogCard" },
+                    return (createElement(UiCard, { className: "ServiceLogCard", ref: el => this.card = el },
                         createElement(UiCardTitle, null,
                             createElement(FontAwesomeIcon, { icon: faFile }),
                             " Log for ",
                             this.props.service.displayName),
-                        createElement(UiCardContent, null, this.state.log.map(entry => (createElement("div", { className: "log-item", "data-severity": entry.severity },
-                            createElement("div", { className: "timestamp" }, moment(entry.timestamp).toISOString()),
-                            createElement("div", { className: "message" }, entry.message),
-                            entry.data && (createElement("div", { className: "data" }, JSON.stringify(entry.data))))))),
-                        createElement(UiCardButtonRow, null,
-                            createElement(UiButton, { onClick: this.close },
-                                createElement(FontAwesomeIcon, { icon: faTimes }),
-                                " Close"))));
+                        this.renderContent(),
+                        this.renderButtons()));
                 }
             }
 

@@ -6,12 +6,7 @@ import UiCardTitle from '../UiCardTitle/UiCardTitle';
 
 import './UiLoadingCard.scss';
 
-// tslint:disable-next-line:no-empty-interface
-export interface IUiLoadingCardProps {
-  // TODO
-}
-
-export default class UiLoadingCard extends React.Component<IUiLoadingCardProps> {
+export default class UiLoadingCard extends React.Component {
   public render() {
     return (
       <UiCard className="UiLoadingCard">
@@ -21,6 +16,7 @@ export default class UiLoadingCard extends React.Component<IUiLoadingCardProps> 
         <UiCardContent>
           <Loading />
         </UiCardContent>
+        {this.props.children}
       </UiCard>
     );
   }
