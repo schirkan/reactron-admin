@@ -37,7 +37,7 @@ class AdminService {
                 style: {}
             };
             // register page 
-            context.backendService.webPageManager.createOrUpdate(page);
+            context.services.pages.setWebPage(page);
             const component = {
                 id: 'reactron-admin',
                 parentId: page.id,
@@ -46,7 +46,7 @@ class AdminService {
                 options: {}
             };
             // register component
-            context.backendService.webComponentsManager.createOrUpdate(component);
+            context.services.components.setWebComponentOptions(component);
         });
     }
 }

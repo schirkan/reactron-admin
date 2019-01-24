@@ -11,7 +11,7 @@ export class AdminService implements IReactronService {
     };
 
     // register page 
-    context.backendService.webPageManager.createOrUpdate(page);
+    context.services.pages.setWebPage(page);
 
     const component: IWebComponentOptions = {
       id: 'reactron-admin',
@@ -22,6 +22,6 @@ export class AdminService implements IReactronService {
     };
 
     // register component
-    context.backendService.webComponentsManager.createOrUpdate(component);
+    context.services.components.setWebComponentOptions(component);
   }
 }
