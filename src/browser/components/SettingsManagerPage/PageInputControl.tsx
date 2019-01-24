@@ -1,6 +1,5 @@
 import { IInputComponentProps, IReactronComponentContext, IWebPageOptions } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
-import { apiClient } from 'src/browser/ApiClient';
 
 export interface IPageInputControlState {
   pages: IWebPageOptions[];
@@ -20,7 +19,7 @@ export class PageInputControl extends React.Component<IInputComponentProps, IPag
   }
 
   public componentDidMount() {
-    apiClient.getWebPages().then(pages => this.setState({ pages }));
+    this.context.services.pages.getWebPages().then(pages => this.setState({ pages }));
   }
 
   private onSelectValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

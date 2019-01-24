@@ -1,6 +1,6 @@
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IFieldDefinition } from '@schirkan/reactron-interfaces';
+import { IFieldDefinition, IReactronComponentContext } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
 import { AdminPageContext } from '../AdminPageContext';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
@@ -26,6 +26,7 @@ interface IOptionItemState extends IInputControls {
 
 export default class OptionItem extends React.Component<IOptionItemProps, IOptionItemState> {
   public static contextType = AdminPageContext;
+  public context: IReactronComponentContext;
 
   constructor(props: IOptionItemProps) {
     super(props);

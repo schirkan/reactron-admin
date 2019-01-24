@@ -2,7 +2,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IFieldDefinition } from "@schirkan/reactron-interfaces";
+import { IFieldDefinition, IReactronComponentContext } from "@schirkan/reactron-interfaces";
 import * as React from 'react';
 import { getDefaultFieldValue } from "src/common/optionsHelper";
 import OptionList from '../OptionList/OptionList';
@@ -11,6 +11,7 @@ import UiCard from '../UiCard/UiCard';
 import UiCardButtonRow from '../UiCardButtonRow/UiCardButtonRow';
 import UiCardTitle from '../UiCardTitle/UiCardTitle';
 import { OptionCardContext, OptionsCardContextData } from './OptionCardContext';
+import { AdminPageContext } from "../AdminPageContext";
 
 import './OptionCard.scss';
 
@@ -28,12 +29,15 @@ export interface IOptionCardProps {
 
 interface IOptionCardState {
   newOptions: any;
-  formContext: OptionsCardContextData;
+  formContext?: OptionsCardContextData;
   showDebug: boolean;
   showExpertOptions: boolean;
 }
 
 export default class OptionCard extends React.Component<IOptionCardProps, IOptionCardState> {
+  public static contextType = AdminPageContext;
+  public context: IReactronComponentContext;
+
   constructor(props: IOptionCardProps) {
     super(props);
 
@@ -41,7 +45,6 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
 
     this.state = {
       newOptions,
-      formContext: new OptionsCardContextData(),
       showDebug: false,
       showExpertOptions: false,
     };
@@ -52,6 +55,11 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
     this.optionsChange = this.optionsChange.bind(this);
     this.toggleStyleOptions = this.toggleStyleOptions.bind(this);
     this.toggleDebug = this.toggleDebug.bind(this);
+  }
+
+  public componentDidMount() {
+    const formContext = new OptionsCardContextData(this.context);
+    this.setState({ formContext });
   }
 
   // init fields
@@ -75,8 +83,10 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
   }
 
   private async save() {
-    await this.state.formContext.onSave.publish();
-    return this.props.onSave(this.state.newOptions);
+    if (this.state.formContext) {
+      await this.state.formContext.onSave.publish();
+      return this.props.onSave(this.state.newOptions);
+    }
   }
 
   private cancel() {
@@ -87,11 +97,11 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
     this.setState({ newOptions: newValue });
   }
 
-  private toggleStyleOptions(){
+  private toggleStyleOptions() {
     this.setState(prevState => ({ showExpertOptions: !prevState.showExpertOptions }));
   }
 
-  private toggleDebug(){
+  private toggleDebug() {
     this.setState(prevState => ({ showDebug: !prevState.showDebug }));
   }
 
@@ -114,12 +124,12 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
   }
 
   public renderContent() {
+    if(!this.state.formContext){
+      return null;
+    }
     return (
       <OptionCardContext.Provider value={this.state.formContext}>
-        <OptionList fields={this.props.fields}
-          value={this.state.newOptions}
-          valueChange={this.optionsChange}
-        />
+        <OptionList fields={this.props.fields} value={this.state.newOptions} valueChange={this.optionsChange} />
       </OptionCardContext.Provider>
     );
   }
@@ -149,7 +159,7 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
         {this.props.showReset && (
           <UiButton onClick={this.reset}>
             <FontAwesomeIcon icon={SolidIcons.faUndo} /> Reset
-        </UiButton>
+          </UiButton>
         )}
         <UiButton onClick={this.save}>
           <FontAwesomeIcon icon={SolidIcons.faSave} /> Save
@@ -168,7 +178,7 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
         {this.renderFooter()}
         {this.renderStyleOptionsStyle()}
         {this.renderDebugStyle()}
-      </UiCard >
+      </UiCard>
     );
   }
 }

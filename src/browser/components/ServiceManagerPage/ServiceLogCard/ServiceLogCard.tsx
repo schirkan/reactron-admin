@@ -1,7 +1,7 @@
 import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IServiceRepositoryItem, ILogEntry } from '@schirkan/reactron-interfaces';
+import { IServiceRepositoryItem, ILogEntry, IReactronComponentContext } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
 import UiCard from '../../UiCard/UiCard';
 import UiCardTitle from '../../UiCardTitle/UiCardTitle';
@@ -9,8 +9,8 @@ import UiCardContent from '../../UiCardContent/UiCardContent';
 import UiCardButtonRow from '../../UiCardButtonRow/UiCardButtonRow';
 import UiButton from '../../UiButton/UiButton';
 import moment from 'moment';
-import { apiClient } from 'src/browser/ApiClient';
 import Loading from '../../Loading/Loading';
+import { AdminPageContext } from '../../AdminPageContext';
 
 import './ServiceLogCard.scss';
 
@@ -29,6 +29,9 @@ interface IServiceLogCardState {
 }
 
 export default class ServiceLogCard extends React.Component<IServiceLogCardProps, IServiceLogCardState> {
+  public static contextType = AdminPageContext;
+  public context: IReactronComponentContext;
+
   private card: UiCard | null;
 
   constructor(props: any) {
@@ -77,9 +80,8 @@ export default class ServiceLogCard extends React.Component<IServiceLogCardProps
 
   private loadLog() {
     const source = this.props.service.moduleName + '.' + this.props.service.name;
-    apiClient.getLogEntries(undefined, { source }).then(log => {
-      this.setState({ log, loading: false });
-    });
+    this.context.services.log.getLogEntries(source)
+      .then(log => this.setState({ log, loading: false }));
   }
 
   private toggleDebug() {
@@ -111,7 +113,7 @@ export default class ServiceLogCard extends React.Component<IServiceLogCardProps
         <span className={"filter-severity clickable info " + (this.state.showInfo ? 'active' : '')} onClick={this.toggleInfo}>{information} Info</span>
         <span className={"filter-severity clickable warning " + (this.state.showWarning ? 'active' : '')} onClick={this.toggleWarning}>{warning} Warning</span>
         <span className={"filter-severity clickable error " + (this.state.showError ? 'active' : '')} onClick={this.toggleError}>{error} Error</span>
-      </div >
+      </div>
     );
   }
 

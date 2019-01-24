@@ -85,122 +85,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 });
             }
 
-            class ApiRoute {
-                constructor(path, method) {
-                    this.path = path;
-                    this.method = method;
-                }
-            }
-            const routes = {
-                getServices: new ApiRoute('/service/', 'get'),
-                getServiceOptions: new ApiRoute('/service/getOptions', 'post'),
-                setServiceOptions: new ApiRoute('/service/setOptions', 'post'),
-                callServiceMethod: new ApiRoute('/service/rpc', 'post'),
-                getModules: new ApiRoute('/modules/', 'get'),
-                addModule: new ApiRoute('/modules/', 'post'),
-                deleteModule: new ApiRoute('/modules/delete', 'delete'),
-                rebuildModule: new ApiRoute('/modules/rebuild', 'post'),
-                updateModule: new ApiRoute('/modules/update', 'post'),
-                checkUpdates: new ApiRoute('/modules/checkUpdates', 'post'),
-                getWebPages: new ApiRoute('/pages/', 'get'),
-                setWebPage: new ApiRoute('/pages/', 'post'),
-                deleteWebPage: new ApiRoute('/pages/:id', 'delete'),
-                getServerInfo: new ApiRoute('/app/', 'get'),
-                exitApplication: new ApiRoute('/app/exitApplication', 'post'),
-                restartApplication: new ApiRoute('/app/restartApplication', 'post'),
-                shutdownSystem: new ApiRoute('/app/shutdownSystem', 'post'),
-                rebootSystem: new ApiRoute('/app/restartSystem', 'post'),
-                resetApplication: new ApiRoute('/app/resetApplication', 'post'),
-                getSettings: new ApiRoute('/settings/', 'get'),
-                setSettings: new ApiRoute('/settings/', 'post'),
-                getWebComponentOptions: new ApiRoute('/components/', 'get'),
-                setWebComponentOptions: new ApiRoute('/components/', 'post'),
-                deleteWebComponentOptions: new ApiRoute('/components/:id', 'delete'),
-                getLogEntries: new ApiRoute('/log/entries', 'post'),
-            };
-
-            class ApiClient {
-                constructor() {
-                    this.getAllServices = apiCall(routes.getServices, true);
-                    this.getServiceOptions = apiCall(routes.getServiceOptions);
-                    this.setServiceOptions = apiCall(routes.setServiceOptions);
-                    this.callServiceMethod = apiCall(routes.callServiceMethod);
-                    this.getModules = apiCall(routes.getModules, true);
-                    this.addModule = apiCall(routes.addModule);
-                    this.checkUpdates = apiCall(routes.checkUpdates);
-                    this.deleteModule = apiCall(routes.deleteModule);
-                    this.rebuildModule = apiCall(routes.rebuildModule);
-                    this.updateModule = apiCall(routes.updateModule);
-                    this.getWebPages = apiCall(routes.getWebPages, true);
-                    this.setWebPage = apiCall(routes.setWebPage);
-                    this.deleteWebPage = apiCall(routes.deleteWebPage);
-                    this.getServerInfo = apiCall(routes.getServerInfo);
-                    this.exitApplication = apiCall(routes.exitApplication);
-                    this.restartApplication = apiCall(routes.restartApplication);
-                    this.shutdownSystem = apiCall(routes.shutdownSystem);
-                    this.rebootSystem = apiCall(routes.rebootSystem);
-                    this.resetApplication = apiCall(routes.resetApplication);
-                    this.getSettings = apiCall(routes.getSettings, true);
-                    this.setSettings = apiCall(routes.setSettings);
-                    this.getWebComponentOptions = apiCall(routes.getWebComponentOptions, true);
-                    this.setWebComponentOptions = apiCall(routes.setWebComponentOptions);
-                    this.deleteWebComponentOptions = apiCall(routes.deleteWebComponentOptions);
-                    this.getLogEntries = apiCall(routes.getLogEntries);
-                }
-                clearCache() {
-                    Object.keys(this).forEach(key => {
-                        if (this[key] && this[key].clearCache) {
-                            this[key].clearCache();
-                        }
-                    });
-                }
-            }
-            const apiCall = (route, cacheResponse = false) => {
-                let cache;
-                const method = route.method.toLocaleLowerCase();
-                const call = (params, data) => {
-                    if (cacheResponse && cache) {
-                        return Promise.resolve(cache);
-                    }
-                    let path = route.path;
-                    // replace params in path
-                    if (params) {
-                        Object.keys(params).forEach(key => {
-                            path = path.replace(':' + key, params[key]);
-                        });
-                    }
-                    return fetch('/api/modules/reactron' + path, {
-                        method,
-                        body: data && JSON.stringify(data),
-                        headers: {
-                            "Content-Type": "application/json; charset=utf-8",
-                        }
-                    })
-                        .then((response) => __awaiter(undefined, void 0, void 0, function* () {
-                        const text = yield response.text();
-                        if (response.status.toString().startsWith('2')) {
-                            if (!text) {
-                                return undefined;
-                            }
-                            return JSON.parse(text);
-                        }
-                        console.log(text);
-                        throw Error(text);
-                    }))
-                        .then(response => {
-                        if (cacheResponse) {
-                            cache = response;
-                        }
-                        return response;
-                    });
-                };
-                call.clearCache = () => {
-                    cache = undefined;
-                };
-                return call;
-            };
-            const apiClient = new ApiClient();
-
             function unwrapExports (x) {
             	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
             }
@@ -771,16 +655,15 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.loadModules();
                 }
                 loadModules() {
-                    return apiClient.getModules()
+                    return this.context.services.modules.getModules()
                         .then(modules => this.setState({ modules }))
                         .catch(); // TODO
                 }
                 checkUpdates() {
                     return __awaiter(this, void 0, void 0, function* () {
                         this.setState({ checkingUpdates: true });
-                        yield apiClient.checkUpdates();
+                        yield this.context.services.modules.checkUpdates();
                         this.setState({ checkingUpdates: false });
-                        apiClient.getModules.clearCache();
                         yield this.loadModules();
                     });
                 }
@@ -794,7 +677,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.setState({ loading: true });
                         try {
                             for (const module of modulesWithUpdates) {
-                                const result = yield apiClient.updateModule(undefined, { moduleName: module.name });
+                                const result = yield this.context.services.modules.updateModule(module.name);
                                 results.push(...result);
                             }
                             this.showResult(results);
@@ -802,7 +685,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         catch (error) {
                             this.showError(error);
                         }
-                        apiClient.getModules.clearCache();
                         yield this.loadModules();
                     });
                 }
@@ -813,13 +695,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield apiClient.updateModule(undefined, { moduleName: module.name });
+                            const result = yield this.context.services.modules.updateModule(module.name);
                             this.showResult(result);
                         }
                         catch (error) {
                             this.showError(error);
                         }
-                        apiClient.getModules.clearCache();
                         yield this.loadModules();
                     });
                 }
@@ -830,13 +711,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield apiClient.rebuildModule(undefined, { moduleName: module.name });
+                            const result = yield this.context.services.modules.rebuildModule(module.name);
                             this.showResult(result);
                         }
                         catch (error) {
                             this.showError(error);
                         }
-                        apiClient.getModules.clearCache();
                         yield this.loadModules();
                     });
                 }
@@ -847,13 +727,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield apiClient.deleteModule(undefined, { moduleName: module.name });
+                            const result = yield this.context.services.modules.deleteModule(module.name);
                             this.showResult(result);
                         }
                         catch (error) {
                             this.showError(error);
                         }
-                        apiClient.getModules.clearCache();
                         yield this.loadModules();
                     });
                 }
@@ -864,13 +743,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield apiClient.addModule(undefined, { repository });
+                            const result = yield this.context.services.modules.addModule(repository);
                             this.showResult(result);
                         }
                         catch (error) {
                             this.showError(error);
                         }
-                        apiClient.getModules.clearCache();
                         yield this.loadModules();
                     });
                 }
@@ -905,6 +783,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                                     createElement(ModuleCatalog, { onAdd: this.addModule, modules: this.state.modules }))))));
                 }
             }
+            ModuleManagerPage.contextType = AdminPageContext;
 
             var css$g = "section.Navigation {\n  background: #456;\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr)); }\n  section.Navigation a {\n    padding-bottom: 8px;\n    padding-top: 11px;\n    color: #ddd;\n    text-decoration: none;\n    border-bottom: 3px solid transparent;\n    text-align: center;\n    transition: 0.5s; }\n    section.Navigation a:hover, section.Navigation a:active, section.Navigation a.active {\n      background: transparent;\n      color: white; }\n    section.Navigation a:nth-child(1).active {\n      background: #4a8599; }\n    section.Navigation a:nth-child(1).active, section.Navigation a:nth-child(1):hover {\n      border-bottom: 3px solid #42e1f7; }\n    section.Navigation a:nth-child(2).active {\n      background: #69006f; }\n    section.Navigation a:nth-child(2).active, section.Navigation a:nth-child(2):hover {\n      border-bottom: 3px solid #f000ff; }\n    section.Navigation a:nth-child(3).active {\n      background: #5f5600; }\n    section.Navigation a:nth-child(3).active, section.Navigation a:nth-child(3):hover {\n      border-bottom: 3px solid #ffe700; }\n    section.Navigation a:nth-child(4).active {\n      background: #2f6108; }\n    section.Navigation a:nth-child(4).active, section.Navigation a:nth-child(4):hover {\n      border-bottom: 3px solid #74ee15; }\n    section.Navigation a:nth-child(5).active {\n      background: #001086; }\n    section.Navigation a:nth-child(5).active, section.Navigation a:nth-child(5):hover {\n      border-bottom: 3px solid #001eff; }\n";
             styleInject(css$g);
@@ -1490,7 +1369,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }
 
             class OptionsCardContextData {
-                constructor() {
+                constructor(context) {
+                    this.context = context;
                     this.onSave = new SimpleEvent();
                     // public onValidate = new SimpleEvent();
                     this.removedWebComponents = [];
@@ -1504,24 +1384,24 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         console.log('removedWebComponents', this.removedWebComponents);
                         console.log('createdWebComponents', this.createdWebComponents);
                         console.log('changedWebComponents', this.changedWebComponents);
-                        // delete webComponents
-                        for (const item of this.removedWebComponents) {
-                            yield apiClient.deleteWebComponentOptions(item);
-                        }
-                        // add webComponents
-                        for (const item of this.createdWebComponents) {
-                            yield apiClient.setWebComponentOptions(undefined, item);
-                        }
-                        // change webComponents
-                        for (const item of this.changedWebComponents) {
-                            yield apiClient.setWebComponentOptions(undefined, item);
+                        if (this.context) {
+                            // delete webComponents
+                            for (const item of this.removedWebComponents) {
+                                yield this.context.services.components.deleteWebComponentOptions(item.id);
+                            }
+                            // add webComponents
+                            for (const item of this.createdWebComponents) {
+                                yield this.context.services.components.setWebComponentOptions(item);
+                            }
+                            // change webComponents
+                            for (const item of this.changedWebComponents) {
+                                yield this.context.services.components.setWebComponentOptions(item);
+                            }
                         }
                         // reset context
                         this.removedWebComponents = [];
                         this.changedWebComponents = [];
                         this.createdWebComponents = [];
-                        // clear cache
-                        apiClient.getWebComponentOptions.clearCache();
                     });
                 }
                 webComponentRemoved(item) {
@@ -1622,7 +1502,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 loadWebComponents() {
                     return __awaiter(this, void 0, void 0, function* () {
                         try {
-                            const webComponents = yield apiClient.getWebComponentOptions();
+                            const webComponents = yield this.adminPageContext.services.components.getWebComponentOptions();
                             this.setState({ webComponents, loadingWebComponents: false }, this.initCurrentComponent);
                         }
                         catch (err) {
@@ -1916,7 +1796,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     const newOptions = this.setDefaultValues(props.options || {});
                     this.state = {
                         newOptions,
-                        formContext: new OptionsCardContextData(),
                         showDebug: false,
                         showExpertOptions: false,
                     };
@@ -1926,6 +1805,10 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.optionsChange = this.optionsChange.bind(this);
                     this.toggleStyleOptions = this.toggleStyleOptions.bind(this);
                     this.toggleDebug = this.toggleDebug.bind(this);
+                }
+                componentDidMount() {
+                    const formContext = new OptionsCardContextData(this.context);
+                    this.setState({ formContext });
                 }
                 // init fields
                 setDefaultValues(options) {
@@ -1946,8 +1829,10 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
                 save() {
                     return __awaiter(this, void 0, void 0, function* () {
-                        yield this.state.formContext.onSave.publish();
-                        return this.props.onSave(this.state.newOptions);
+                        if (this.state.formContext) {
+                            yield this.state.formContext.onSave.publish();
+                            return this.props.onSave(this.state.newOptions);
+                        }
                     });
                 }
                 cancel() {
@@ -1976,6 +1861,9 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                                 createElement(FontAwesomeIcon, { icon: this.state.showDebug ? faEye : faEyeSlash })))));
                 }
                 renderContent() {
+                    if (!this.state.formContext) {
+                        return null;
+                    }
                     return (createElement(OptionCardContext.Provider, { value: this.state.formContext },
                         createElement(OptionList, { fields: this.props.fields, value: this.state.newOptions, valueChange: this.optionsChange })));
                 }
@@ -2013,6 +1901,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.renderDebugStyle()));
                 }
             }
+            OptionCard.contextType = AdminPageContext;
 
             var css$o = "";
             styleInject(css$o);
@@ -2098,36 +1987,38 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.loadPages = this.loadPages.bind(this);
                     this.savePage = this.savePage.bind(this);
                     this.deletePage = this.deletePage.bind(this);
-                    this.hidePageDetailsDialog = this.hidePageDetailsDialog.bind(this);
-                    this.showPageDetailsDialog = this.showPageDetailsDialog.bind(this);
+                    this.hidePageDialog = this.hidePageDialog.bind(this);
+                    this.showPageEditDialog = this.showPageEditDialog.bind(this);
+                    this.showPageAddDialog = this.showPageAddDialog.bind(this);
                 }
                 componentDidMount() {
                     this.loadPages();
                 }
                 loadPages() {
                     this.setState({ loading: true });
-                    return apiClient.getWebPages()
+                    return this.context.services.pages.getWebPages()
                         .then(pages => this.setState({ pages, loading: false }))
                         .catch(err => this.setState({ loading: false })); // TODO
                 }
                 savePage(page) {
-                    return apiClient.setWebPage(undefined, page)
-                        .then(this.hidePageDetailsDialog)
-                        .then(apiClient.getWebPages.clearCache)
+                    return this.context.services.pages.setWebPage(page)
+                        .then(this.hidePageDialog)
                         .then(this.loadPages)
                         .catch(err => console.log(err)); // TODO
                 }
                 deletePage(page) {
-                    return apiClient.deleteWebPage(page)
-                        .then(this.hidePageDetailsDialog)
-                        .then(apiClient.getWebPages.clearCache)
+                    return this.context.services.pages.deleteWebPage(page.id)
+                        .then(this.hidePageDialog)
                         .then(this.loadPages)
                         .catch(err => console.log(err)); // TODO
                 }
-                showPageDetailsDialog(page) {
+                showPageEditDialog(page) {
                     this.setState({ showPageDetailsDialog: true, selectedPage: page });
                 }
-                hidePageDetailsDialog() {
+                showPageAddDialog() {
+                    this.setState({ showPageDetailsDialog: true, selectedPage: undefined });
+                }
+                hidePageDialog() {
                     this.setState({ showPageDetailsDialog: false, selectedPage: undefined });
                 }
                 renderPageCards() {
@@ -2135,12 +2026,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         return createElement(UiFlowLayout, null,
                             createElement(UiLoadingCard, null));
                     }
-                    return (createElement(UiFlowLayout, null, this.state.pages.map((item, index) => createElement(PageCard, { key: index, page: item, onEdit: this.showPageDetailsDialog, onDelete: confirm(this.deletePage, 'Delete?') }))));
+                    return (createElement(UiFlowLayout, null, this.state.pages.map((item, index) => createElement(PageCard, { key: index, page: item, onEdit: this.showPageEditDialog, onDelete: confirm(this.deletePage, 'Delete?') }))));
                 }
                 renderPageAddCard() {
                     return (createElement(UiFlowLayout, null,
                         createElement(UiCard, { className: "AddPageCard" },
-                            createElement(UiButton, { className: "addButton", onClick: this.showPageDetailsDialog },
+                            createElement(UiButton, { className: "addButton", onClick: this.showPageAddDialog },
                                 createElement(FontAwesomeIcon, { icon: faPlus }),
                                 " Add Page"))));
                 }
@@ -2151,7 +2042,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     const page = this.state.selectedPage;
                     const title = page ? 'Edit Page' : 'Add Page';
                     return (createElement(UiOverlay, null,
-                        createElement(OptionCard, { icon: faFile, showToggleStyleOptions: true, title: title, fields: pageOptionsFields, onSave: this.savePage, onCancel: this.hidePageDetailsDialog, options: page || {} })));
+                        createElement(OptionCard, { icon: faFile, showToggleStyleOptions: true, title: title, fields: pageOptionsFields, onSave: this.savePage, onCancel: this.hidePageDialog, options: page || {} })));
                 }
                 render() {
                     return (createElement("section", { className: "PageManagerPage" },
@@ -2160,6 +2051,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.renderPageDetailsDialog()));
                 }
             }
+            PageManagerPage.contextType = AdminPageContext;
 
             var css$q = "a.RoundButton {\n  position: absolute;\n  right: 20px;\n  top: 20px;\n  color: white;\n  border: 3px solid white;\n  border-radius: 18px;\n  padding: 8px;\n  text-decoration: none;\n  font-weight: bold;\n  min-width: 80px;\n  text-align: center; }\n  a.RoundButton:hover {\n    background: rgba(255, 255, 255, 0.178); }\n  a.RoundButton + a.RoundButton {\n    -webkit-transform: translateX(-100%);\n            transform: translateX(-100%);\n    margin-right: 10px; }\n  a.RoundButton svg {\n    margin-right: 6px; }\n";
             styleInject(css$q);
@@ -2205,11 +2097,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$t = ".ServiceManagerPage {\n  min-height: 100px; }\n";
+            var css$t = ".ServiceLogCard .filter-severity {\n  border: 1px solid #eee;\n  border-bottom: 4px solid #eee;\n  border-radius: 4px;\n  padding: 0 3px 0 3px;\n  display: inline-block;\n  margin-left: 6px; }\n  .ServiceLogCard .filter-severity:not(.active) {\n    color: #888; }\n  .ServiceLogCard .filter-severity.active {\n    border-color: #ddd; }\n    .ServiceLogCard .filter-severity.active.debug {\n      border-bottom-color: #888; }\n    .ServiceLogCard .filter-severity.active.info {\n      border-bottom-color: #4B4; }\n    .ServiceLogCard .filter-severity.active.warning {\n      border-bottom-color: #fb3; }\n    .ServiceLogCard .filter-severity.active.error {\n      border-bottom-color: red; }\n\n.ServiceLogCard .log-item {\n  padding: 0 3px 0 3px;\n  border: 1px solid #ddd;\n  border-left-width: 4px;\n  border-radius: 4px; }\n  .ServiceLogCard .log-item:hover {\n    border-color: #bbb;\n    background-color: #fefefe; }\n  .ServiceLogCard .log-item[data-severity='error'] {\n    border-left-color: red; }\n  .ServiceLogCard .log-item[data-severity='warning'] {\n    border-left-color: #fb3; }\n  .ServiceLogCard .log-item[data-severity='information'] {\n    border-left-color: #4B4; }\n  .ServiceLogCard .log-item[data-severity='debug'] {\n    border-left-color: #888; }\n  .ServiceLogCard .log-item .timestamp {\n    float: right;\n    line-height: 21px;\n    font-size: 11px;\n    color: #555; }\n  .ServiceLogCard .log-item .data {\n    font-family: monospace;\n    font-size: 12px;\n    word-break: break-word; }\n  .ServiceLogCard .log-item ~ .log-item {\n    margin-top: 3px; }\n";
             styleInject(css$t);
-
-            var css$u = ".ServiceLogCard .filter-severity {\n  border: 1px solid #eee;\n  border-bottom: 4px solid #eee;\n  border-radius: 4px;\n  padding: 0 3px 0 3px;\n  display: inline-block;\n  margin-left: 6px; }\n  .ServiceLogCard .filter-severity:not(.active) {\n    color: #888; }\n  .ServiceLogCard .filter-severity.active {\n    border-color: #ddd; }\n    .ServiceLogCard .filter-severity.active.debug {\n      border-bottom-color: #888; }\n    .ServiceLogCard .filter-severity.active.info {\n      border-bottom-color: #4B4; }\n    .ServiceLogCard .filter-severity.active.warning {\n      border-bottom-color: #fb3; }\n    .ServiceLogCard .filter-severity.active.error {\n      border-bottom-color: red; }\n\n.ServiceLogCard .log-item {\n  padding: 0 3px 0 3px;\n  border: 1px solid #ddd;\n  border-left-width: 4px;\n  border-radius: 4px; }\n  .ServiceLogCard .log-item:hover {\n    border-color: #bbb;\n    background-color: #fefefe; }\n  .ServiceLogCard .log-item[data-severity='error'] {\n    border-left-color: red; }\n  .ServiceLogCard .log-item[data-severity='warning'] {\n    border-left-color: #fb3; }\n  .ServiceLogCard .log-item[data-severity='information'] {\n    border-left-color: #4B4; }\n  .ServiceLogCard .log-item[data-severity='debug'] {\n    border-left-color: #888; }\n  .ServiceLogCard .log-item .timestamp {\n    float: right;\n    line-height: 21px;\n    font-size: 11px;\n    color: #555; }\n  .ServiceLogCard .log-item .data {\n    font-family: monospace;\n    font-size: 12px;\n    word-break: break-word; }\n  .ServiceLogCard .log-item ~ .log-item {\n    margin-top: 3px; }\n";
-            styleInject(css$u);
 
             class ServiceLogCard extends Component {
                 constructor(props) {
@@ -2250,9 +2139,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 // }
                 loadLog() {
                     const source = this.props.service.moduleName + '.' + this.props.service.name;
-                    apiClient.getLogEntries(undefined, { source }).then(log => {
-                        this.setState({ log, loading: false });
-                    });
+                    this.context.services.log.getLogEntries(source)
+                        .then(log => this.setState({ log, loading: false }));
                 }
                 toggleDebug() {
                     this.setState(prevState => ({ showDebug: !prevState.showDebug }));
@@ -2329,6 +2217,10 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.renderButtons()));
                 }
             }
+            ServiceLogCard.contextType = AdminPageContext;
+
+            var css$u = ".ServiceManagerPage {\n  min-height: 100px; }\n";
+            styleInject(css$u);
 
             class ServiceManagerPage extends Component {
                 constructor(props) {
@@ -2357,7 +2249,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.loadServices();
                 }
                 loadServices() {
-                    return apiClient.getAllServices()
+                    return this.context.services.services.getAllServices()
                         .then(services => this.setState({ services, loadingServices: false }))
                         .catch(err => this.setState({ loadingServices: false })); // TODO
                 }
@@ -2384,13 +2276,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         return;
                     }
                     this.setState({ loadingServiceOptions: true });
-                    apiClient.getServiceOptions(undefined, {
-                        moduleName: this.state.selectedService.moduleName,
-                        serviceName: this.state.selectedService.name
-                    })
-                        .then(options => {
-                        this.setState({ selectedServiceOptions: options, loadingServiceOptions: false });
-                    });
+                    this.context.services.services.getServiceOptions(this.state.selectedService.moduleName, this.state.selectedService.name)
+                        .then(options => this.setState({ selectedServiceOptions: options, loadingServiceOptions: false }));
                 }
                 optionsChange(newOptions) {
                     this.setState({ selectedServiceOptions: newOptions });
@@ -2399,12 +2286,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     if (!this.state.selectedService) {
                         return;
                     }
-                    apiClient.setServiceOptions(undefined, {
-                        moduleName: this.state.selectedService.moduleName,
-                        serviceName: this.state.selectedService.name,
-                        options: newOptions
-                    });
-                    this.closeOptions();
+                    this.context.services.services.setServiceOptions(this.state.selectedService.moduleName, this.state.selectedService.name, newOptions)
+                        .then(() => this.closeOptions());
                 }
                 renderServiceOptionsDialog() {
                     if (!this.state.showOptions || !this.state.selectedService) {
@@ -2467,6 +2350,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.renderServiceDetailsDialog()));
                 }
             }
+            ServiceManagerPage.contextType = AdminPageContext;
             function onlyUnique(value, index, self) {
                 return self.indexOf(value) === index;
             }
@@ -2483,7 +2367,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.onSelectValueChange = this.onSelectValueChange.bind(this);
                 }
                 componentDidMount() {
-                    apiClient.getWebPages().then(pages => this.setState({ pages }));
+                    this.context.services.pages.getWebPages().then(pages => this.setState({ pages }));
                 }
                 render() {
                     const options = this.state.pages.map(page => createElement("option", { key: page.id, value: page.path },
@@ -2613,13 +2497,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.loadSettings();
                 }
                 loadSettings() {
-                    return apiClient.getSettings()
+                    return this.context.services.application.getSettings()
                         .then(settings => this.setState({ settings, loading: false }))
                         .catch(); // TODO
                 }
                 saveSettings(newSettings) {
-                    return apiClient.setSettings(undefined, newSettings)
-                        .then(apiClient.getSettings.clearCache)
+                    return this.context.services.application.setSettings(newSettings)
                         .catch(); // TODO
                 }
                 render() {
@@ -2630,6 +2513,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             createElement(OptionCard, { options: this.state.settings, onSave: this.saveSettings, fields: systemSettingsFields, icon: faCogs, title: "Settings", showReset: true })))));
                 }
             }
+            SettingsManagerPage.contextType = AdminPageContext;
 
             var css$w = "section.SystemPage .danger {\n  border: 1px solid red; }\n  section.SystemPage .danger .UiCardTitle {\n    color: red; }\n\nsection.SystemPage .infoRow {\n  display: grid;\n  grid-template-columns: 100px auto; }\n\nsection.SystemPage .loadingDots {\n  position: absolute;\n  -webkit-transform: translateY(-54%);\n          transform: translateY(-54%); }\n  section.SystemPage .loadingDots:after {\n    font-size: 3em;\n    font-family: Impact;\n    content: ' .';\n    -webkit-animation: dots 1.5s steps(10, end) infinite;\n            animation: dots 1.5s steps(10, end) infinite; }\n\n@-webkit-keyframes dots {\n  0%,\n  10%,\n  90%,\n  100% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0); }\n  20% {\n    color: #888;\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0); }\n  30% {\n    color: #888;\n    text-shadow: 0.25em 0 0 #888, 0.5em 0 0 rgba(0, 0, 0, 0); }\n  40%,\n  60% {\n    color: #888;\n    text-shadow: .25em 0 0 #888, .5em 0 0 #888; }\n  70% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: .25em 0 0 #888, .5em 0 0 #888; }\n  80% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 #888; } }\n\n@keyframes dots {\n  0%,\n  10%,\n  90%,\n  100% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0); }\n  20% {\n    color: #888;\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0); }\n  30% {\n    color: #888;\n    text-shadow: 0.25em 0 0 #888, 0.5em 0 0 rgba(0, 0, 0, 0); }\n  40%,\n  60% {\n    color: #888;\n    text-shadow: .25em 0 0 #888, .5em 0 0 #888; }\n  70% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: .25em 0 0 #888, .5em 0 0 #888; }\n  80% {\n    color: rgba(0, 0, 0, 0);\n    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 #888; } }\n";
             styleInject(css$w);
@@ -2645,23 +2529,23 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.resetApplication = this.resetApplication.bind(this);
                 }
                 componentDidMount() {
-                    apiClient.getServerInfo().then(info => this.setState({ info }));
+                    this.context.services.application.getServerInfo().then(info => this.setState({ info }));
                 }
                 // TODO: confirm dialog
                 exitApplication() {
-                    return apiClient.exitApplication();
+                    return this.context.services.application.exitApplication();
                 }
                 restartApplication() {
-                    return apiClient.restartApplication();
+                    return this.context.services.application.restartApplication();
                 }
                 shutdownSystem() {
-                    return apiClient.shutdownSystem();
+                    return this.context.services.application.shutdownSystem();
                 }
                 rebootSystem() {
-                    return apiClient.rebootSystem();
+                    return this.context.services.application.rebootSystem();
                 }
                 resetApplication() {
-                    return apiClient.resetApplication();
+                    return this.context.services.application.resetApplication();
                 }
                 renderLoadingDots() {
                     return createElement("span", { className: "loadingDots" });
@@ -2725,6 +2609,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             this.renderDangerCard())));
                 }
             }
+            SystemPage.contextType = AdminPageContext;
 
             var css$x = "section.Admin {\n  height: 100%;\n  overflow: auto;\n  background: #fdfdfd; }\n  section.Admin > header {\n    background-color: #456;\n    color: white;\n    position: relative;\n    z-index: 2; }\n    section.Admin > header .title {\n      display: inline-block;\n      font-size: 1.5em;\n      margin: 25px;\n      text-align: center; }\n  section.Admin > .content {\n    position: relative;\n    font-size: 14px;\n    line-height: 1.5; }\n  section.Admin section.Navigation {\n    position: -webkit-sticky;\n    position: sticky;\n    top: 0;\n    z-index: 2;\n    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); }\n  section.Admin a {\n    text-decoration: none; }\n  section.Admin a,\n  section.Admin label,\n  section.Admin .clickable {\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    white-space: nowrap; }\n    section.Admin a svg,\n    section.Admin label svg,\n    section.Admin .clickable svg {\n      margin-right: 3px; }\n  section.Admin label {\n    cursor: unset; }\n  section.Admin .clickable {\n    padding-left: 8px;\n    padding-right: 8px; }\n    section.Admin .clickable.disabled {\n      cursor: default;\n      color: #bbb; }\n    section.Admin .clickable:not(.disabled) {\n      cursor: pointer; }\n      section.Admin .clickable:not(.disabled):active {\n        background: #ddd; }\n  section.Admin select,\n  section.Admin textarea,\n  section.Admin input {\n    background: white;\n    font-size: 16px;\n    text-overflow: ellipsis; }\n  section.Admin input[type=range] {\n    display: block; }\n  section.Admin svg {\n    -webkit-backface-visibility: hidden;\n            backface-visibility: hidden; }\n";
             styleInject(css$x);

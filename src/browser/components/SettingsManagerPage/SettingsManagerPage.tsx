@@ -1,11 +1,11 @@
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
-import { ISystemSettings } from '@schirkan/reactron-interfaces';
+import { ISystemSettings, IReactronComponentContext } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
-import { apiClient } from '../../ApiClient';
 import OptionCard from '../OptionCard/OptionCard';
 import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
 import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
 import { systemSettingsFields } from './systemSettingsFields';
+import { AdminPageContext } from '../AdminPageContext';
 
 import './SettingsManagerPage.scss';
 
@@ -15,6 +15,9 @@ export interface IModuleManagerPageState {
 }
 
 export default class SettingsManagerPage extends React.Component<any, IModuleManagerPageState>{
+  public static contextType = AdminPageContext;
+  public context: IReactronComponentContext;
+
   constructor(props: any) {
     super(props);
 
@@ -29,14 +32,13 @@ export default class SettingsManagerPage extends React.Component<any, IModuleMan
   }
 
   public loadSettings(): Promise<void> {
-    return apiClient.getSettings()
+    return this.context.services.application.getSettings()
       .then(settings => this.setState({ settings, loading: false }))
       .catch(); // TODO
   }
 
   public saveSettings(newSettings: ISystemSettings): Promise<void> {
-    return apiClient.setSettings(undefined, newSettings)
-      .then(apiClient.getSettings.clearCache)
+    return this.context.services.application.setSettings(newSettings)
       .catch(); // TODO
   }
 

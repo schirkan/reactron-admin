@@ -1,9 +1,8 @@
 import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IServiceRepositoryItem } from '@schirkan/reactron-interfaces';
+import { IServiceRepositoryItem, IReactronComponentContext } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
-import { apiClient } from '../../ApiClient';
 import Loading from '../Loading/Loading';
 import OptionCard from '../OptionCard/OptionCard';
 import UiButton from '../UiButton/UiButton';
@@ -15,9 +14,10 @@ import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
 import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
 import UiOverlay from '../UiOverlay/UiOverlay';
 import ServiceGroupCard from './ServiceGroupCard/ServiceGroupCard';
+import ServiceLogCard from './ServiceLogCard/ServiceLogCard';
+import { AdminPageContext } from '../AdminPageContext';
 
 import './ServiceManagerPage.scss';
-import ServiceLogCard from './ServiceLogCard/ServiceLogCard';
 
 export interface IModuleManagerPageState {
   loadingServices: boolean;
@@ -31,6 +31,9 @@ export interface IModuleManagerPageState {
 }
 
 export default class ServiceManagerPage extends React.Component<any, IModuleManagerPageState> {
+  public static contextType = AdminPageContext;
+  public context: IReactronComponentContext;
+
   constructor(props: any) {
     super(props);
 
@@ -61,7 +64,7 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
   }
 
   public loadServices() {
-    return apiClient.getAllServices()
+    return this.context.services.services.getAllServices()
       .then(services => this.setState({ services, loadingServices: false }))
       .catch(err => this.setState({ loadingServices: false })); // TODO
   }
@@ -97,13 +100,8 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
 
     this.setState({ loadingServiceOptions: true });
 
-    apiClient.getServiceOptions(undefined, {
-      moduleName: this.state.selectedService.moduleName,
-      serviceName: this.state.selectedService.name
-    })
-      .then(options => {
-        this.setState({ selectedServiceOptions: options, loadingServiceOptions: false })
-      });
+    this.context.services.services.getServiceOptions(this.state.selectedService.moduleName, this.state.selectedService.name)
+      .then(options => this.setState({ selectedServiceOptions: options, loadingServiceOptions: false }));
   }
 
   private optionsChange(newOptions: any) {
@@ -115,13 +113,8 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
       return;
     }
 
-    apiClient.setServiceOptions(undefined, {
-      moduleName: this.state.selectedService.moduleName,
-      serviceName: this.state.selectedService.name,
-      options: newOptions
-    });
-
-    this.closeOptions();
+    this.context.services.services.setServiceOptions(this.state.selectedService.moduleName, this.state.selectedService.name, newOptions)
+      .then(() => this.closeOptions());
   }
 
   private renderServiceOptionsDialog() {

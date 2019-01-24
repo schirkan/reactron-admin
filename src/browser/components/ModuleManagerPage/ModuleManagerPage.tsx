@@ -1,6 +1,5 @@
-import { ICommandResult, IModuleRepositoryItem } from '@schirkan/reactron-interfaces';
+import { ICommandResult, IModuleRepositoryItem, IReactronComponentContext } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
-import { apiClient } from '../../ApiClient';
 import Loading from '../Loading/Loading';
 import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
 import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
@@ -12,6 +11,7 @@ import CommandResult from './CommandResult/CommandResult';
 import ModuleCard from './ModuleCard/ModuleCard';
 import ModuleCatalog from './ModuleCatalog/ModuleCatalog';
 import UpdateModulesCard from './UpdateModulesCard/UpdateModulesCard';
+import { AdminPageContext } from '../AdminPageContext';
 
 import './ModuleManagerPage.scss';
 
@@ -24,6 +24,9 @@ export interface IModuleManagerPageState {
 }
 
 export default class ModuleManagerPage extends React.Component<any, IModuleManagerPageState> {
+  public static contextType = AdminPageContext;
+  public context: IReactronComponentContext;
+
   constructor(props: any) {
     super(props);
 
@@ -50,16 +53,15 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
   }
 
   public loadModules(): Promise<void> {
-    return apiClient.getModules()
+    return this.context.services.modules.getModules()
       .then(modules => this.setState({ modules }))
       .catch(); // TODO
   }
 
   public async checkUpdates(): Promise<void> {
     this.setState({ checkingUpdates: true });
-    await apiClient.checkUpdates();
+    await this.context.services.modules.checkUpdates();
     this.setState({ checkingUpdates: false });
-    apiClient.getModules.clearCache();
     await this.loadModules();
   }
 
@@ -73,14 +75,13 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
     this.setState({ loading: true });
     try {
       for (const module of modulesWithUpdates) {
-        const result = await apiClient.updateModule(undefined, { moduleName: module.name });
+        const result = await this.context.services.modules.updateModule(module.name);
         results.push(...result);
       }
       this.showResult(results);
     } catch (error) {
       this.showError(error);
     }
-    apiClient.getModules.clearCache();
     await this.loadModules();
   }
 
@@ -91,12 +92,11 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await apiClient.updateModule(undefined, { moduleName: module.name });
+      const result = await this.context.services.modules.updateModule(module.name);
       this.showResult(result);
     } catch (error) {
       this.showError(error);
     }
-    apiClient.getModules.clearCache();
     await this.loadModules();
   }
 
@@ -107,12 +107,11 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await apiClient.rebuildModule(undefined, { moduleName: module.name });
+      const result = await this.context.services.modules.rebuildModule(module.name);
       this.showResult(result);
     } catch (error) {
       this.showError(error);
     }
-    apiClient.getModules.clearCache();
     await this.loadModules();
   }
 
@@ -123,12 +122,11 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await apiClient.deleteModule(undefined, { moduleName: module.name });
+      const result = await this.context.services.modules.deleteModule(module.name);
       this.showResult(result);
     } catch (error) {
       this.showError(error);
     }
-    apiClient.getModules.clearCache();
     await this.loadModules();
   }
 
@@ -139,12 +137,11 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await apiClient.addModule(undefined, { repository });
+      const result = await this.context.services.modules.addModule(repository);
       this.showResult(result);
     } catch (error) {
       this.showError(error);
     }
-    apiClient.getModules.clearCache();
     await this.loadModules();
   }
 

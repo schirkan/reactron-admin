@@ -1,9 +1,8 @@
 import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IWebPageOptions } from '@schirkan/reactron-interfaces';
+import { IWebPageOptions, IReactronComponentContext } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
-import { apiClient } from '../../ApiClient';
 import { confirm } from '../confirmDialog';
 import OptionCard from '../OptionCard/OptionCard';
 import UiButton from '../UiButton/UiButton';
@@ -13,6 +12,7 @@ import UiLoadingCard from '../UiLoadingCard/UiLoadingCard';
 import UiOverlay from '../UiOverlay/UiOverlay';
 import PageCard from './PageCard/PageCard';
 import { pageOptionsFields } from './pageOptionsFields';
+import { AdminPageContext } from '../AdminPageContext';
 
 import './PageManagerPage.scss';
 
@@ -24,6 +24,9 @@ export interface IModuleManagerPageState {
 }
 
 export default class PageManagerPage extends React.Component<any, IModuleManagerPageState> {
+  public static contextType = AdminPageContext;
+  public context: IReactronComponentContext;
+
   constructor(props: any) {
     super(props);
 
@@ -36,8 +39,9 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
     this.loadPages = this.loadPages.bind(this);
     this.savePage = this.savePage.bind(this);
     this.deletePage = this.deletePage.bind(this);
-    this.hidePageDetailsDialog = this.hidePageDetailsDialog.bind(this);
-    this.showPageDetailsDialog = this.showPageDetailsDialog.bind(this);
+    this.hidePageDialog = this.hidePageDialog.bind(this);
+    this.showPageEditDialog = this.showPageEditDialog.bind(this);
+    this.showPageAddDialog = this.showPageAddDialog.bind(this);
   }
 
   public componentDidMount() {
@@ -47,32 +51,34 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
   private loadPages(): Promise<void> {
     this.setState({ loading: true });
 
-    return apiClient.getWebPages()
+    return this.context.services.pages.getWebPages()
       .then(pages => this.setState({ pages, loading: false }))
       .catch(err => this.setState({ loading: false })); // TODO
   }
 
   private savePage(page: IWebPageOptions): Promise<void> {
-    return apiClient.setWebPage(undefined, page)
-      .then(this.hidePageDetailsDialog)
-      .then(apiClient.getWebPages.clearCache)
+    return this.context.services.pages.setWebPage(page)
+      .then(this.hidePageDialog)
       .then(this.loadPages)
       .catch(err => console.log(err)); // TODO
   }
 
   private deletePage(page: IWebPageOptions): Promise<void> {
-    return apiClient.deleteWebPage(page)
-      .then(this.hidePageDetailsDialog)
-      .then(apiClient.getWebPages.clearCache)
+    return this.context.services.pages.deleteWebPage(page.id)
+      .then(this.hidePageDialog)
       .then(this.loadPages)
       .catch(err => console.log(err)); // TODO
   }
 
-  private showPageDetailsDialog(page?: IWebPageOptions) {
+  private showPageEditDialog(page: IWebPageOptions) {
     this.setState({ showPageDetailsDialog: true, selectedPage: page });
   }
 
-  private hidePageDetailsDialog() {
+  private showPageAddDialog() {
+    this.setState({ showPageDetailsDialog: true, selectedPage: undefined });
+  }
+
+  private hidePageDialog() {
     this.setState({ showPageDetailsDialog: false, selectedPage: undefined });
   }
 
@@ -84,7 +90,7 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
     return (
       <UiFlowLayout>
         {this.state.pages.map((item, index) =>
-          <PageCard key={index} page={item} onEdit={this.showPageDetailsDialog}
+          <PageCard key={index} page={item} onEdit={this.showPageEditDialog}
             onDelete={confirm(this.deletePage, 'Delete?')} />
         )}
       </UiFlowLayout>
@@ -95,7 +101,7 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
     return (
       <UiFlowLayout>
         <UiCard className="AddPageCard">
-          <UiButton className="addButton" onClick={this.showPageDetailsDialog}>
+          <UiButton className="addButton" onClick={this.showPageAddDialog}>
             <FontAwesomeIcon icon={SolidIcons.faPlus} /> Add Page
           </UiButton>
         </UiCard>
@@ -115,7 +121,7 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
       <UiOverlay>
         <OptionCard icon={RegularIcons.faFile} showToggleStyleOptions={true}
           title={title} fields={pageOptionsFields}
-          onSave={this.savePage} onCancel={this.hidePageDetailsDialog} options={page || {}}
+          onSave={this.savePage} onCancel={this.hidePageDialog} options={page || {}}
         />
       </UiOverlay>
     );

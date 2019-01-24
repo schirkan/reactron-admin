@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IInputComponentProps, IReactronComponentContext, IReactronComponentDefinition, IWebComponentOptions } from '@schirkan/reactron-interfaces';
 import { Guid } from 'guid-typescript';
 import * as React from 'react';
-import { apiClient } from 'src/browser/ApiClient';
 import { getDefaultObjectValue } from 'src/common/optionsHelper';
 import { AdminPageContext } from '../../../AdminPageContext';
 import { OptionCardContext, OptionsCardContextData } from '../../../OptionCard/OptionCardContext';
@@ -92,7 +91,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
 
   private async loadWebComponents() {
     try {
-      const webComponents = await apiClient.getWebComponentOptions();
+      const webComponents = await this.adminPageContext.services.components.getWebComponentOptions();
       this.setState({ webComponents, loadingWebComponents: false }, this.initCurrentComponent);
     }
     catch (err) {

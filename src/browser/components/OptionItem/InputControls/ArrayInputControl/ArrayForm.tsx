@@ -97,7 +97,7 @@ export default class ArrayForm extends React.Component<IInputComponentProps> {
     return (
       <React.Fragment key={key}>
         <OptionItem definition={arrayItemDefinition} value={value}
-          valueChange={this.arrayItemChange.bind(this, index)} >
+          valueChange={this.arrayItemChange.bind(this, index)}>
           <UiButton onClick={this.arrayItemRemove.bind(this, index)}>
             <FontAwesomeIcon icon={RegularIcons.faTrashAlt} />
           </UiButton>

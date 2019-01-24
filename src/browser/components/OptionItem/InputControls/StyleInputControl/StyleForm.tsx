@@ -102,7 +102,7 @@ export default class StyleForm extends React.Component<IInputComponentProps, ISt
         {this.state.fields.map(field => {
           const value = this.props.value && this.props.value[field.name];
           return (
-            <OptionItem key={field.name} definition={field} value={value} valueChange={this.valueChange} >
+            <OptionItem key={field.name} definition={field} value={value} valueChange={this.valueChange}>
               <UiButton onClick={this.removeField.bind(this, field.name)}>
                 <FontAwesomeIcon icon={RegularIcons.faTrashAlt} />
               </UiButton>

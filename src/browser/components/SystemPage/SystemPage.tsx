@@ -2,7 +2,6 @@ import * as SvgIcons from '@fortawesome/free-solid-svg-icons';
 import * as FontAwesome from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { IServerInfo } from 'src/common/interfaces/IServerInfo';
-import { apiClient } from '../../ApiClient';
 import { confirm } from '../confirmDialog';
 import UiButton from '../UiButton/UiButton';
 import UiCard from '../UiCard/UiCard';
@@ -10,6 +9,8 @@ import UiCardButtonRow from '../UiCardButtonRow/UiCardButtonRow';
 import UiCardContent from '../UiCardContent/UiCardContent';
 import UiCardTitle from '../UiCardTitle/UiCardTitle';
 import UiFlowLayout from '../UiFlowLayout/UiFlowLayout';
+import { AdminPageContext } from '../AdminPageContext';
+import { IReactronComponentContext } from '@schirkan/reactron-interfaces';
 
 import './SystemPage.scss';
 
@@ -18,6 +19,9 @@ interface ISystemPageState {
 }
 
 export default class SystemPage extends React.Component<any, ISystemPageState> {
+  public static contextType = AdminPageContext;
+  public context: IReactronComponentContext;
+
   constructor(props: any) {
     super(props);
     this.state = {};
@@ -30,29 +34,29 @@ export default class SystemPage extends React.Component<any, ISystemPageState> {
   }
 
   public componentDidMount() {
-    apiClient.getServerInfo().then(info => this.setState({ info }));
+    this.context.services.application.getServerInfo().then(info => this.setState({ info }));
   }
 
   // TODO: confirm dialog
 
   private exitApplication() {
-    return apiClient.exitApplication();
+    return this.context.services.application.exitApplication();
   }
 
   private restartApplication() {
-    return apiClient.restartApplication();
+    return this.context.services.application.restartApplication();
   }
 
   private shutdownSystem() {
-    return apiClient.shutdownSystem();
+    return this.context.services.application.shutdownSystem();
   }
 
   private rebootSystem() {
-    return apiClient.rebootSystem();
+    return this.context.services.application.rebootSystem();
   }
 
   private resetApplication() {
-    return apiClient.resetApplication();
+    return this.context.services.application.resetApplication();
   }
 
   private renderLoadingDots() {
