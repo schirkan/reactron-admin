@@ -2361,13 +2361,11 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.onSelectValueChange = (e) => {
                         this.props.valueChange(this.props.definition, e.currentTarget.value);
                     };
-                    this.state = {
-                        pages: []
-                    };
+                    this.state = { pages: [] };
                     this.onSelectValueChange = this.onSelectValueChange.bind(this);
                 }
                 componentDidMount() {
-                    this.context.services.pages.getWebPages().then(pages => this.setState({ pages }));
+                    this.props.context.services.pages.getWebPages().then(pages => this.setState({ pages }));
                 }
                 render() {
                     const options = this.state.pages.map(page => createElement("option", { key: page.id, value: page.path },

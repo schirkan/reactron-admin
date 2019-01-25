@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript';
 import autoprefixer from 'autoprefixer';
+import ts from 'typescript';
 
 export default {
     input: './src/browser/index.ts',
@@ -13,7 +14,7 @@ export default {
         sourcemap: true
     }],
     plugins: [
-        typescript(),
+        typescript({ typescript: ts }),
         postcss({ plugins: [autoprefixer()] }),
         babel({ exclude: 'node_modules/**' }),
         resolve(),

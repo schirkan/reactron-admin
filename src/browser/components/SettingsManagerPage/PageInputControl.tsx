@@ -6,20 +6,16 @@ export interface IPageInputControlState {
 }
 
 export class PageInputControl extends React.Component<IInputComponentProps, IPageInputControlState> {
-  public context: IReactronComponentContext;
-
   constructor(props: IInputComponentProps) {
     super(props);
 
-    this.state = {
-      pages: []
-    };
+    this.state = { pages: [] };
 
     this.onSelectValueChange = this.onSelectValueChange.bind(this);
   }
 
   public componentDidMount() {
-    this.context.services.pages.getWebPages().then(pages => this.setState({ pages }));
+    this.props.context.services.pages.getWebPages().then(pages => this.setState({ pages }));
   }
 
   private onSelectValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -28,9 +24,11 @@ export class PageInputControl extends React.Component<IInputComponentProps, IPag
 
   public render() {
     const options = this.state.pages.map(page => <option key={page.id} value={page.path}>{page.title} ({page.path})</option>);
-    return (<select id={this.props.uniqueId} value={this.props.value} onChange={this.onSelectValueChange}>
-      <option>Select page...</option>
-      {options}
-    </select>);
+    return (
+      <select id={this.props.uniqueId} value={this.props.value} onChange={this.onSelectValueChange}>
+        <option>Select page...</option>
+        {options}
+      </select>
+    );
   }
 }
