@@ -57,8 +57,9 @@ export default class OptionCard extends React.Component<IOptionCardProps, IOptio
     this.toggleDebug = this.toggleDebug.bind(this);
   }
 
-  public componentDidMount() {
+  public async componentDidMount() {
     const formContext = new OptionsCardContextData(this.context);
+    await formContext.init();
     this.setState({ formContext });
   }
 

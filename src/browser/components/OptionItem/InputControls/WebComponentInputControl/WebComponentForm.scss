@@ -1,7 +1,7 @@
 .WebComponentForm {
     .componentTitle {
         display: grid;
-        grid-template-columns: 33px auto 33px;
+        grid-template-columns: 33px auto 33px 33px;
         border-bottom: 1px solid #eee;
     }
     .componentSelect {
@@ -18,7 +18,6 @@
 }
 
 .OptionItem[data-valuetype=webComponent][data-isarray=true]>.item-header,
-.OptionItem[data-valuetype=webComponent][data-isarray=true]>.item-details>.OptionItem>.item-header
-{
+.OptionItem[data-valuetype=webComponent][data-isarray=true]>.item-details>.OptionItem>.item-header {
     display: grid;
 }

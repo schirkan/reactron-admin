@@ -1,6 +1,6 @@
 System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontawesome', 'react', 'react-router-dom', '@fortawesome/free-brands-svg-icons', '@fortawesome/free-regular-svg-icons', 'moment', 'moment-timezone'], function (exports, module) {
     'use strict';
-    var faSpinner, faPlus, faTimes, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faCubes, faSyncAlt, faList, faArrowDown, faArrowRight, faUndo, faSave, faCogs, faArrowUp, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faHome, FontAwesomeIcon, createContext, Component, createElement, Fragment, NavLink, Link, Switch, Route, Redirect, faGithub, faCss3, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, faFile, faArrowAltCircleRight, faEdit, moment, momentTimezone;
+    var faSpinner, faPlus, faTimes, faCheck, faQuestion, faStarOfLife, faCube, faCog, faDownload, faTrashAlt, faCubes, faSyncAlt, faList, faExternalLinkAlt, faArrowDown, faArrowRight, faUndo, faSave, faCogs, faArrowUp, faSignOutAlt, faRedo, faPowerOff, faExclamationTriangle, faHome, FontAwesomeIcon, createContext, Component, createElement, Fragment, NavLink, Link, Switch, Route, Redirect, faGithub, faCss3, faTrashAlt$1, faArrowAltCircleUp, faArrowAltCircleDown, faEyeSlash, faEye, faFile, faArrowAltCircleRight, faEdit, moment, momentTimezone;
     return {
         setters: [function (module) {
             faSpinner = module.faSpinner;
@@ -16,6 +16,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             faCubes = module.faCubes;
             faSyncAlt = module.faSyncAlt;
             faList = module.faList;
+            faExternalLinkAlt = module.faExternalLinkAlt;
             faArrowDown = module.faArrowDown;
             faArrowRight = module.faArrowRight;
             faUndo = module.faUndo;
@@ -1376,8 +1377,19 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.removedWebComponents = [];
                     this.changedWebComponents = [];
                     this.createdWebComponents = [];
+                    this.components = [];
                     this.saveWebComponents = this.saveWebComponents.bind(this);
                     this.onSave.subscribe(this.saveWebComponents);
+                }
+                init() {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        if (this.context) {
+                            this.components = yield this.context.services.components.getWebComponentOptions();
+                        }
+                    });
+                }
+                getClipBoardComponents() {
+                    return this.components.filter(x => !x.parentId);
                 }
                 saveWebComponents() {
                     return __awaiter(this, void 0, void 0, function* () {
@@ -1416,6 +1428,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         // add to removedWebComponents
                         this.removedWebComponents.push(item);
                     }
+                    // remove from list
+                    this.components = this.components.filter(x => x.id !== item.id);
                 }
                 webComponentChanged(item) {
                     console.log('webComponentChanged', item);
@@ -1433,6 +1447,20 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         // add to changedWebComponents
                         this.changedWebComponents.push(item);
                     }
+                    // check if previously removed
+                    const removedItemIndex = this.removedWebComponents.findIndex(x => x.id === item.id);
+                    if (removedItemIndex >= 0) {
+                        // remove old item from removedWebComponents
+                        this.removedWebComponents.splice(removedItemIndex, 1);
+                    }
+                    // add / update list
+                    const existingComponentIndex = this.components.findIndex(x => x.id === item.id);
+                    if (existingComponentIndex >= 0) {
+                        this.components[existingComponentIndex] = item;
+                    }
+                    else {
+                        this.components.push(item);
+                    }
                 }
                 webComponentCreated(item) {
                     console.log('webComponentCreated', item);
@@ -1446,7 +1474,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }
             const WebComponentFormContext = createContext(new WebComponentFormContextData());
 
-            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.OptionItem[data-valuetype=webComponent][data-isarray=true] > .item-header,\n.OptionItem[data-valuetype=webComponent][data-isarray=true] > .item-details > .OptionItem > .item-header {\n  display: grid; }\n";
+            var css$k = ".WebComponentForm .componentTitle {\n  display: grid;\n  grid-template-columns: 33px auto 33px 33px;\n  border-bottom: 1px solid #eee; }\n\n.WebComponentForm .componentSelect {\n  display: grid;\n  grid-template-columns: 33px -webkit-min-content auto;\n  grid-template-columns: 33px min-content auto; }\n  .WebComponentForm .componentSelect select {\n    width: 100%; }\n\n.OptionItem[data-valuetype=webComponent] > .item-header {\n  display: none; }\n\n.OptionItem[data-valuetype=webComponent][data-isarray=true] > .item-header,\n.OptionItem[data-valuetype=webComponent][data-isarray=true] > .item-details > .OptionItem > .item-header {\n  display: grid; }\n";
             styleInject(css$k);
 
             class WebComponentForm extends Component {
@@ -1461,6 +1489,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.initCurrentComponent = this.initCurrentComponent.bind(this);
                     this.onOptionsChange = this.onOptionsChange.bind(this);
                     this.removeWebComponent = this.removeWebComponent.bind(this);
+                    this.cutWebComponent = this.cutWebComponent.bind(this);
                     this.onSelectedComponentDefinitionChange = this.onSelectedComponentDefinitionChange.bind(this);
                 }
                 get formEvents() {
@@ -1470,15 +1499,13 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.loadComponentDefinitions();
                     this.loadWebComponents();
                 }
-                // public componentDidUpdate(prevProps: IInputComponentProps) {
-                //   if (prevProps.value !== this.props.value) {
-                //     this.initCurrentComponent();
-                //   }
-                // }
-                componentWillUnmount() {
-                    if (this.state.selectedWebComponentOptions) {
-                        this.formEvents.webComponentRemoved(this.state.selectedWebComponentOptions);
+                componentDidUpdate(prevProps) {
+                    if (prevProps.value !== this.props.value) {
+                        this.initCurrentComponent();
                     }
+                }
+                componentWillUnmount() {
+                    if (this.state.selectedWebComponentOptions) ;
                 }
                 loadComponentDefinitions() {
                     return __awaiter(this, void 0, void 0, function* () {
@@ -1528,6 +1555,16 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 onSelectedComponentDefinitionChange(e) {
                     const newKey = e.currentTarget.value;
                     const selectedComponentDefinition = this.state.componentDefinitions.find(x => x.key === newKey);
+                    if (!selectedComponentDefinition) {
+                        const existingComponent = this.context.getClipBoardComponents().find(x => x.id === newKey);
+                        if (existingComponent) {
+                            // update parentId for existing component
+                            existingComponent.parentId = this.optionItemContext.parentComponent && this.optionItemContext.parentComponent.id;
+                            // use existing component
+                            this.props.valueChange(this.props.definition, newKey);
+                        }
+                        return;
+                    }
                     const currentWebComponentOptions = this.state.selectedWebComponentOptions;
                     let newWebComponentOptions;
                     if (selectedComponentDefinition) {
@@ -1555,6 +1592,18 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                     }
                     this.setState({ selectedWebComponentOptions: newWebComponentOptions, selectedComponentDefinition });
+                }
+                cutWebComponent() {
+                    if (this.state.selectedWebComponentOptions) {
+                        const cutComponent = this.state.selectedWebComponentOptions;
+                        // notify component cut
+                        cutComponent.parentId = '';
+                        this.formEvents.webComponentChanged(cutComponent);
+                        this.props.valueChange(this.props.definition, undefined);
+                        this.setState({ selectedWebComponentOptions: undefined, selectedComponentDefinition: undefined }, () => {
+                            this.formEvents.webComponentChanged(cutComponent);
+                        });
+                    }
                 }
                 removeWebComponent() {
                     if (this.state.selectedWebComponentOptions) {
@@ -1590,6 +1639,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                                 " (",
                                 this.state.selectedComponentDefinition.moduleName,
                                 ")"),
+                            createElement(UiButton, { onClick: this.cutWebComponent },
+                                createElement(FontAwesomeIcon, { icon: faExternalLinkAlt })),
                             createElement(UiButton, { onClick: this.removeWebComponent },
                                 createElement(FontAwesomeIcon, { icon: faTrashAlt$1 }))));
                     }
@@ -1609,8 +1660,13 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         createElement(UiButton, null,
                             createElement(FontAwesomeIcon, { icon: faCube })),
                         createElement("label", { htmlFor: this.props.uniqueId }, this.props.definition.displayName),
-                        createElement("select", { className: "componentSelect", id: this.props.uniqueId, value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
-                            createElement("option", { key: "_", value: "" }, "Select Component..."),
+                        createElement("select", { id: this.props.uniqueId, value: selectedComponentKey, onChange: this.onSelectedComponentDefinitionChange },
+                            createElement("option", { value: "" }, "Select Component..."),
+                            createElement("optgroup", { label: "Clipboard" }, this.context.getClipBoardComponents().map(item => (createElement("option", { key: item.id, value: item.id },
+                                item.componentName,
+                                " (",
+                                item.moduleName,
+                                ")")))),
                             Object.keys(optionGroups).map(type => createElement("optgroup", { key: type, label: type }, optionGroups[type].map(item => createElement("option", { key: item.key, value: item.key },
                                 item.definition.displayName,
                                 " (",
@@ -1807,8 +1863,11 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.toggleDebug = this.toggleDebug.bind(this);
                 }
                 componentDidMount() {
-                    const formContext = new OptionsCardContextData(this.context);
-                    this.setState({ formContext });
+                    return __awaiter(this, void 0, void 0, function* () {
+                        const formContext = new OptionsCardContextData(this.context);
+                        yield formContext.init();
+                        this.setState({ formContext });
+                    });
                 }
                 // init fields
                 setDefaultValues(options) {

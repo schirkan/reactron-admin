@@ -9,7 +9,7 @@ import { AdminPageContext } from '../../../AdminPageContext';
 import { OptionCardContext, OptionsCardContextData } from '../../../OptionCard/OptionCardContext';
 import OptionList from '../../../OptionList/OptionList';
 import UiButton from '../../../UiButton/UiButton';
-import { WebComponentFormContext, WebComponentFormContextData } from './OptionItemContext';
+import { WebComponentFormContext, WebComponentFormContextData } from './WebComponentFormContext';
 
 import './WebComponentForm.scss';
 
@@ -47,6 +47,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     this.initCurrentComponent = this.initCurrentComponent.bind(this);
     this.onOptionsChange = this.onOptionsChange.bind(this);
     this.removeWebComponent = this.removeWebComponent.bind(this);
+    this.cutWebComponent = this.cutWebComponent.bind(this);
     this.onSelectedComponentDefinitionChange = this.onSelectedComponentDefinitionChange.bind(this);
   }
 
@@ -59,15 +60,15 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     this.loadWebComponents();
   }
 
-  // public componentDidUpdate(prevProps: IInputComponentProps) {
-  //   if (prevProps.value !== this.props.value) {
-  //     this.initCurrentComponent();
-  //   }
-  // }
+  public componentDidUpdate(prevProps: IInputComponentProps) {
+    if (prevProps.value !== this.props.value) {
+      this.initCurrentComponent();
+    }
+  }
 
   public componentWillUnmount() {
     if (this.state.selectedWebComponentOptions) {
-      this.formEvents.webComponentRemoved(this.state.selectedWebComponentOptions);
+      // this.formEvents.webComponentRemoved(this.state.selectedWebComponentOptions);
     }
   }
 
@@ -120,6 +121,18 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     const newKey = e.currentTarget.value;
 
     const selectedComponentDefinition = this.state.componentDefinitions.find(x => x.key === newKey);
+
+    if (!selectedComponentDefinition) {
+      const existingComponent = this.context.getClipBoardComponents().find(x => x.id === newKey);
+      if (existingComponent) {
+        // update parentId for existing component
+        existingComponent.parentId = this.optionItemContext.parentComponent && this.optionItemContext.parentComponent.id;
+        // use existing component
+        this.props.valueChange(this.props.definition, newKey);
+      }
+      return;
+    }
+
     const currentWebComponentOptions = this.state.selectedWebComponentOptions;
     let newWebComponentOptions: IWebComponentOptions | undefined;
 
@@ -151,6 +164,20 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     }
 
     this.setState({ selectedWebComponentOptions: newWebComponentOptions, selectedComponentDefinition });
+  }
+
+  private cutWebComponent() {
+    if (this.state.selectedWebComponentOptions) {
+      const cutComponent = this.state.selectedWebComponentOptions;
+      // notify component cut
+      cutComponent.parentId = '';
+      this.formEvents.webComponentChanged(cutComponent);
+
+      this.props.valueChange(this.props.definition, undefined);
+      this.setState({ selectedWebComponentOptions: undefined, selectedComponentDefinition: undefined }, () => {
+        this.formEvents.webComponentChanged(cutComponent);
+      });
+    }
   }
 
   private removeWebComponent() {
@@ -190,6 +217,9 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
           <label>
             {this.props.definition.displayName}: {this.state.selectedComponentDefinition.definition.displayName} ({this.state.selectedComponentDefinition.moduleName})
           </label>
+          <UiButton onClick={this.cutWebComponent}>
+            <FontAwesomeIcon icon={SolidIcons.faExternalLinkAlt} />
+          </UiButton>
           <UiButton onClick={this.removeWebComponent}>
             <FontAwesomeIcon icon={RegularIcons.faTrashAlt} />
           </UiButton>
@@ -217,8 +247,13 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
           <FontAwesomeIcon icon={SolidIcons.faCube} />
         </UiButton>
         <label htmlFor={this.props.uniqueId}>{this.props.definition.displayName}</label>
-        <select className="componentSelect" id={this.props.uniqueId} value={selectedComponentKey} onChange={this.onSelectedComponentDefinitionChange}>
-          <option key="_" value="">Select Component...</option>
+        <select id={this.props.uniqueId} value={selectedComponentKey} onChange={this.onSelectedComponentDefinitionChange}>
+          <option value="">Select Component...</option>
+          <optgroup label="Clipboard">
+            {this.context.getClipBoardComponents().map(item => (
+              <option key={item.id} value={item.id}>{item.componentName} ({item.moduleName})</option>
+            ))}
+          </optgroup>
           {Object.keys(optionGroups).map(type =>
             <optgroup key={type} label={type}>
               {optionGroups[type].map(item =>

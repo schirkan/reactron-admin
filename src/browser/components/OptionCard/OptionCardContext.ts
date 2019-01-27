@@ -8,10 +8,21 @@ export class OptionsCardContextData {
   private removedWebComponents: IWebComponentOptions[] = [];
   private changedWebComponents: IWebComponentOptions[] = [];
   private createdWebComponents: IWebComponentOptions[] = [];
+  private components: IWebComponentOptions[] = [];
 
   constructor(private context?: IReactronComponentContext) {
     this.saveWebComponents = this.saveWebComponents.bind(this);
     this.onSave.subscribe(this.saveWebComponents);
+  }
+
+  public async init() {
+    if (this.context) {
+      this.components = await this.context.services.components.getWebComponentOptions();
+    }
+  }
+
+  public getClipBoardComponents() {
+    return this.components.filter(x => !x.parentId);
   }
 
   private async saveWebComponents(): Promise<void> {
@@ -54,6 +65,9 @@ export class OptionsCardContextData {
       // add to removedWebComponents
       this.removedWebComponents.push(item);
     }
+
+    // remove from list
+    this.components = this.components.filter(x => x.id !== item.id);
   }
 
   public webComponentChanged(item: IWebComponentOptions) {
@@ -71,6 +85,21 @@ export class OptionsCardContextData {
       this.changedWebComponents = this.changedWebComponents.filter(x => x.id !== item.id);
       // add to changedWebComponents
       this.changedWebComponents.push(item);
+    }
+
+    // check if previously removed
+    const removedItemIndex = this.removedWebComponents.findIndex(x => x.id === item.id);
+    if (removedItemIndex >= 0) {
+      // remove old item from removedWebComponents
+      this.removedWebComponents.splice(removedItemIndex, 1);
+    }
+
+    // add / update list
+    const existingComponentIndex = this.components.findIndex(x => x.id === item.id);
+    if (existingComponentIndex >= 0) {
+      this.components[existingComponentIndex] = item;
+    } else {
+      this.components.push(item);
     }
   }
 
