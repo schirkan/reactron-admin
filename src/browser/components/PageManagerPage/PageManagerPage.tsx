@@ -15,6 +15,7 @@ import { pageOptionsFields } from './pageOptionsFields';
 import { AdminPageContext } from '../AdminPageContext';
 
 import './PageManagerPage.scss';
+import { WebComponentFormContext, WebComponentFormContextData } from '../OptionItem/InputControls/WebComponentInputControl/WebComponentFormContext';
 
 export interface IModuleManagerPageState {
   loading: boolean;
@@ -119,10 +120,11 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
 
     return (
       <UiOverlay>
-        <OptionCard icon={RegularIcons.faFile} showToggleStyleOptions={true}
-          title={title} fields={pageOptionsFields}
-          onSave={this.savePage} onCancel={this.hidePageDialog} options={page || {}}
-        />
+        <WebComponentFormContext.Provider value={new WebComponentFormContextData(undefined, page)}>
+          <OptionCard icon={RegularIcons.faFile} showToggleStyleOptions={true}
+            title={title} fields={pageOptionsFields}
+            onSave={this.savePage} onCancel={this.hidePageDialog} options={page || {}} />
+        </WebComponentFormContext.Provider>
       </UiOverlay>
     );
   }

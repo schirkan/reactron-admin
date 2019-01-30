@@ -1,29 +1,18 @@
 import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IInputComponentProps, IReactronComponentContext, IReactronComponentDefinition, IWebComponentOptions } from '@schirkan/reactron-interfaces';
+import { IInputComponentProps, IWebComponentOptions } from '@schirkan/reactron-interfaces';
 import { Guid } from 'guid-typescript';
 import * as React from 'react';
 import { getDefaultObjectValue } from 'src/common/optionsHelper';
-import { AdminPageContext } from '../../../AdminPageContext';
-import { OptionCardContext, OptionsCardContextData } from '../../../OptionCard/OptionCardContext';
+import { OptionCardContext, OptionsCardContextData, IReactronComponentDefinitionItem } from '../../../OptionCard/OptionCardContext';
 import OptionList from '../../../OptionList/OptionList';
 import UiButton from '../../../UiButton/UiButton';
 import { WebComponentFormContext, WebComponentFormContextData } from './WebComponentFormContext';
 
 import './WebComponentForm.scss';
 
-interface IReactronComponentDefinitionItem {
-  key: string;
-  moduleName: string;
-  definition: IReactronComponentDefinition;
-}
-
 interface IWebComponentFormState {
-  loadingWebComponents: boolean
-  loadingComponentDefinitions: boolean
-  webComponents: IWebComponentOptions[];
-  componentDefinitions: IReactronComponentDefinitionItem[];
   selectedComponentDefinition?: IReactronComponentDefinitionItem;
   selectedWebComponentOptions?: IWebComponentOptions;
 }
@@ -31,33 +20,29 @@ interface IWebComponentFormState {
 export default class WebComponentForm extends React.Component<IInputComponentProps, IWebComponentFormState> {
   public static contextType = OptionCardContext;
   public context: OptionsCardContextData;
-  public adminPageContext: IReactronComponentContext;
-  public optionItemContext: WebComponentFormContextData;
+  public webComponentFormContext: WebComponentFormContextData;
 
   constructor(props: IInputComponentProps) {
     super(props);
 
-    this.state = {
-      loadingWebComponents: true,
-      loadingComponentDefinitions: true,
-      webComponents: [],
-      componentDefinitions: []
-    };
+    this.state = {};
 
-    this.initCurrentComponent = this.initCurrentComponent.bind(this);
     this.onOptionsChange = this.onOptionsChange.bind(this);
     this.removeWebComponent = this.removeWebComponent.bind(this);
     this.cutWebComponent = this.cutWebComponent.bind(this);
+    this.onContextComponentsChange = this.onContextComponentsChange.bind(this);
     this.onSelectedComponentDefinitionChange = this.onSelectedComponentDefinitionChange.bind(this);
   }
 
-  private get formEvents(): OptionsCardContextData {
-    return this.context as OptionsCardContextData;
+  private onContextComponentsChange() {
+    if (!this.state.selectedWebComponentOptions) {
+      this.forceUpdate();
+    }
   }
 
   public componentDidMount() {
-    this.loadComponentDefinitions();
-    this.loadWebComponents();
+    this.initCurrentComponent();
+    this.context.onChange.subscribe(this.onContextComponentsChange);
   }
 
   public componentDidUpdate(prevProps: IInputComponentProps) {
@@ -67,49 +52,15 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
   }
 
   public componentWillUnmount() {
-    if (this.state.selectedWebComponentOptions) {
-      // this.formEvents.webComponentRemoved(this.state.selectedWebComponentOptions);
-    }
-  }
-
-  private async loadComponentDefinitions() {
-    try {
-      const result = await this.adminPageContext.componentLoader.getAllComponents();
-      const componentDefinitions: IReactronComponentDefinitionItem[] = [];
-      Object.keys(result).forEach(moduleName => {
-        const components = result[moduleName];
-        components.forEach(definition => {
-          const key = moduleName + '.' + definition.name;
-          componentDefinitions.push({ moduleName, definition, key });
-        });
-      });
-      this.setState({ componentDefinitions, loadingComponentDefinitions: false }, this.initCurrentComponent);
-    }
-    catch (err) {
-      return console.log(err);
-    } // TODO
-  }
-
-  private async loadWebComponents() {
-    try {
-      const webComponents = await this.adminPageContext.services.components.getWebComponentOptions();
-      this.setState({ webComponents, loadingWebComponents: false }, this.initCurrentComponent);
-    }
-    catch (err) {
-      return console.log(err);
-    } // TODO
+    this.context.onChange.unsubscribe(this.onContextComponentsChange);
   }
 
   private initCurrentComponent() {
-    if (this.state.loadingWebComponents || this.state.loadingComponentDefinitions) {
-      return;
-    }
-
     if (this.props.value) {
-      const selectedWebComponentOptions = this.state.webComponents.find(x => x.id === this.props.value);
+      const selectedWebComponentOptions = this.context.getAllComponents().find(x => x.id === this.props.value);
       if (selectedWebComponentOptions) {
         const key = selectedWebComponentOptions.moduleName + '.' + selectedWebComponentOptions.componentName;
-        const selectedComponentDefinition = this.state.componentDefinitions.find(x => x.key === key);
+        const selectedComponentDefinition = this.context.componentDefinitions.find(x => x.key === key);
         if (selectedComponentDefinition) {
           this.setState({ selectedComponentDefinition, selectedWebComponentOptions });
         }
@@ -120,13 +71,15 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
   private onSelectedComponentDefinitionChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newKey = e.currentTarget.value;
 
-    const selectedComponentDefinition = this.state.componentDefinitions.find(x => x.key === newKey);
+    const selectedComponentDefinition = this.context.componentDefinitions.find(x => x.key === newKey);
 
     if (!selectedComponentDefinition) {
       const existingComponent = this.context.getClipBoardComponents().find(x => x.id === newKey);
       if (existingComponent) {
         // update parentId for existing component
-        existingComponent.parentId = this.optionItemContext.parentComponent && this.optionItemContext.parentComponent.id;
+        existingComponent.parentId = this.webComponentFormContext.getParentId();
+        // notify component changed
+        this.context.webComponentChanged(existingComponent);
         // use existing component
         this.props.valueChange(this.props.definition, newKey);
       }
@@ -142,7 +95,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
 
       newWebComponentOptions = {
         id,
-        parentId: this.optionItemContext.parentComponent && this.optionItemContext.parentComponent.id,
+        parentId: this.webComponentFormContext.getParentId(),
         moduleName: selectedComponentDefinition.moduleName,
         componentName: selectedComponentDefinition.definition.name,
         options: getDefaultObjectValue(selectedComponentDefinition.definition.fields)
@@ -156,10 +109,10 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
 
       if (newWebComponentOptions) {
         // notify component created
-        this.formEvents.webComponentCreated(newWebComponentOptions);
+        this.context.webComponentCreated(newWebComponentOptions);
       } else if (currentWebComponentOptions) {
         // notify component remove
-        this.formEvents.webComponentRemoved(currentWebComponentOptions);
+        this.context.webComponentRemoved(currentWebComponentOptions);
       }
     }
 
@@ -168,22 +121,20 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
 
   private cutWebComponent() {
     if (this.state.selectedWebComponentOptions) {
-      const cutComponent = this.state.selectedWebComponentOptions;
       // notify component cut
+      const cutComponent = this.state.selectedWebComponentOptions;
       cutComponent.parentId = '';
-      this.formEvents.webComponentChanged(cutComponent);
+      this.context.webComponentChanged(cutComponent);
 
       this.props.valueChange(this.props.definition, undefined);
-      this.setState({ selectedWebComponentOptions: undefined, selectedComponentDefinition: undefined }, () => {
-        this.formEvents.webComponentChanged(cutComponent);
-      });
+      this.setState({ selectedWebComponentOptions: undefined, selectedComponentDefinition: undefined });
     }
   }
 
   private removeWebComponent() {
     if (this.state.selectedWebComponentOptions) {
       // notify component remove
-      this.formEvents.webComponentRemoved(this.state.selectedWebComponentOptions);
+      this.context.webComponentRemoved(this.state.selectedWebComponentOptions);
       this.props.valueChange(this.props.definition, undefined);
       this.setState({ selectedWebComponentOptions: undefined, selectedComponentDefinition: undefined });
     }
@@ -198,14 +149,10 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     this.setState({ selectedWebComponentOptions: newWebComponentOptions });
 
     // notify component changed
-    this.formEvents.webComponentChanged(newWebComponentOptions);
+    this.context.webComponentChanged(newWebComponentOptions);
   }
 
   public renderComponentSelection() {
-    if (this.state.loadingWebComponents || this.state.loadingComponentDefinitions) {
-      return null;
-    }
-
     const selectedComponentKey = this.state.selectedComponentDefinition && this.state.selectedComponentDefinition.key || '';
 
     if (this.state.selectedComponentDefinition) {
@@ -227,11 +174,8 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
       );
     }
 
-    let types = this.state.componentDefinitions.map(x => x.definition.type);
-    types = types.filter((v, i, a) => a.indexOf(v) === i);
-
     const optionGroups: { [type: string]: IReactronComponentDefinitionItem[] } = {};
-    this.state.componentDefinitions
+    this.context.componentDefinitions
       .filter(x => x.definition.type !== 'admin-input' && x.definition.type !== 'internal')
       .forEach(item => {
         const type = item.definition.type || 'content';
@@ -272,7 +216,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     }
 
     return (
-      <WebComponentFormContext.Provider value={{ parentComponent: this.state.selectedWebComponentOptions }}>
+      <WebComponentFormContext.Provider value={new WebComponentFormContextData(this.state.selectedWebComponentOptions, this.webComponentFormContext.parentPage)}>
         <OptionList value={this.state.selectedWebComponentOptions.options}
           fields={this.state.selectedComponentDefinition.definition.fields}
           valueChange={this.onOptionsChange} />
@@ -283,8 +227,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
   public render() {
     return (
       <div className="WebComponentForm">
-        <AdminPageContext.Consumer>{value => (this.adminPageContext = value) && null}</AdminPageContext.Consumer>
-        <WebComponentFormContext.Consumer>{value => (this.optionItemContext = value) && null}</WebComponentFormContext.Consumer>
+        <WebComponentFormContext.Consumer>{value => (this.webComponentFormContext = value) && null}</WebComponentFormContext.Consumer>
         {this.renderComponentSelection()}
         {this.renderComponentForm()}
       </div>

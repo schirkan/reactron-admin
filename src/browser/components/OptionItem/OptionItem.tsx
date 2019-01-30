@@ -28,6 +28,9 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
   public static contextType = AdminPageContext;
   public context: IReactronComponentContext;
 
+  private getDefaultInputControl = (definition: IFieldDefinition) => getInputControls(definition, this.context).inputControl as any;
+  private getDefaultDetailsControl = (definition: IFieldDefinition) => getInputControls(definition, this.context).detailsControl as any;
+
   constructor(props: IOptionItemProps) {
     super(props);
 
@@ -72,7 +75,12 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
     let input: JSX.Element | string = '';
 
     if (this.state.inputControl) {
-      input = <ErrorBoundary><this.state.inputControl {...this.props} uniqueId={this.state.uniqueId} context={this.context} /></ErrorBoundary>;
+      input = (
+        <ErrorBoundary>
+          <this.state.inputControl {...this.props} uniqueId={this.state.uniqueId} context={this.context}
+            getDefaultInputControl={this.getDefaultInputControl} getDefaultDetailsControl={this.getDefaultDetailsControl} />
+        </ErrorBoundary>
+      );
     }
 
     if (this.state.detailsControl) {
@@ -102,7 +110,8 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
     return (
       <div className="item-details" hidden={!this.state.detailsVisible}>
         <ErrorBoundary>
-          <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} context={this.context} />
+          <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} context={this.context}
+            getDefaultInputControl={this.getDefaultInputControl} getDefaultDetailsControl={this.getDefaultDetailsControl} />
         </ErrorBoundary>
       </div>
     );

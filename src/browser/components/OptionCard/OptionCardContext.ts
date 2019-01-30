@@ -1,14 +1,21 @@
-import { IWebComponentOptions, IReactronComponentContext } from "@schirkan/reactron-interfaces";
+import { IWebComponentOptions, IReactronComponentContext, IReactronComponentDefinition } from "@schirkan/reactron-interfaces";
 import * as React from "react";
 import { SimpleEvent } from "./SimpleEvent";
 
+export interface IReactronComponentDefinitionItem {
+  key: string;
+  moduleName: string;
+  definition: IReactronComponentDefinition;
+}
+
 export class OptionsCardContextData {
-  public onSave = new SimpleEvent();
-  // public onValidate = new SimpleEvent();
+  public readonly onSave = new SimpleEvent();
+  public readonly onChange = new SimpleEvent<IWebComponentOptions[]>();
   private removedWebComponents: IWebComponentOptions[] = [];
   private changedWebComponents: IWebComponentOptions[] = [];
   private createdWebComponents: IWebComponentOptions[] = [];
   private components: IWebComponentOptions[] = [];
+  public readonly componentDefinitions: IReactronComponentDefinitionItem[] = [];
 
   constructor(private context?: IReactronComponentContext) {
     this.saveWebComponents = this.saveWebComponents.bind(this);
@@ -17,12 +24,27 @@ export class OptionsCardContextData {
 
   public async init() {
     if (this.context) {
+      // load all configured components
       this.components = await this.context.services.components.getWebComponentOptions();
+
+      // load all defined components
+      const result = await this.context.componentLoader.getAllComponents();
+      Object.keys(result).forEach(moduleName => {
+        const components = result[moduleName];
+        components.forEach(definition => {
+          const key = moduleName + '.' + definition.name;
+          this.componentDefinitions.push({ moduleName, definition, key });
+        });
+      });
     }
   }
 
   public getClipBoardComponents() {
     return this.components.filter(x => !x.parentId);
+  }
+
+  public getAllComponents() {
+    return this.components;
   }
 
   private async saveWebComponents(): Promise<void> {
@@ -31,11 +53,6 @@ export class OptionsCardContextData {
     console.log('changedWebComponents', this.changedWebComponents);
 
     if (this.context) {
-      // delete webComponents
-      for (const item of this.removedWebComponents) {
-        await this.context.services.components.deleteWebComponentOptions(item.id);
-      }
-
       // add webComponents
       for (const item of this.createdWebComponents) {
         await this.context.services.components.setWebComponentOptions(item);
@@ -45,12 +62,24 @@ export class OptionsCardContextData {
       for (const item of this.changedWebComponents) {
         await this.context.services.components.setWebComponentOptions(item);
       }
+
+      // delete webComponents
+      for (const item of this.removedWebComponents) {
+        await this.context.services.components.deleteWebComponentOptions(item.id);
+      }
     }
 
     // reset context
     this.removedWebComponents = [];
     this.changedWebComponents = [];
     this.createdWebComponents = [];
+  }
+
+  public removeWebComponentById(id: string) {
+    const component = this.components.find(x => x.id === id);
+    if (component) {
+      this.webComponentRemoved(component);
+    }
   }
 
   public webComponentRemoved(item: IWebComponentOptions) {
@@ -68,6 +97,7 @@ export class OptionsCardContextData {
 
     // remove from list
     this.components = this.components.filter(x => x.id !== item.id);
+    this.onChange.publish(this.components);
   }
 
   public webComponentChanged(item: IWebComponentOptions) {
@@ -101,6 +131,7 @@ export class OptionsCardContextData {
     } else {
       this.components.push(item);
     }
+    this.onChange.publish(this.components);
   }
 
   public webComponentCreated(item: IWebComponentOptions) {
@@ -108,6 +139,10 @@ export class OptionsCardContextData {
 
     // add to createdWebComponents
     this.createdWebComponents.push(item);
+    
+    // add to list
+    this.components.push(item);
+    this.onChange.publish(this.components);
   }
 }
 

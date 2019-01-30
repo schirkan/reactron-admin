@@ -1,7 +1,8 @@
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
-import { IFieldDefinition, IInputComponentProps } from '@schirkan/reactron-interfaces';
+import { IFieldDefinition } from '@schirkan/reactron-interfaces';
 import { IInputControls, IInputControlsProvider } from '../IInputControls';
 import WebComponentForm from './WebComponentForm';
+import WebComponentTitle from './WebComponentTitle';
 
 export class WebComponentControlsProvider implements IInputControlsProvider {
   public match(definition: IFieldDefinition): boolean {
@@ -12,9 +13,7 @@ export class WebComponentControlsProvider implements IInputControlsProvider {
     return {
       icon: SolidIcons.faCube,
       detailsControl: WebComponentForm,
-      inputControl: (props: IInputComponentProps) => {
-        return props && props.value || 'none';
-      }
+      inputControl: WebComponentTitle
     };
   }
 }

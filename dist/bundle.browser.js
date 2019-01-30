@@ -929,6 +929,154 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             var css$h = ".ArrayForm .OptionItem[data-detailsvisible='false'] + .add-array-item {\n  border-top: 1px solid #eee; }\n";
             styleInject(css$h);
 
+            class SimpleEvent {
+                constructor() {
+                    this.subscriptions = [];
+                }
+                subscribe(callback) {
+                    this.subscriptions.push(callback);
+                }
+                unsubscribe(callback) {
+                    const index = this.subscriptions.indexOf(callback);
+                    if (index >= 0) {
+                        this.subscriptions.splice(index);
+                    }
+                }
+                publish(data) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        for (const sub of this.subscriptions) {
+                            yield Promise.resolve(sub(data));
+                        }
+                    });
+                }
+            }
+
+            class OptionsCardContextData {
+                constructor(context) {
+                    this.context = context;
+                    this.onSave = new SimpleEvent();
+                    this.onChange = new SimpleEvent();
+                    this.removedWebComponents = [];
+                    this.changedWebComponents = [];
+                    this.createdWebComponents = [];
+                    this.components = [];
+                    this.componentDefinitions = [];
+                    this.saveWebComponents = this.saveWebComponents.bind(this);
+                    this.onSave.subscribe(this.saveWebComponents);
+                }
+                init() {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        if (this.context) {
+                            // load all configured components
+                            this.components = yield this.context.services.components.getWebComponentOptions();
+                            // load all defined components
+                            const result = yield this.context.componentLoader.getAllComponents();
+                            Object.keys(result).forEach(moduleName => {
+                                const components = result[moduleName];
+                                components.forEach(definition => {
+                                    const key = moduleName + '.' + definition.name;
+                                    this.componentDefinitions.push({ moduleName, definition, key });
+                                });
+                            });
+                        }
+                    });
+                }
+                getClipBoardComponents() {
+                    return this.components.filter(x => !x.parentId);
+                }
+                getAllComponents() {
+                    return this.components;
+                }
+                saveWebComponents() {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        console.log('removedWebComponents', this.removedWebComponents);
+                        console.log('createdWebComponents', this.createdWebComponents);
+                        console.log('changedWebComponents', this.changedWebComponents);
+                        if (this.context) {
+                            // add webComponents
+                            for (const item of this.createdWebComponents) {
+                                yield this.context.services.components.setWebComponentOptions(item);
+                            }
+                            // change webComponents
+                            for (const item of this.changedWebComponents) {
+                                yield this.context.services.components.setWebComponentOptions(item);
+                            }
+                            // delete webComponents
+                            for (const item of this.removedWebComponents) {
+                                yield this.context.services.components.deleteWebComponentOptions(item.id);
+                            }
+                        }
+                        // reset context
+                        this.removedWebComponents = [];
+                        this.changedWebComponents = [];
+                        this.createdWebComponents = [];
+                    });
+                }
+                removeWebComponentById(id) {
+                    const component = this.components.find(x => x.id === id);
+                    if (component) {
+                        this.webComponentRemoved(component);
+                    }
+                }
+                webComponentRemoved(item) {
+                    console.log('webComponentRemoved', item);
+                    // check if previously created
+                    const createdItemIndex = this.createdWebComponents.findIndex(x => x.id === item.id);
+                    if (createdItemIndex >= 0) {
+                        // remove from createdWebComponents
+                        this.createdWebComponents.splice(createdItemIndex, 1);
+                    }
+                    else {
+                        // add to removedWebComponents
+                        this.removedWebComponents.push(item);
+                    }
+                    // remove from list
+                    this.components = this.components.filter(x => x.id !== item.id);
+                    this.onChange.publish(this.components);
+                }
+                webComponentChanged(item) {
+                    console.log('webComponentChanged', item);
+                    // check if previously created
+                    const createdItemIndex = this.createdWebComponents.findIndex(x => x.id === item.id);
+                    if (createdItemIndex >= 0) {
+                        // remove old item from createdWebComponents
+                        this.createdWebComponents.splice(createdItemIndex, 1);
+                        // and add new item to createdWebComponents
+                        this.changedWebComponents.push(item);
+                    }
+                    else {
+                        // remove previously changed items
+                        this.changedWebComponents = this.changedWebComponents.filter(x => x.id !== item.id);
+                        // add to changedWebComponents
+                        this.changedWebComponents.push(item);
+                    }
+                    // check if previously removed
+                    const removedItemIndex = this.removedWebComponents.findIndex(x => x.id === item.id);
+                    if (removedItemIndex >= 0) {
+                        // remove old item from removedWebComponents
+                        this.removedWebComponents.splice(removedItemIndex, 1);
+                    }
+                    // add / update list
+                    const existingComponentIndex = this.components.findIndex(x => x.id === item.id);
+                    if (existingComponentIndex >= 0) {
+                        this.components[existingComponentIndex] = item;
+                    }
+                    else {
+                        this.components.push(item);
+                    }
+                    this.onChange.publish(this.components);
+                }
+                webComponentCreated(item) {
+                    console.log('webComponentCreated', item);
+                    // add to createdWebComponents
+                    this.createdWebComponents.push(item);
+                    // add to list
+                    this.components.push(item);
+                    this.onChange.publish(this.components);
+                }
+            }
+            const OptionCardContext = createContext(new OptionsCardContextData());
+
             class ArrayForm extends Component {
                 constructor(props) {
                     super(props);
@@ -947,31 +1095,52 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 arrayItemRemove(index) {
                     let array = this.props.value || [];
                     array = array.slice();
-                    array.splice(index, 1);
+                    const deleted = array.splice(index, 1);
+                    this.findAndRemoveWebComponents(deleted[0], this.props.definition);
                     this.arrayKeys.splice(index, 1);
                     this.props.valueChange(this.props.definition, array);
                 }
+                findAndRemoveWebComponents(item, definition) {
+                    if (definition.valueType === 'webComponent') {
+                        this.context.removeWebComponentById(item);
+                    }
+                    else if (definition.valueType === 'object') {
+                        if (definition.fields) {
+                            definition.fields.forEach(field => {
+                                const fieldValue = item[field.name];
+                                if (fieldValue) {
+                                    if (field.isArray) {
+                                        fieldValue.forEach((arrayItem) => {
+                                            this.findAndRemoveWebComponents(arrayItem, field);
+                                        });
+                                    }
+                                    else {
+                                        this.findAndRemoveWebComponents(fieldValue, field);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
                 arrayItemMoveUp(index) {
                     const array = this.props.value || [];
-                    if (index === 0) {
-                        return;
+                    if (index > 0) {
+                        const item = array.splice(index, 1)[0];
+                        array.splice(index - 1, 0, item);
+                        const keyItem = this.arrayKeys.splice(index, 1)[0];
+                        this.arrayKeys.splice(index - 1, 0, keyItem);
+                        this.props.valueChange(this.props.definition, array);
                     }
-                    const item = array.splice(index, 1)[0];
-                    array.splice(index - 1, 0, item);
-                    const keyItem = this.arrayKeys.splice(index, 1)[0];
-                    this.arrayKeys.splice(index - 1, 0, keyItem);
-                    this.props.valueChange(this.props.definition, array);
                 }
                 arrayItemMoveDown(index) {
                     const array = this.props.value || [];
-                    if (index === array.length - 1) {
-                        return;
+                    if (index < array.length - 1) {
+                        const item = array.splice(index, 1)[0];
+                        array.splice(index + 1, 0, item);
+                        const keyItem = this.arrayKeys.splice(index, 1)[0];
+                        this.arrayKeys.splice(index + 1, 0, keyItem);
+                        this.props.valueChange(this.props.definition, array);
                     }
-                    const item = array.splice(index, 1)[0];
-                    array.splice(index + 1, 0, item);
-                    const keyItem = this.arrayKeys.splice(index, 1)[0];
-                    this.arrayKeys.splice(index + 1, 0, keyItem);
-                    this.props.valueChange(this.props.definition, array);
                 }
                 arrayItemAdd() {
                     const arrayItemDefinition = Object.assign({}, this.props.definition);
@@ -1011,6 +1180,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             " Add item")));
                 }
             }
+            ArrayForm.contextType = OptionCardContext;
 
             class ArrayControlsProvider {
                 match(definition) {
@@ -1347,130 +1517,14 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            class SimpleEvent {
-                constructor() {
-                    this.subscriptions = [];
-                }
-                subscribe(callback) {
-                    this.subscriptions.push(callback);
-                }
-                unsubscribe(callback) {
-                    const index = this.subscriptions.indexOf(callback);
-                    if (index >= 0) {
-                        this.subscriptions.splice(index);
-                    }
-                }
-                publish(data) {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        for (const sub of this.subscriptions) {
-                            yield Promise.resolve(sub(data));
-                        }
-                    });
-                }
-            }
-
-            class OptionsCardContextData {
-                constructor(context) {
-                    this.context = context;
-                    this.onSave = new SimpleEvent();
-                    // public onValidate = new SimpleEvent();
-                    this.removedWebComponents = [];
-                    this.changedWebComponents = [];
-                    this.createdWebComponents = [];
-                    this.components = [];
-                    this.saveWebComponents = this.saveWebComponents.bind(this);
-                    this.onSave.subscribe(this.saveWebComponents);
-                }
-                init() {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        if (this.context) {
-                            this.components = yield this.context.services.components.getWebComponentOptions();
-                        }
-                    });
-                }
-                getClipBoardComponents() {
-                    return this.components.filter(x => !x.parentId);
-                }
-                saveWebComponents() {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        console.log('removedWebComponents', this.removedWebComponents);
-                        console.log('createdWebComponents', this.createdWebComponents);
-                        console.log('changedWebComponents', this.changedWebComponents);
-                        if (this.context) {
-                            // delete webComponents
-                            for (const item of this.removedWebComponents) {
-                                yield this.context.services.components.deleteWebComponentOptions(item.id);
-                            }
-                            // add webComponents
-                            for (const item of this.createdWebComponents) {
-                                yield this.context.services.components.setWebComponentOptions(item);
-                            }
-                            // change webComponents
-                            for (const item of this.changedWebComponents) {
-                                yield this.context.services.components.setWebComponentOptions(item);
-                            }
-                        }
-                        // reset context
-                        this.removedWebComponents = [];
-                        this.changedWebComponents = [];
-                        this.createdWebComponents = [];
-                    });
-                }
-                webComponentRemoved(item) {
-                    console.log('webComponentRemoved', item);
-                    // check if previously created
-                    const createdItemIndex = this.createdWebComponents.findIndex(x => x.id === item.id);
-                    if (createdItemIndex >= 0) {
-                        // remove from createdWebComponents
-                        this.createdWebComponents.splice(createdItemIndex, 1);
-                    }
-                    else {
-                        // add to removedWebComponents
-                        this.removedWebComponents.push(item);
-                    }
-                    // remove from list
-                    this.components = this.components.filter(x => x.id !== item.id);
-                }
-                webComponentChanged(item) {
-                    console.log('webComponentChanged', item);
-                    // check if previously created
-                    const createdItemIndex = this.createdWebComponents.findIndex(x => x.id === item.id);
-                    if (createdItemIndex >= 0) {
-                        // remove old item from createdWebComponents
-                        this.createdWebComponents.splice(createdItemIndex, 1);
-                        // and add new item to createdWebComponents
-                        this.changedWebComponents.push(item);
-                    }
-                    else {
-                        // remove previously changed items
-                        this.changedWebComponents = this.changedWebComponents.filter(x => x.id !== item.id);
-                        // add to changedWebComponents
-                        this.changedWebComponents.push(item);
-                    }
-                    // check if previously removed
-                    const removedItemIndex = this.removedWebComponents.findIndex(x => x.id === item.id);
-                    if (removedItemIndex >= 0) {
-                        // remove old item from removedWebComponents
-                        this.removedWebComponents.splice(removedItemIndex, 1);
-                    }
-                    // add / update list
-                    const existingComponentIndex = this.components.findIndex(x => x.id === item.id);
-                    if (existingComponentIndex >= 0) {
-                        this.components[existingComponentIndex] = item;
-                    }
-                    else {
-                        this.components.push(item);
-                    }
-                }
-                webComponentCreated(item) {
-                    console.log('webComponentCreated', item);
-                    // add to createdWebComponents
-                    this.createdWebComponents.push(item);
-                }
-            }
-            const OptionCardContext = createContext(new OptionsCardContextData());
-
             class WebComponentFormContextData {
+                constructor(parentComponent, parentPage) {
+                    this.parentComponent = parentComponent;
+                    this.parentPage = parentPage;
+                }
+                getParentId() {
+                    return this.parentComponent && this.parentComponent.id || this.parentPage && this.parentPage.id || '';
+                }
             }
             const WebComponentFormContext = createContext(new WebComponentFormContextData());
 
@@ -1480,24 +1534,21 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             class WebComponentForm extends Component {
                 constructor(props) {
                     super(props);
-                    this.state = {
-                        loadingWebComponents: true,
-                        loadingComponentDefinitions: true,
-                        webComponents: [],
-                        componentDefinitions: []
-                    };
-                    this.initCurrentComponent = this.initCurrentComponent.bind(this);
+                    this.state = {};
                     this.onOptionsChange = this.onOptionsChange.bind(this);
                     this.removeWebComponent = this.removeWebComponent.bind(this);
                     this.cutWebComponent = this.cutWebComponent.bind(this);
+                    this.onContextComponentsChange = this.onContextComponentsChange.bind(this);
                     this.onSelectedComponentDefinitionChange = this.onSelectedComponentDefinitionChange.bind(this);
                 }
-                get formEvents() {
-                    return this.context;
+                onContextComponentsChange() {
+                    if (!this.state.selectedWebComponentOptions) {
+                        this.forceUpdate();
+                    }
                 }
                 componentDidMount() {
-                    this.loadComponentDefinitions();
-                    this.loadWebComponents();
+                    this.initCurrentComponent();
+                    this.context.onChange.subscribe(this.onContextComponentsChange);
                 }
                 componentDidUpdate(prevProps) {
                     if (prevProps.value !== this.props.value) {
@@ -1505,47 +1556,14 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     }
                 }
                 componentWillUnmount() {
-                    if (this.state.selectedWebComponentOptions) ;
-                }
-                loadComponentDefinitions() {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        try {
-                            const result = yield this.adminPageContext.componentLoader.getAllComponents();
-                            const componentDefinitions = [];
-                            Object.keys(result).forEach(moduleName => {
-                                const components = result[moduleName];
-                                components.forEach(definition => {
-                                    const key = moduleName + '.' + definition.name;
-                                    componentDefinitions.push({ moduleName, definition, key });
-                                });
-                            });
-                            this.setState({ componentDefinitions, loadingComponentDefinitions: false }, this.initCurrentComponent);
-                        }
-                        catch (err) {
-                            return console.log(err);
-                        } // TODO
-                    });
-                }
-                loadWebComponents() {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        try {
-                            const webComponents = yield this.adminPageContext.services.components.getWebComponentOptions();
-                            this.setState({ webComponents, loadingWebComponents: false }, this.initCurrentComponent);
-                        }
-                        catch (err) {
-                            return console.log(err);
-                        } // TODO
-                    });
+                    this.context.onChange.unsubscribe(this.onContextComponentsChange);
                 }
                 initCurrentComponent() {
-                    if (this.state.loadingWebComponents || this.state.loadingComponentDefinitions) {
-                        return;
-                    }
                     if (this.props.value) {
-                        const selectedWebComponentOptions = this.state.webComponents.find(x => x.id === this.props.value);
+                        const selectedWebComponentOptions = this.context.getAllComponents().find(x => x.id === this.props.value);
                         if (selectedWebComponentOptions) {
                             const key = selectedWebComponentOptions.moduleName + '.' + selectedWebComponentOptions.componentName;
-                            const selectedComponentDefinition = this.state.componentDefinitions.find(x => x.key === key);
+                            const selectedComponentDefinition = this.context.componentDefinitions.find(x => x.key === key);
                             if (selectedComponentDefinition) {
                                 this.setState({ selectedComponentDefinition, selectedWebComponentOptions });
                             }
@@ -1554,12 +1572,14 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
                 onSelectedComponentDefinitionChange(e) {
                     const newKey = e.currentTarget.value;
-                    const selectedComponentDefinition = this.state.componentDefinitions.find(x => x.key === newKey);
+                    const selectedComponentDefinition = this.context.componentDefinitions.find(x => x.key === newKey);
                     if (!selectedComponentDefinition) {
                         const existingComponent = this.context.getClipBoardComponents().find(x => x.id === newKey);
                         if (existingComponent) {
                             // update parentId for existing component
-                            existingComponent.parentId = this.optionItemContext.parentComponent && this.optionItemContext.parentComponent.id;
+                            existingComponent.parentId = this.webComponentFormContext.getParentId();
+                            // notify component changed
+                            this.context.webComponentChanged(existingComponent);
                             // use existing component
                             this.props.valueChange(this.props.definition, newKey);
                         }
@@ -1572,7 +1592,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             selectedComponentDefinition.definition.name + '_' + guid_1.raw();
                         newWebComponentOptions = {
                             id,
-                            parentId: this.optionItemContext.parentComponent && this.optionItemContext.parentComponent.id,
+                            parentId: this.webComponentFormContext.getParentId(),
                             moduleName: selectedComponentDefinition.moduleName,
                             componentName: selectedComponentDefinition.definition.name,
                             options: getDefaultObjectValue(selectedComponentDefinition.definition.fields)
@@ -1584,31 +1604,29 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.props.valueChange(this.props.definition, newId);
                         if (newWebComponentOptions) {
                             // notify component created
-                            this.formEvents.webComponentCreated(newWebComponentOptions);
+                            this.context.webComponentCreated(newWebComponentOptions);
                         }
                         else if (currentWebComponentOptions) {
                             // notify component remove
-                            this.formEvents.webComponentRemoved(currentWebComponentOptions);
+                            this.context.webComponentRemoved(currentWebComponentOptions);
                         }
                     }
                     this.setState({ selectedWebComponentOptions: newWebComponentOptions, selectedComponentDefinition });
                 }
                 cutWebComponent() {
                     if (this.state.selectedWebComponentOptions) {
-                        const cutComponent = this.state.selectedWebComponentOptions;
                         // notify component cut
+                        const cutComponent = this.state.selectedWebComponentOptions;
                         cutComponent.parentId = '';
-                        this.formEvents.webComponentChanged(cutComponent);
+                        this.context.webComponentChanged(cutComponent);
                         this.props.valueChange(this.props.definition, undefined);
-                        this.setState({ selectedWebComponentOptions: undefined, selectedComponentDefinition: undefined }, () => {
-                            this.formEvents.webComponentChanged(cutComponent);
-                        });
+                        this.setState({ selectedWebComponentOptions: undefined, selectedComponentDefinition: undefined });
                     }
                 }
                 removeWebComponent() {
                     if (this.state.selectedWebComponentOptions) {
                         // notify component remove
-                        this.formEvents.webComponentRemoved(this.state.selectedWebComponentOptions);
+                        this.context.webComponentRemoved(this.state.selectedWebComponentOptions);
                         this.props.valueChange(this.props.definition, undefined);
                         this.setState({ selectedWebComponentOptions: undefined, selectedComponentDefinition: undefined });
                     }
@@ -1621,12 +1639,9 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     newWebComponentOptions.options = newOptions;
                     this.setState({ selectedWebComponentOptions: newWebComponentOptions });
                     // notify component changed
-                    this.formEvents.webComponentChanged(newWebComponentOptions);
+                    this.context.webComponentChanged(newWebComponentOptions);
                 }
                 renderComponentSelection() {
-                    if (this.state.loadingWebComponents || this.state.loadingComponentDefinitions) {
-                        return null;
-                    }
                     const selectedComponentKey = this.state.selectedComponentDefinition && this.state.selectedComponentDefinition.key || '';
                     if (this.state.selectedComponentDefinition) {
                         return (createElement("div", { className: "componentTitle" },
@@ -1644,10 +1659,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             createElement(UiButton, { onClick: this.removeWebComponent },
                                 createElement(FontAwesomeIcon, { icon: faTrashAlt$1 }))));
                     }
-                    let types = this.state.componentDefinitions.map(x => x.definition.type);
-                    types = types.filter((v, i, a) => a.indexOf(v) === i);
                     const optionGroups = {};
-                    this.state.componentDefinitions
+                    this.context.componentDefinitions
                         .filter(x => x.definition.type !== 'admin-input' && x.definition.type !== 'internal')
                         .forEach(item => {
                         const type = item.definition.type || 'content';
@@ -1677,18 +1690,37 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     if (!this.state.selectedWebComponentOptions || !this.state.selectedComponentDefinition) {
                         return null;
                     }
-                    return (createElement(WebComponentFormContext.Provider, { value: { parentComponent: this.state.selectedWebComponentOptions } },
+                    return (createElement(WebComponentFormContext.Provider, { value: new WebComponentFormContextData(this.state.selectedWebComponentOptions, this.webComponentFormContext.parentPage) },
                         createElement(OptionList, { value: this.state.selectedWebComponentOptions.options, fields: this.state.selectedComponentDefinition.definition.fields, valueChange: this.onOptionsChange })));
                 }
                 render() {
                     return (createElement("div", { className: "WebComponentForm" },
-                        createElement(AdminPageContext.Consumer, null, value => (this.adminPageContext = value) && null),
-                        createElement(WebComponentFormContext.Consumer, null, value => (this.optionItemContext = value) && null),
+                        createElement(WebComponentFormContext.Consumer, null, value => (this.webComponentFormContext = value) && null),
                         this.renderComponentSelection(),
                         this.renderComponentForm()));
                 }
             }
             WebComponentForm.contextType = OptionCardContext;
+
+            class WebComponentTitle extends Component {
+                render() {
+                    const componentId = this.props.value;
+                    if (!componentId) {
+                        return null;
+                    }
+                    const component = this.context.getAllComponents().find(x => x.id === componentId);
+                    if (!component) {
+                        return null;
+                    }
+                    const componentKey = component.moduleName + '.' + component.componentName;
+                    const componentDefinition = this.context.componentDefinitions.find(x => x.key === componentKey);
+                    if (!componentDefinition) {
+                        return null;
+                    }
+                    return componentDefinition.definition.displayName;
+                }
+            }
+            WebComponentTitle.contextType = OptionCardContext;
 
             class WebComponentControlsProvider {
                 match(definition) {
@@ -1698,9 +1730,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return {
                         icon: faCube,
                         detailsControl: WebComponentForm,
-                        inputControl: (props) => {
-                            return props && props.value || 'none';
-                        }
+                        inputControl: WebComponentTitle
                     };
                 }
             }
@@ -1751,6 +1781,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             class OptionItem extends Component {
                 constructor(props) {
                     super(props);
+                    this.getDefaultInputControl = (definition) => getInputControls(definition, this.context).inputControl;
+                    this.getDefaultDetailsControl = (definition) => getInputControls(definition, this.context).detailsControl;
                     this.state = {
                         uniqueId: 'ID' + (counter++),
                         detailsVisible: props.detailsVisible
@@ -1782,8 +1814,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         createElement("span", { className: "header-text" }, this.props.definition.displayName)));
                     let input = '';
                     if (this.state.inputControl) {
-                        input = createElement(ErrorBoundary, null,
-                            createElement(this.state.inputControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context })));
+                        input = (createElement(ErrorBoundary, null,
+                            createElement(this.state.inputControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context, getDefaultInputControl: this.getDefaultInputControl, getDefaultDetailsControl: this.getDefaultDetailsControl }))));
                     }
                     if (this.state.detailsControl) {
                         return (createElement(UiButton, { className: "item-header", onClick: this.toggleItemDetails },
@@ -1802,7 +1834,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     }
                     return (createElement("div", { className: "item-details", hidden: !this.state.detailsVisible },
                         createElement(ErrorBoundary, null,
-                            createElement(this.state.detailsControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context })))));
+                            createElement(this.state.detailsControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context, getDefaultInputControl: this.getDefaultInputControl, getDefaultDetailsControl: this.getDefaultDetailsControl })))));
                 }
                 render() {
                     return (createElement("div", { className: "OptionItem", "data-hasdetails": this.state.detailsControl ? 'true' : 'false', "data-detailsvisible": this.state.detailsVisible ? 'true' : 'false', "data-isarray": this.props.definition.isArray ? 'true' : 'false', "data-valuetype": this.props.definition.valueType },
@@ -2101,7 +2133,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     const page = this.state.selectedPage;
                     const title = page ? 'Edit Page' : 'Add Page';
                     return (createElement(UiOverlay, null,
-                        createElement(OptionCard, { icon: faFile, showToggleStyleOptions: true, title: title, fields: pageOptionsFields, onSave: this.savePage, onCancel: this.hidePageDialog, options: page || {} })));
+                        createElement(WebComponentFormContext.Provider, { value: new WebComponentFormContextData(undefined, page) },
+                            createElement(OptionCard, { icon: faFile, showToggleStyleOptions: true, title: title, fields: pageOptionsFields, onSave: this.savePage, onCancel: this.hidePageDialog, options: page || {} }))));
                 }
                 render() {
                     return (createElement("section", { className: "PageManagerPage" },
