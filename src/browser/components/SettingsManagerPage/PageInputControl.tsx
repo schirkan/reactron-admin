@@ -15,7 +15,7 @@ export class PageInputControl extends React.Component<IInputComponentProps, IPag
   }
 
   public componentDidMount() {
-    this.props.context.services.pages.getWebPages().then(pages => this.setState({ pages }));
+    this.props.context.services.pages.getAll().then(pages => this.setState({ pages }));
   }
 
   private onSelectValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

@@ -656,7 +656,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.loadModules();
                 }
                 loadModules() {
-                    return this.context.services.modules.getModules()
+                    return this.context.services.modules.getAll()
                         .then(modules => this.setState({ modules }))
                         .catch(); // TODO
                 }
@@ -678,7 +678,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.setState({ loading: true });
                         try {
                             for (const module of modulesWithUpdates) {
-                                const result = yield this.context.services.modules.updateModule(module.name);
+                                const result = yield this.context.services.modules.update(module.name);
                                 results.push(...result);
                             }
                             this.showResult(results);
@@ -696,7 +696,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield this.context.services.modules.updateModule(module.name);
+                            const result = yield this.context.services.modules.update(module.name);
                             this.showResult(result);
                         }
                         catch (error) {
@@ -712,7 +712,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield this.context.services.modules.rebuildModule(module.name);
+                            const result = yield this.context.services.modules.rebuild(module.name);
                             this.showResult(result);
                         }
                         catch (error) {
@@ -728,7 +728,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield this.context.services.modules.deleteModule(module.name);
+                            const result = yield this.context.services.modules.remove(module.name);
                             this.showResult(result);
                         }
                         catch (error) {
@@ -744,7 +744,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         }
                         this.setState({ loading: true });
                         try {
-                            const result = yield this.context.services.modules.addModule(repository);
+                            const result = yield this.context.services.modules.add(repository);
                             this.showResult(result);
                         }
                         catch (error) {
@@ -952,8 +952,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             }
 
             class OptionsCardContextData {
-                constructor(context) {
-                    this.context = context;
+                constructor(componentContext) {
+                    this.componentContext = componentContext;
                     this.onSave = new SimpleEvent();
                     this.onChange = new SimpleEvent();
                     this.removedWebComponents = [];
@@ -961,16 +961,21 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.createdWebComponents = [];
                     this.components = [];
                     this.componentDefinitions = [];
+                    this.getAllComponents = this.getAllComponents.bind(this);
+                    this.getAllComponentDefinitions = this.getAllComponentDefinitions.bind(this);
+                    this.getComponentDefinition = this.getComponentDefinition.bind(this);
                     this.saveWebComponents = this.saveWebComponents.bind(this);
                     this.onSave.subscribe(this.saveWebComponents);
                 }
                 init() {
                     return __awaiter(this, void 0, void 0, function* () {
-                        if (this.context) {
+                        if (this.componentContext) {
                             // load all configured components
-                            this.components = yield this.context.services.components.getWebComponentOptions();
+                            this.components = yield this.componentContext.services.components.getAll();
+                            // create copy
+                            this.components = JSON.parse(JSON.stringify(this.components));
                             // load all defined components
-                            const result = yield this.context.componentLoader.getAllComponents();
+                            const result = yield this.componentContext.componentLoader.getAllComponents();
                             Object.keys(result).forEach(moduleName => {
                                 const components = result[moduleName];
                                 components.forEach(definition => {
@@ -987,23 +992,38 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 getAllComponents() {
                     return this.components;
                 }
+                getAllComponentDefinitions() {
+                    return this.componentDefinitions;
+                }
+                getComponentDefinition(componentId) {
+                    if (!componentId) {
+                        return undefined;
+                    }
+                    const component = this.components.find(x => x.id === componentId);
+                    if (!component) {
+                        return undefined;
+                    }
+                    const componentKey = component.moduleName + '.' + component.componentName;
+                    const componentDefinition = this.componentDefinitions.find(x => x.key === componentKey);
+                    return componentDefinition && componentDefinition.definition;
+                }
                 saveWebComponents() {
                     return __awaiter(this, void 0, void 0, function* () {
                         console.log('removedWebComponents', this.removedWebComponents);
                         console.log('createdWebComponents', this.createdWebComponents);
                         console.log('changedWebComponents', this.changedWebComponents);
-                        if (this.context) {
+                        if (this.componentContext) {
                             // add webComponents
                             for (const item of this.createdWebComponents) {
-                                yield this.context.services.components.setWebComponentOptions(item);
+                                yield this.componentContext.services.components.createOrUpdate(item);
                             }
                             // change webComponents
                             for (const item of this.changedWebComponents) {
-                                yield this.context.services.components.setWebComponentOptions(item);
+                                yield this.componentContext.services.components.createOrUpdate(item);
                             }
                             // delete webComponents
                             for (const item of this.removedWebComponents) {
-                                yield this.context.services.components.deleteWebComponentOptions(item.id);
+                                yield this.componentContext.services.components.delete(item.id);
                             }
                         }
                         // reset context
@@ -1563,7 +1583,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         const selectedWebComponentOptions = this.context.getAllComponents().find(x => x.id === this.props.value);
                         if (selectedWebComponentOptions) {
                             const key = selectedWebComponentOptions.moduleName + '.' + selectedWebComponentOptions.componentName;
-                            const selectedComponentDefinition = this.context.componentDefinitions.find(x => x.key === key);
+                            const selectedComponentDefinition = this.context.getAllComponentDefinitions().find(x => x.key === key);
                             if (selectedComponentDefinition) {
                                 this.setState({ selectedComponentDefinition, selectedWebComponentOptions });
                             }
@@ -1572,7 +1592,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
                 onSelectedComponentDefinitionChange(e) {
                     const newKey = e.currentTarget.value;
-                    const selectedComponentDefinition = this.context.componentDefinitions.find(x => x.key === newKey);
+                    const selectedComponentDefinition = this.context.getAllComponentDefinitions().find(x => x.key === newKey);
                     if (!selectedComponentDefinition) {
                         const existingComponent = this.context.getClipBoardComponents().find(x => x.id === newKey);
                         if (existingComponent) {
@@ -1660,7 +1680,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                                 createElement(FontAwesomeIcon, { icon: faTrashAlt$1 }))));
                     }
                     const optionGroups = {};
-                    this.context.componentDefinitions
+                    this.context.getAllComponentDefinitions()
                         .filter(x => x.definition.type !== 'admin-input' && x.definition.type !== 'internal')
                         .forEach(item => {
                         const type = item.definition.type || 'content';
@@ -1704,23 +1724,10 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
 
             class WebComponentTitle extends Component {
                 render() {
-                    const componentId = this.props.value;
-                    if (!componentId) {
-                        return null;
-                    }
-                    const component = this.context.getAllComponents().find(x => x.id === componentId);
-                    if (!component) {
-                        return null;
-                    }
-                    const componentKey = component.moduleName + '.' + component.componentName;
-                    const componentDefinition = this.context.componentDefinitions.find(x => x.key === componentKey);
-                    if (!componentDefinition) {
-                        return null;
-                    }
-                    return componentDefinition.definition.displayName;
+                    const definition = this.props.getComponentDefinition(this.props.value);
+                    return definition && definition.displayName || null;
                 }
             }
-            WebComponentTitle.contextType = OptionCardContext;
 
             class WebComponentControlsProvider {
                 match(definition) {
@@ -1781,8 +1788,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             class OptionItem extends Component {
                 constructor(props) {
                     super(props);
-                    this.getDefaultInputControl = (definition) => getInputControls(definition, this.context).inputControl;
-                    this.getDefaultDetailsControl = (definition) => getInputControls(definition, this.context).detailsControl;
                     this.state = {
                         uniqueId: 'ID' + (counter++),
                         detailsVisible: props.detailsVisible
@@ -1790,7 +1795,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.toggleItemDetails = this.toggleItemDetails.bind(this);
                 }
                 componentDidMount() {
-                    const inputControls = getInputControls(this.props.definition, this.context);
+                    const inputControls = getInputControls(this.props.definition, this.context.componentContext);
                     const isNewArrayItem = this.props.value && this.props.value.__new;
                     // auto open new array items
                     if (isNewArrayItem) {
@@ -1815,7 +1820,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     let input = '';
                     if (this.state.inputControl) {
                         input = (createElement(ErrorBoundary, null,
-                            createElement(this.state.inputControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context, getDefaultInputControl: this.getDefaultInputControl, getDefaultDetailsControl: this.getDefaultDetailsControl }))));
+                            createElement(this.state.inputControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context.componentContext, getAllComponents: this.context.getAllComponents, getAllComponentDefinitions: this.context.getAllComponentDefinitions, getComponentDefinition: this.context.getComponentDefinition }))));
                     }
                     if (this.state.detailsControl) {
                         return (createElement(UiButton, { className: "item-header", onClick: this.toggleItemDetails },
@@ -1834,7 +1839,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     }
                     return (createElement("div", { className: "item-details", hidden: !this.state.detailsVisible },
                         createElement(ErrorBoundary, null,
-                            createElement(this.state.detailsControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context, getDefaultInputControl: this.getDefaultInputControl, getDefaultDetailsControl: this.getDefaultDetailsControl })))));
+                            createElement(this.state.detailsControl, Object.assign({}, this.props, { uniqueId: this.state.uniqueId, context: this.context.componentContext, getAllComponents: this.context.getAllComponents, getAllComponentDefinitions: this.context.getAllComponentDefinitions, getComponentDefinition: this.context.getComponentDefinition })))));
                 }
                 render() {
                     return (createElement("div", { className: "OptionItem", "data-hasdetails": this.state.detailsControl ? 'true' : 'false', "data-detailsvisible": this.state.detailsVisible ? 'true' : 'false', "data-isarray": this.props.definition.isArray ? 'true' : 'false', "data-valuetype": this.props.definition.valueType },
@@ -1842,7 +1847,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.renderDetailsForm()));
                 }
             }
-            OptionItem.contextType = AdminPageContext;
+            OptionItem.contextType = OptionCardContext;
 
             var css$m = ".OptionList {\n  background: white; }\n";
             styleInject(css$m);
@@ -2087,18 +2092,18 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
                 loadPages() {
                     this.setState({ loading: true });
-                    return this.context.services.pages.getWebPages()
+                    return this.context.services.pages.getAll()
                         .then(pages => this.setState({ pages, loading: false }))
                         .catch(err => this.setState({ loading: false })); // TODO
                 }
                 savePage(page) {
-                    return this.context.services.pages.setWebPage(page)
+                    return this.context.services.pages.createOrUpdate(page)
                         .then(this.hidePageDialog)
                         .then(this.loadPages)
                         .catch(err => console.log(err)); // TODO
                 }
                 deletePage(page) {
-                    return this.context.services.pages.deleteWebPage(page.id)
+                    return this.context.services.pages.delete(page.id)
                         .then(this.hidePageDialog)
                         .then(this.loadPages)
                         .catch(err => console.log(err)); // TODO
@@ -2457,7 +2462,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.onSelectValueChange = this.onSelectValueChange.bind(this);
                 }
                 componentDidMount() {
-                    this.props.context.services.pages.getWebPages().then(pages => this.setState({ pages }));
+                    this.props.context.services.pages.getAll().then(pages => this.setState({ pages }));
                 }
                 render() {
                     const options = this.state.pages.map(page => createElement("option", { key: page.id, value: page.path },

@@ -60,7 +60,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
       const selectedWebComponentOptions = this.context.getAllComponents().find(x => x.id === this.props.value);
       if (selectedWebComponentOptions) {
         const key = selectedWebComponentOptions.moduleName + '.' + selectedWebComponentOptions.componentName;
-        const selectedComponentDefinition = this.context.componentDefinitions.find(x => x.key === key);
+        const selectedComponentDefinition = this.context.getAllComponentDefinitions().find(x => x.key === key);
         if (selectedComponentDefinition) {
           this.setState({ selectedComponentDefinition, selectedWebComponentOptions });
         }
@@ -71,7 +71,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
   private onSelectedComponentDefinitionChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newKey = e.currentTarget.value;
 
-    const selectedComponentDefinition = this.context.componentDefinitions.find(x => x.key === newKey);
+    const selectedComponentDefinition = this.context.getAllComponentDefinitions().find(x => x.key === newKey);
 
     if (!selectedComponentDefinition) {
       const existingComponent = this.context.getClipBoardComponents().find(x => x.id === newKey);
@@ -175,7 +175,7 @@ export default class WebComponentForm extends React.Component<IInputComponentPro
     }
 
     const optionGroups: { [type: string]: IReactronComponentDefinitionItem[] } = {};
-    this.context.componentDefinitions
+    this.context.getAllComponentDefinitions()
       .filter(x => x.definition.type !== 'admin-input' && x.definition.type !== 'internal')
       .forEach(item => {
         const type = item.definition.type || 'content';

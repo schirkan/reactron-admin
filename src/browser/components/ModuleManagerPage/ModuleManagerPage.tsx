@@ -53,7 +53,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
   }
 
   public loadModules(): Promise<void> {
-    return this.context.services.modules.getModules()
+    return this.context.services.modules.getAll()
       .then(modules => this.setState({ modules }))
       .catch(); // TODO
   }
@@ -75,7 +75,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
     this.setState({ loading: true });
     try {
       for (const module of modulesWithUpdates) {
-        const result = await this.context.services.modules.updateModule(module.name);
+        const result = await this.context.services.modules.update(module.name);
         results.push(...result);
       }
       this.showResult(results);
@@ -92,7 +92,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await this.context.services.modules.updateModule(module.name);
+      const result = await this.context.services.modules.update(module.name);
       this.showResult(result);
     } catch (error) {
       this.showError(error);
@@ -107,7 +107,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await this.context.services.modules.rebuildModule(module.name);
+      const result = await this.context.services.modules.rebuild(module.name);
       this.showResult(result);
     } catch (error) {
       this.showError(error);
@@ -122,7 +122,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await this.context.services.modules.deleteModule(module.name);
+      const result = await this.context.services.modules.remove(module.name);
       this.showResult(result);
     } catch (error) {
       this.showError(error);
@@ -137,7 +137,7 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
 
     this.setState({ loading: true });
     try {
-      const result = await this.context.services.modules.addModule(repository);
+      const result = await this.context.services.modules.add(repository);
       this.showResult(result);
     } catch (error) {
       this.showError(error);

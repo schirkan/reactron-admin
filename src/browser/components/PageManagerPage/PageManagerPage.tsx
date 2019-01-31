@@ -52,20 +52,20 @@ export default class PageManagerPage extends React.Component<any, IModuleManager
   private loadPages(): Promise<void> {
     this.setState({ loading: true });
 
-    return this.context.services.pages.getWebPages()
+    return this.context.services.pages.getAll()
       .then(pages => this.setState({ pages, loading: false }))
       .catch(err => this.setState({ loading: false })); // TODO
   }
 
   private savePage(page: IWebPageOptions): Promise<void> {
-    return this.context.services.pages.setWebPage(page)
+    return this.context.services.pages.createOrUpdate(page)
       .then(this.hidePageDialog)
       .then(this.loadPages)
       .catch(err => console.log(err)); // TODO
   }
 
   private deletePage(page: IWebPageOptions): Promise<void> {
-    return this.context.services.pages.deleteWebPage(page.id)
+    return this.context.services.pages.delete(page.id)
       .then(this.hidePageDialog)
       .then(this.loadPages)
       .catch(err => console.log(err)); // TODO

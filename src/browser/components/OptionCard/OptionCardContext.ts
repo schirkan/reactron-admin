@@ -15,20 +15,26 @@ export class OptionsCardContextData {
   private changedWebComponents: IWebComponentOptions[] = [];
   private createdWebComponents: IWebComponentOptions[] = [];
   private components: IWebComponentOptions[] = [];
-  public readonly componentDefinitions: IReactronComponentDefinitionItem[] = [];
+  private componentDefinitions: IReactronComponentDefinitionItem[] = [];
 
-  constructor(private context?: IReactronComponentContext) {
+  constructor(public componentContext?: IReactronComponentContext) {
+    this.getAllComponents = this.getAllComponents.bind(this);
+    this.getAllComponentDefinitions = this.getAllComponentDefinitions.bind(this);
+    this.getComponentDefinition = this.getComponentDefinition.bind(this);
     this.saveWebComponents = this.saveWebComponents.bind(this);
-    this.onSave.subscribe(this.saveWebComponents);
+    this.onSave.subscribe(this.saveWebComponents);    
   }
 
   public async init() {
-    if (this.context) {
+    if (this.componentContext) {
       // load all configured components
-      this.components = await this.context.services.components.getWebComponentOptions();
+      this.components = await this.componentContext.services.components.getAll();
+      
+      // create copy
+      this.components = JSON.parse(JSON.stringify(this.components));
 
       // load all defined components
-      const result = await this.context.componentLoader.getAllComponents();
+      const result = await this.componentContext.componentLoader.getAllComponents();
       Object.keys(result).forEach(moduleName => {
         const components = result[moduleName];
         components.forEach(definition => {
@@ -47,25 +53,43 @@ export class OptionsCardContextData {
     return this.components;
   }
 
+  public getAllComponentDefinitions() {
+    return this.componentDefinitions;
+  }
+
+  public getComponentDefinition(componentId: string):IReactronComponentDefinition|undefined {
+    if (!componentId) {
+      return undefined;
+    }
+    const component = this.components.find(x => x.id === componentId);
+    if (!component) {
+      return undefined;
+    }
+
+    const componentKey = component.moduleName + '.' + component.componentName;
+    const componentDefinition = this.componentDefinitions.find(x => x.key === componentKey);
+    return componentDefinition && componentDefinition.definition;
+  }
+
   private async saveWebComponents(): Promise<void> {
     console.log('removedWebComponents', this.removedWebComponents);
     console.log('createdWebComponents', this.createdWebComponents);
     console.log('changedWebComponents', this.changedWebComponents);
 
-    if (this.context) {
+    if (this.componentContext) {
       // add webComponents
       for (const item of this.createdWebComponents) {
-        await this.context.services.components.setWebComponentOptions(item);
+        await this.componentContext.services.components.createOrUpdate(item);
       }
 
       // change webComponents
       for (const item of this.changedWebComponents) {
-        await this.context.services.components.setWebComponentOptions(item);
+        await this.componentContext.services.components.createOrUpdate(item);
       }
 
       // delete webComponents
       for (const item of this.removedWebComponents) {
-        await this.context.services.components.deleteWebComponentOptions(item.id);
+        await this.componentContext.services.components.delete(item.id);
       }
     }
 

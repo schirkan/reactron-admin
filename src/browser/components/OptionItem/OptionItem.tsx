@@ -9,6 +9,7 @@ import { getInputControls } from './InputControls/getInputControls';
 import { IInputControls } from "./InputControls/IInputControls";
 
 import './OptionItem.scss';
+import { OptionCardContext, OptionsCardContextData } from '../OptionCard/OptionCardContext';
 
 let counter = 0;
 
@@ -25,11 +26,8 @@ interface IOptionItemState extends IInputControls {
 }
 
 export default class OptionItem extends React.Component<IOptionItemProps, IOptionItemState> {
-  public static contextType = AdminPageContext;
-  public context: IReactronComponentContext;
-
-  private getDefaultInputControl = (definition: IFieldDefinition) => getInputControls(definition, this.context).inputControl as any;
-  private getDefaultDetailsControl = (definition: IFieldDefinition) => getInputControls(definition, this.context).detailsControl as any;
+  public static contextType = OptionCardContext;
+  public context: OptionsCardContextData;
 
   constructor(props: IOptionItemProps) {
     super(props);
@@ -43,7 +41,7 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
   }
 
   public componentDidMount() {
-    const inputControls = getInputControls(this.props.definition, this.context) as any;
+    const inputControls = getInputControls(this.props.definition, this.context.componentContext!) as any;
     const isNewArrayItem = this.props.value && this.props.value.__new;
 
     // auto open new array items
@@ -77,8 +75,10 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
     if (this.state.inputControl) {
       input = (
         <ErrorBoundary>
-          <this.state.inputControl {...this.props} uniqueId={this.state.uniqueId} context={this.context}
-            getDefaultInputControl={this.getDefaultInputControl} getDefaultDetailsControl={this.getDefaultDetailsControl} />
+          <this.state.inputControl {...this.props} uniqueId={this.state.uniqueId} context={this.context.componentContext!}
+            getAllComponents={this.context.getAllComponents}
+            getAllComponentDefinitions={this.context.getAllComponentDefinitions}
+            getComponentDefinition={this.context.getComponentDefinition} />
         </ErrorBoundary>
       );
     }
@@ -110,8 +110,10 @@ export default class OptionItem extends React.Component<IOptionItemProps, IOptio
     return (
       <div className="item-details" hidden={!this.state.detailsVisible}>
         <ErrorBoundary>
-          <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} context={this.context}
-            getDefaultInputControl={this.getDefaultInputControl} getDefaultDetailsControl={this.getDefaultDetailsControl} />
+          <this.state.detailsControl {...this.props} uniqueId={this.state.uniqueId} context={this.context.componentContext!}
+            getAllComponents={this.context.getAllComponents}
+            getAllComponentDefinitions={this.context.getAllComponentDefinitions}
+            getComponentDefinition={this.context.getComponentDefinition} />
         </ErrorBoundary>
       </div>
     );
