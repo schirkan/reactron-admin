@@ -6,28 +6,9 @@ import * as React from 'react';
 import UiButton from '../../UiButton/UiButton';
 import UiCard from '../../UiCard/UiCard';
 import UiCardTitle from '../../UiCardTitle/UiCardTitle';
+import { catalog } from './catalog';
 
 import './ModuleCatalog.scss';
-
-interface IModuleCatalogItem {
-  name: string;
-  url: string;
-}
-
-// TODO load from url
-const catalog: IModuleCatalogItem[] = [{
-  name: 'reactron-openweathermap',
-  url: 'https://github.com/schirkan/reactron-openweathermap'
-}, {
-  name: 'reactron-analog-clock',
-  url: 'https://github.com/schirkan/reactron-analog-clock'
-}, {
-  name: 'reactron-scifi-dashboard',
-  url: 'https://github.com/schirkan/reactron-scifi-dashboard'
-}, {
-  name: 'reactron-bring-shopping-list',
-  url: 'https://github.com/schirkan/reactron-bring-shopping-list'
-}];
 
 export interface IModuleCatalogProps {
   modules: IModuleRepositoryItem[];
@@ -35,10 +16,6 @@ export interface IModuleCatalogProps {
 }
 
 export default class ModuleCatalog extends React.Component<IModuleCatalogProps> {
-  constructor(props: IModuleCatalogProps) {
-    super(props);
-  }
-
   private renderCatalogItems() {
     const items: JSX.Element[] = catalog.map(item => {
       const installed = this.props.modules.some(x => x.name === item.name);
@@ -46,7 +23,7 @@ export default class ModuleCatalog extends React.Component<IModuleCatalogProps> 
       return (
         <div className="ModuleCatalogItem" key={item.name}>
           <a className="clickable" href={item.url} target="_blank">
-            <FontAwesomeIcon icon={BrandIcons.faGithub} /> {item.name}
+            <FontAwesomeIcon icon={BrandIcons.faGithub} /> {item.title}
           </a>
           <UiButton disabled={installed} onClick={install}>
             <FontAwesomeIcon icon={SolidIcons.faDownload} /> Add

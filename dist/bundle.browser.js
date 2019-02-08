@@ -563,27 +563,41 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var css$d = ".ModuleCatalog .ModuleCatalogItem {\n  display: grid;\n  grid-template-columns: 1fr auto;\n  margin-left: 8px; }\n  .ModuleCatalog .ModuleCatalogItem a {\n    padding: 6px;\n    text-decoration: none; }\n  .ModuleCatalog .ModuleCatalogItem ~ .ModuleCatalogItem {\n    border-top: 1px solid #ddd; }\n";
-            styleInject(css$d);
-
             // TODO load from url
             const catalog = [{
                     name: 'reactron-openweathermap',
+                    title: 'Weather (openweathermap.com)',
                     url: 'https://github.com/schirkan/reactron-openweathermap'
                 }, {
                     name: 'reactron-analog-clock',
+                    title: 'Analog clock',
                     url: 'https://github.com/schirkan/reactron-analog-clock'
                 }, {
                     name: 'reactron-scifi-dashboard',
+                    title: 'Scifi-Dashboard',
                     url: 'https://github.com/schirkan/reactron-scifi-dashboard'
                 }, {
                     name: 'reactron-bring-shopping-list',
+                    title: 'Shopping list (getbring.com)',
                     url: 'https://github.com/schirkan/reactron-bring-shopping-list'
+                }, {
+                    name: 'reactron-vrr-departure',
+                    title: 'Public transport (vrr.de)',
+                    url: 'https://github.com/schirkan/reactron-vrr-departure'
+                }, {
+                    name: 'reactron-icalendar',
+                    title: 'Calendar (via iCal-URL)',
+                    url: 'https://github.com/schirkan/reactron-icalendar'
+                }, {
+                    name: 'reactron-rss-feed',
+                    title: 'RSS Feed',
+                    url: 'https://github.com/schirkan/reactron-rss-feed'
                 }];
+
+            var css$d = ".ModuleCatalog .ModuleCatalogItem {\n  display: grid;\n  grid-template-columns: 1fr auto;\n  margin-left: 8px; }\n  .ModuleCatalog .ModuleCatalogItem a {\n    padding: 6px;\n    text-decoration: none; }\n  .ModuleCatalog .ModuleCatalogItem ~ .ModuleCatalogItem {\n    border-top: 1px solid #ddd; }\n";
+            styleInject(css$d);
+
             class ModuleCatalog extends Component {
-                constructor(props) {
-                    super(props);
-                }
                 renderCatalogItems() {
                     const items = catalog.map(item => {
                         const installed = this.props.modules.some(x => x.name === item.name);
@@ -592,7 +606,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             createElement("a", { className: "clickable", href: item.url, target: "_blank" },
                                 createElement(FontAwesomeIcon, { icon: faGithub }),
                                 " ",
-                                item.name),
+                                item.title),
                             createElement(UiButton, { disabled: installed, onClick: install },
                                 createElement(FontAwesomeIcon, { icon: faDownload }),
                                 " Add")));
