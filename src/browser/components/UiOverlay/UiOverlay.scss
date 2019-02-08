@@ -23,11 +23,13 @@
         .UiCardTitle {
             position: sticky;
             top: 0;
+            left: 0;
             z-index: 1;
         }
         .UiCardButtonRow {
             position: sticky;
             bottom: 0;
+            left: 0;
         }
     }
 }
