@@ -878,8 +878,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 }
             }
 
-            var guid = createCommonjsModule(function (module, exports) {
-            exports.__esModule = true;
+            var guid = createCommonjsModule(function (module, exports$1) {
+            exports$1.__esModule = true;
             var Guid = /** @class */ (function () {
                 function Guid(guid) {
                     if (!guid) {
@@ -934,7 +934,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 Guid.EMPTY = "00000000-0000-0000-0000-000000000000";
                 return Guid;
             }());
-            exports.Guid = Guid;
+            exports$1.Guid = Guid;
             });
 
             unwrapExports(guid);
@@ -1376,12 +1376,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 'borderStyle', 'borderTop', 'borderTopColor', 'borderTopStyle',
                 'borderTopWidth', 'borderWidth', 'clear', 'clip',
                 'color', 'cursor', 'display', 'filter',
-                'cssFloat', 'font', 'fontFamily', 'fontSize',
-                'fontVariant', 'fontWeight', 'height', 'left',
-                'letterSpacing', 'lineHeight', 'listStyle', 'listStyleImage',
+                'float', 'font', 'fontFamily', 'fontSize', 'fontVariant', 'fontWeight',
+                'gridArea', 'gridTemplate', 'gridTemplateArea', 'gridTemplateColumns', 'gridTemplateRows',
+                'height', 'left', 'letterSpacing', 'lineHeight', 'listStyle', 'listStyleImage',
                 'listStylePosition', 'listStyleType', 'margin', 'marginBottom',
-                'marginLeft', 'marginRight', 'marginTop', 'overflow',
-                'padding', 'paddingBottom', 'paddingLeft', 'paddingRight',
+                'marginLeft', 'marginRight', 'marginTop', 'maxHeight', 'minHeight', 'maxWidth', 'minWidth',
+                'overflow', 'padding', 'paddingBottom', 'paddingLeft', 'paddingRight',
                 'paddingTop', 'pageBreakAfter', 'pageBreakBefore', 'position',
                 'strokeDasharray', 'strokeDashoffset', 'strokeWidth', 'textAlign',
                 'textDecoration', 'textIndent', 'textTransform', 'top',
