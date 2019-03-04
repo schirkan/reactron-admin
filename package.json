@@ -5,6 +5,7 @@
         "name": "Martin Pietschmann",
         "email": "schirkan@gmail.com"
     },
+    "displayName": "Reactron Admin",
     "description": "Admin webinterface for reactron",
     "license": "MIT",
     "repository": {
