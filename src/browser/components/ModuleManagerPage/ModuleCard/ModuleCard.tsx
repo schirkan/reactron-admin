@@ -15,7 +15,6 @@ import './ModuleCard.scss';
 export interface IModuleCardProps {
   module: IModuleRepositoryItem;
   onUpdate: (module: IModuleRepositoryItem) => void;
-  onRebuild: (module: IModuleRepositoryItem) => void;
   onRemove: (module: IModuleRepositoryItem) => void;
 }
 
@@ -34,7 +33,6 @@ export default class ModuleCard extends React.Component<IModuleCardProps, IModul
     this.showActions = this.showActions.bind(this);
     this.hideActions = this.hideActions.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
-    this.onRebuild = this.onRebuild.bind(this);
     this.onRemove = this.onRemove.bind(this);
   }
 
@@ -49,11 +47,6 @@ export default class ModuleCard extends React.Component<IModuleCardProps, IModul
   private onUpdate() {
     this.hideActions();
     this.props.onUpdate(this.props.module);
-  }
-
-  private onRebuild() {
-    this.hideActions();
-    this.props.onRebuild(this.props.module);
   }
 
   private onRemove() {
@@ -71,7 +64,7 @@ export default class ModuleCard extends React.Component<IModuleCardProps, IModul
 
     return (
       <UiCardTitle>
-        <FontAwesomeIcon icon={SolidIcons.faCube} /> {this.props.module.name}
+        <FontAwesomeIcon icon={SolidIcons.faCube} /> {this.props.module.displayName}
         {updateIcon}
       </UiCardTitle>
     );

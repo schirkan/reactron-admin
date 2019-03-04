@@ -17,7 +17,7 @@ export default class AddModuleCard extends React.Component<IAddModuleCardProps> 
 
     return (
       <UiCard className="AddModuleCard">
-        <input ref={el => input = el} placeholder="GitHub Repository URL" />
+        <input ref={el => input = el} placeholder="NPM package name or GitHub repository URL" />
         <UiButton className="addButton" onClick={onAdd}>
           <FontAwesomeIcon icon={SolidIcons.faPlus} /> Add
         </UiButton>

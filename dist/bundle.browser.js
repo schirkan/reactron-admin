@@ -400,7 +400,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     let input;
                     const onAdd = () => this.props.onAdd(input && input.value);
                     return (createElement(UiCard, { className: "AddModuleCard" },
-                        createElement("input", { ref: el => input = el, placeholder: "GitHub Repository URL" }),
+                        createElement("input", { ref: el => input = el, placeholder: "NPM package name or GitHub repository URL" }),
                         createElement(UiButton, { className: "addButton", onClick: onAdd },
                             createElement(FontAwesomeIcon, { icon: faPlus }),
                             " Add")));
@@ -472,7 +472,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.showActions = this.showActions.bind(this);
                     this.hideActions = this.hideActions.bind(this);
                     this.onUpdate = this.onUpdate.bind(this);
-                    this.onRebuild = this.onRebuild.bind(this);
                     this.onRemove = this.onRemove.bind(this);
                 }
                 showActions() {
@@ -484,10 +483,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                 onUpdate() {
                     this.hideActions();
                     this.props.onUpdate(this.props.module);
-                }
-                onRebuild() {
-                    this.hideActions();
-                    this.props.onRebuild(this.props.module);
                 }
                 onRemove() {
                     if (window.confirm('Remove?')) {
@@ -504,7 +499,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return (createElement(UiCardTitle, null,
                         createElement(FontAwesomeIcon, { icon: faCube }),
                         " ",
-                        this.props.module.name,
+                        this.props.module.displayName,
                         updateIcon));
                 }
                 renderDescription() {
@@ -566,31 +561,31 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
             // TODO load from url
             const catalog = [{
                     name: 'reactron-openweathermap',
-                    title: 'Weather (openweathermap.com)',
+                    displayName: 'Weather (openweathermap.com)',
                     url: 'https://github.com/schirkan/reactron-openweathermap'
                 }, {
                     name: 'reactron-analog-clock',
-                    title: 'Analog clock',
+                    displayName: 'Analog clock',
                     url: 'https://github.com/schirkan/reactron-analog-clock'
                 }, {
                     name: 'reactron-scifi-dashboard',
-                    title: 'Scifi-Dashboard',
+                    displayName: 'Scifi-Dashboard',
                     url: 'https://github.com/schirkan/reactron-scifi-dashboard'
                 }, {
                     name: 'reactron-bring-shopping-list',
-                    title: 'Shopping list (getbring.com)',
+                    displayName: 'Shopping list (getbring.com)',
                     url: 'https://github.com/schirkan/reactron-bring-shopping-list'
                 }, {
                     name: 'reactron-vrr-departure',
-                    title: 'Public transport (vrr.de)',
+                    displayName: 'Public transport (vrr.de)',
                     url: 'https://github.com/schirkan/reactron-vrr-departure'
                 }, {
                     name: 'reactron-icalendar',
-                    title: 'Calendar (via iCal-URL)',
+                    displayName: 'Calendar (via iCal-URL)',
                     url: 'https://github.com/schirkan/reactron-icalendar'
                 }, {
                     name: 'reactron-rss-feed',
-                    title: 'RSS Feed',
+                    displayName: 'RSS Feed',
                     url: 'https://github.com/schirkan/reactron-rss-feed'
                 }];
 
@@ -606,7 +601,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                             createElement("a", { className: "clickable", href: item.url, target: "_blank" },
                                 createElement(FontAwesomeIcon, { icon: faGithub }),
                                 " ",
-                                item.title),
+                                item.displayName),
                             createElement(UiButton, { disabled: installed, onClick: install },
                                 createElement(FontAwesomeIcon, { icon: faDownload }),
                                 " Add")));
@@ -662,7 +657,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.updateAll = this.updateAll.bind(this);
                     this.updateModule = this.updateModule.bind(this);
                     this.removeModule = this.removeModule.bind(this);
-                    this.rebuildModule = this.rebuildModule.bind(this);
                     this.addModule = this.addModule.bind(this);
                     this.hideResult = this.hideResult.bind(this);
                 }
@@ -678,8 +672,8 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     return __awaiter(this, void 0, void 0, function* () {
                         this.setState({ checkingUpdates: true });
                         yield this.context.services.modules.checkUpdates();
-                        this.setState({ checkingUpdates: false });
                         yield this.loadModules();
+                        this.setState({ checkingUpdates: false });
                     });
                 }
                 updateAll() {
@@ -711,22 +705,6 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         this.setState({ loading: true });
                         try {
                             const result = yield this.context.services.modules.update(module.name);
-                            this.showResult(result);
-                        }
-                        catch (error) {
-                            this.showError(error);
-                        }
-                        yield this.loadModules();
-                    });
-                }
-                rebuildModule(module) {
-                    return __awaiter(this, void 0, void 0, function* () {
-                        if (!module.canBuild) {
-                            return;
-                        }
-                        this.setState({ loading: true });
-                        try {
-                            const result = yield this.context.services.modules.rebuild(module.name);
                             this.showResult(result);
                         }
                         catch (error) {
@@ -790,7 +768,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                                     createElement(UpdateModulesCard, { checkingUpdates: this.state.checkingUpdates, modules: this.state.modules, onCheckUpdates: this.checkUpdates, onUpdateAll: this.updateAll, onUpdateModule: this.updateModule })),
                                 !this.state.modules.length && (createElement(UiFlowLayout, null,
                                     createElement(UiLoadingCard, null))),
-                                createElement(UiFlowLayout, null, this.state.modules.map(item => createElement(ModuleCard, { key: item.name, module: item, onRemove: this.removeModule, onRebuild: this.rebuildModule, onUpdate: this.updateModule })))),
+                                createElement(UiFlowLayout, null, this.state.modules.map(item => createElement(ModuleCard, { key: item.name, module: item, onRemove: this.removeModule, onUpdate: this.updateModule })))),
                             createElement(UiTab, { title: "Add New" },
                                 createElement(UiFlowLayout, null,
                                     createElement(AddModuleCard, { onAdd: this.addModule })),
@@ -2203,7 +2181,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         createElement(UiCardTitle, null,
                             createElement(FontAwesomeIcon, { icon: faCube }),
                             " ",
-                            this.props.moduleName),
+                            this.props.moduleDisplayName),
                         this.props.services.map(item => createElement(ServiceListItem, { key: item.name, service: item, onShowDetails: this.props.onShowDetails }))));
                 }
             }
@@ -2340,6 +2318,7 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                         loadingServices: true,
                         loadingServiceOptions: false,
                         services: [],
+                        modules: [],
                         showOptions: false,
                         showLog: false,
                         showDetails: false,
@@ -2360,9 +2339,12 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     this.loadServices();
                 }
                 loadServices() {
-                    return this.context.services.services.getAllServices()
-                        .then(services => this.setState({ services, loadingServices: false }))
-                        .catch(err => this.setState({ loadingServices: false })); // TODO
+                    return __awaiter(this, void 0, void 0, function* () {
+                        const services = yield this.context.services.services.getAllServices();
+                        const modules = yield this.context.services.modules.getAll();
+                        this.setState({ modules, services, loadingServices: false });
+                        //  .catch(err => this.setState({ loadingServices: false })); // TODO
+                    });
                 }
                 showDetails(service) {
                     this.setState({ showDetails: true, selectedService: service });
@@ -2449,7 +2431,9 @@ System.register(['@fortawesome/free-solid-svg-icons', '@fortawesome/react-fontaw
                     const groups = this.state.services.map(x => x.moduleName).filter(onlyUnique);
                     const groupCards = groups.map(moduleName => {
                         const services = this.state.services.filter(x => x.moduleName === moduleName); // TODO: .sort((a, b) => a.displayName > b.displayName)
-                        return (createElement(ServiceGroupCard, { key: moduleName, moduleName: moduleName, services: services, onShowDetails: this.showDetails }));
+                        const module = this.state.modules.find(x => x.name === moduleName);
+                        const moduleDisplayName = module && module.displayName || moduleName;
+                        return createElement(ServiceGroupCard, { key: moduleName, moduleDisplayName: moduleDisplayName, services: services, onShowDetails: this.showDetails });
                     });
                     return createElement(UiFlowLayout, null, groupCards);
                 }

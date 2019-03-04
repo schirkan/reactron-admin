@@ -1,7 +1,7 @@
 import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IServiceRepositoryItem, IReactronComponentContext } from '@schirkan/reactron-interfaces';
+import { IServiceRepositoryItem, IReactronComponentContext, IModuleRepositoryItem } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
 import Loading from '../Loading/Loading';
 import OptionCard from '../OptionCard/OptionCard';
@@ -23,6 +23,7 @@ export interface IModuleManagerPageState {
   loadingServices: boolean;
   loadingServiceOptions: boolean;
   services: IServiceRepositoryItem[];
+  modules: IModuleRepositoryItem[];
   showOptions: boolean,
   showLog: boolean,
   showDetails: boolean,
@@ -41,6 +42,7 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
       loadingServices: true,
       loadingServiceOptions: false,
       services: [],
+      modules: [],
       showOptions: false,
       showLog: false,
       showDetails: false,
@@ -63,10 +65,11 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
     this.loadServices();
   }
 
-  public loadServices() {
-    return this.context.services.services.getAllServices()
-      .then(services => this.setState({ services, loadingServices: false }))
-      .catch(err => this.setState({ loadingServices: false })); // TODO
+  public async loadServices() {
+    const services = await this.context.services.services.getAllServices();
+    const modules = await this.context.services.modules.getAll();
+    this.setState({ modules, services, loadingServices: false });
+    //  .catch(err => this.setState({ loadingServices: false })); // TODO
   }
 
   private showDetails(service: IServiceRepositoryItem) {
@@ -191,10 +194,10 @@ export default class ServiceManagerPage extends React.Component<any, IModuleMana
 
     const groupCards = groups.map(moduleName => {
       const services = this.state.services.filter(x => x.moduleName === moduleName); // TODO: .sort((a, b) => a.displayName > b.displayName)
-      return (
-        <ServiceGroupCard key={moduleName} moduleName={moduleName} services={services}
-          onShowDetails={this.showDetails} />
-      );
+      const module = this.state.modules.find(x => x.name === moduleName);
+      const moduleDisplayName = module && module.displayName || moduleName;
+
+      return <ServiceGroupCard key={moduleName} moduleDisplayName={moduleDisplayName} services={services} onShowDetails={this.showDetails} />;
     });
 
     return <UiFlowLayout>{groupCards}</UiFlowLayout>;

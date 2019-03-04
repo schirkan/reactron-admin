@@ -10,7 +10,7 @@ import './ServiceGroupCard.scss';
 
 export interface IServiceGroupCardProps {
   services: IServiceRepositoryItem[];
-  moduleName: string;
+  moduleDisplayName: string;
   onShowDetails: (service: IServiceRepositoryItem) => any;
 }
 
@@ -19,7 +19,7 @@ export default class ServiceGroupCard extends React.Component<IServiceGroupCardP
     return (
       <UiCard className="ServiceGroupCard">
         <UiCardTitle>
-          <FontAwesomeIcon icon={SolidIcons.faCube} /> {this.props.moduleName}
+          <FontAwesomeIcon icon={SolidIcons.faCube} /> {this.props.moduleDisplayName}
         </UiCardTitle>
         {this.props.services.map(item =>
           <ServiceListItem key={item.name} service={item} onShowDetails={this.props.onShowDetails} />

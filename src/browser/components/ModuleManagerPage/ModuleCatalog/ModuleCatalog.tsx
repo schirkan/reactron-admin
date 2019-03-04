@@ -23,7 +23,7 @@ export default class ModuleCatalog extends React.Component<IModuleCatalogProps> 
       return (
         <div className="ModuleCatalogItem" key={item.name}>
           <a className="clickable" href={item.url} target="_blank">
-            <FontAwesomeIcon icon={BrandIcons.faGithub} /> {item.title}
+            <FontAwesomeIcon icon={BrandIcons.faGithub} /> {item.displayName}
           </a>
           <UiButton disabled={installed} onClick={install}>
             <FontAwesomeIcon icon={SolidIcons.faDownload} /> Add

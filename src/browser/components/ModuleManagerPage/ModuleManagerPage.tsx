@@ -43,7 +43,6 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
     this.updateAll = this.updateAll.bind(this);
     this.updateModule = this.updateModule.bind(this);
     this.removeModule = this.removeModule.bind(this);
-    this.rebuildModule = this.rebuildModule.bind(this);
     this.addModule = this.addModule.bind(this);
     this.hideResult = this.hideResult.bind(this);
   }
@@ -61,8 +60,8 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
   public async checkUpdates(): Promise<void> {
     this.setState({ checkingUpdates: true });
     await this.context.services.modules.checkUpdates();
-    this.setState({ checkingUpdates: false });
     await this.loadModules();
+    this.setState({ checkingUpdates: false });
   }
 
   public async updateAll(): Promise<void> {
@@ -93,21 +92,6 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
     this.setState({ loading: true });
     try {
       const result = await this.context.services.modules.update(module.name);
-      this.showResult(result);
-    } catch (error) {
-      this.showError(error);
-    }
-    await this.loadModules();
-  }
-
-  public async rebuildModule(module: IModuleRepositoryItem): Promise<void> {
-    if (!module.canBuild) {
-      return;
-    };
-
-    this.setState({ loading: true });
-    try {
-      const result = await this.context.services.modules.rebuild(module.name);
       this.showResult(result);
     } catch (error) {
       this.showError(error);
@@ -188,11 +172,8 @@ export default class ModuleManagerPage extends React.Component<any, IModuleManag
             )}
             <UiFlowLayout>
               {this.state.modules.map(item =>
-                <ModuleCard key={item.name}
-                  module={item}
-                  onRemove={this.removeModule}
-                  onRebuild={this.rebuildModule}
-                  onUpdate={this.updateModule} />)}
+                <ModuleCard key={item.name} module={item} onRemove={this.removeModule} onUpdate={this.updateModule} />
+              )}
             </UiFlowLayout>
           </UiTab>
           <UiTab title="Add New">
