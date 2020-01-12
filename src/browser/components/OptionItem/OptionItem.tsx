@@ -1,15 +1,14 @@
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IFieldDefinition, IReactronComponentContext } from '@schirkan/reactron-interfaces';
+import { IFieldDefinition } from '@schirkan/reactron-interfaces';
 import * as React from 'react';
-import { AdminPageContext } from '../AdminPageContext';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import UiButton from '../UiButton/UiButton';
 import { getInputControls } from './InputControls/getInputControls';
 import { IInputControls } from "./InputControls/IInputControls";
+import { OptionCardContext, OptionsCardContextData } from '../OptionCard/OptionCardContext';
 
 import './OptionItem.scss';
-import { OptionCardContext, OptionsCardContextData } from '../OptionCard/OptionCardContext';
 
 let counter = 0;
 
